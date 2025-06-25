@@ -1,5 +1,8 @@
 
+
+
 <?php include 'config/config.php'; ?>
+<?php include 'helper/globalHelper.php'; ?>
 <?php include 'components/layout/header.php'; ?>
     <?php include 'components/layout/sidebar.php'; ?>
      
@@ -18,7 +21,7 @@
             <?php
        
 
-$data['email'] = $_SESSION['shipper_user']['email'];
+$data['email'] = $userData['email'];
 $response = fetchAllShipperLeads($data);
 
 foreach($response as $key => $value){

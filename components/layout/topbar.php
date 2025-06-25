@@ -101,7 +101,7 @@
                     aria-hidden="true"
                   /> -->
                   <?php
-                  $name = $_SESSION['shipper_user']['name'];
+                  $name = $userData['name'];
                   $initial = strtoupper(substr($name, 0, 1));
                   ?>
                   <div class="bg-white rounded-full w-8 h-8 flex items-center justify-center text-2xl font-bold text-primary-color"> <?php echo $initial; ?></div>

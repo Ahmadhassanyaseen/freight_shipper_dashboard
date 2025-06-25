@@ -1,6 +1,7 @@
   
 
   <?php include 'config/config.php'; ?>
+  <?php include 'helper/globalHelper.php'; ?>
   <?php include 'components/layout/header.php'; ?>
     <?php include 'components/layout/sidebar.php'; ?>
      
@@ -18,7 +19,7 @@
             <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
               <!-- Card -->
              <?php 
-             $data['email'] = $_SESSION['shipper_user']['email'];
+             $data['email'] = $userData['email'];
              $response = fetchAllShipperLeads($data);
          
 

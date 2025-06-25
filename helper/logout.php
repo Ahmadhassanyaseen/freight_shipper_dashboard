@@ -19,6 +19,8 @@ if (isset($_SESSION['shipper_user_initialized'])) {
     unset($_SESSION['shipper_user_initialized']);
 }
 
+file_put_contents('store.json', json_encode([]));
+
 // Destroy the session
 session_destroy();
 
