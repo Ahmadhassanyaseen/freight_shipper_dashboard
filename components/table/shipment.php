@@ -1,110 +1,125 @@
- <!-- New Table -->
+<!-- New Table with DataTables -->
+
 <div class="w-full overflow-hidden rounded-lg shadow-xs">
     <div class="w-full overflow-x-auto">
-        <table class="w-full whitespace-nowrap">
+        <table id="shipmentsTable" class="w-full display">
             <thead>
-                <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                    <th class="px-4 py-3">Customer</th>
-                    <th class="px-4 py-3">Tracking #</th>
-                    <th class="px-4 py-3">Pickup</th>
-                    <th class="px-4 py-3">Dropoff</th>
-                    <th class="px-4 py-3">Type</th>
-                    <th class="px-4 py-3">Quantity</th>
-                    <th class="px-4 py-3">Weight</th>
-                    <th class="px-4 py-3">Amount</th>
-                    <th class="px-4 py-3">Status</th>
-                    <th class="px-4 py-3">Date</th>
+                <tr>
+                    <th>Customer</th>
+                    <th>Tracking #</th>
+                    <th>Pickup</th>
+                    <th>Dropoff</th>
+                    <th>Type</th>
+                    <th>Quantity</th>
+                    <th>Weight</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Date</th>
                 </tr>
             </thead>
-            <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+            <tbody>
+                <?php if(empty($shipments)){ ?>
+                <tr>
+                    <td colspan="10" class="text-center py-4">No shipments found</td>
+                </tr>
+                <?php } else{ ?>
                 <?php foreach ($shipments as $shipment): ?>
-                <tr class="text-gray-700 dark:text-gray-400">
-                    <td class="px-4 py-3">
-                        <div class="flex items-center text-sm">
-                            
-                            <div>
-                                <p class="font-semibold"><?= htmlspecialchars($shipment['name']) ?></p>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="px-4 py-3 text-sm">
-                        #<?= htmlspecialchars($shipment['tracking_number']) ?>
-                    </td>
-                    <td class="px-4 py-3 text-sm">
-                        <?= htmlspecialchars($shipment['pickup']) ?>
-                    </td>
-                    <td class="px-4 py-3 text-sm">
-                        <?= htmlspecialchars($shipment['dropoff']) ?>
-                    </td>
-                    <td class="px-4 py-3 text-sm">
-                        <?= htmlspecialchars($shipment['type']) ?>
-                    </td>
-                    <td class="px-4 py-3 text-sm">
-                        <?= htmlspecialchars($shipment['quantity']) ?>
-                    </td>
-                    <td class="px-4 py-3 text-sm">
-                        <?= htmlspecialchars($shipment['weight']) ?>
-                    </td>
-                    <td class="px-4 py-3 text-sm">
-                        <?= htmlspecialchars($shipment['amount']) ?>
-                    </td>
-                    <td class="px-4 py-3 text-xs">
+                <tr>
+                    <td><?= htmlspecialchars($shipment['name']) ?></td>
+                    <td>#<?= htmlspecialchars($shipment['tracking_number']) ?></td>
+                    <td><?= htmlspecialchars($shipment['pickup']) ?></td>
+                    <td><?= htmlspecialchars($shipment['dropoff']) ?></td>
+                    <td><?= htmlspecialchars($shipment['type']) ?></td>
+                    <td><?= htmlspecialchars($shipment['quantity']) ?></td>
+                    <td><?= htmlspecialchars($shipment['weight']) ?></td>
+                    <td><?= htmlspecialchars($shipment['amount']) ?></td>
+                    <td>
                         <?php
                         $statusClasses = [
-                            'In Transit' => 'text-blue-700 bg-blue-100 dark:bg-blue-700  dark:text-black-900',
-                            'Delivered' => 'text-green-700 bg-green-100 dark:bg-green-700 dark:text-green-100',
-                            'Pending' => 'text-orange-700 bg-orange-100 dark:text-white dark:bg-orange-600',
-                            'Cancelled' => 'text-red-700 bg-red-100 dark:bg-red-700 dark:text-red-100'
+                            'In Transit' => 'text-blue-700 bg-blue-100',
+                            'Delivered' => 'text-green-700 bg-green-100',
+                            'Pending' => 'text-orange-700 bg-orange-100',
+                            'Cancelled' => 'text-red-700 bg-red-100'
                         ];
-                        $statusClass = $statusClasses[$shipment['status']] ?? 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-black';
+                        $statusClass = $statusClasses[$shipment['status']] ?? 'bg-gray-100 text-gray-800';
                         ?>
-                        <span class="px-2 py-1 font-semibold leading-tight rounded-full <?= $statusClass ?>">
+                        <span class="px-2 py-1 text-xs font-semibold leading-tight rounded-full <?= $statusClass ?>">
                             <?= htmlspecialchars($shipment['status']) ?>
                         </span>
                     </td>
-                    <td class="px-4 py-3 text-sm">
-                        <?= date('M d, Y', strtotime($shipment['created_at'])) ?>
-                    </td>
+                    <td><?= date('M d, Y', strtotime($shipment['created_at'])) ?></td>
                 </tr>
                 <?php endforeach; ?>
+                <?php } ?>
             </tbody>
         </table>
     </div>
-    <div class="grid px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase border-t dark:border-gray-700 bg-gray-50 sm:grid-cols-9 dark:text-gray-400 dark:bg-gray-800">
-        <span class="flex items-center col-span-3">
-            Showing 1-<?= count($shipments) ?> of <?= count($shipments) ?>
-        </span>
-        <span class="col-span-2"></span>
-        <span class="flex col-span-4 mt-2 sm:mt-auto sm:justify-end">
-            <nav aria-label="Table navigation">
-                <ul class="inline-flex items-center">
-                    <li>
-                        <button class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple" aria-label="Previous">
-                            <svg aria-hidden="true" class="w-4 h-4 fill-current" viewBox="0 0 20 20">
-                                <path d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" fill-rule="evenodd"></path>
-                            </svg>
-                        </button>
-                    </li>
-                    <li>
-                        <button class="px-3 py-1 text-white transition-colors duration-150 bg-primary-color border border-r-0 border-primary-color rounded-md focus:outline-none focus:shadow-outline-purple">
-                            1
-                        </button>
-                    </li>
-                    <li>
-                        <button class="px-3 py-1 rounded-md rounded-r-lg focus:outline-none focus:shadow-outline-purple" aria-label="Next">
-                            <svg class="w-4 h-4 fill-current" aria-hidden="true" viewBox="0 0 20 20">
-                                <path d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" fill-rule="evenodd"></path>
-                            </svg>
-                        </button>
-                    </li>
-                </ul>
-            </nav>
-        </span>
-    </div>
-</div>   
-                      </li>
-                    </ul>
-                  </nav>
-                </span>
-              </div>
-            </div>
+</div>
+
+<!-- Add these lines before the closing </body> tag in your layout file -->
+<!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css"> -->
+<!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css"> -->
+
+
+<!-- <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script> -->
+
+<script>
+// $(document).ready(function() {
+//     $('#shipmentsTable').DataTable({
+//         dom: 'Bfrtip',
+//         buttons: [
+//             'copy', 'csv', 'excel', 'pdf', 'print'
+//         ],
+//         responsive: true,
+//         pageLength: 25,
+//         order: [[9, 'desc']], // Sort by date column by default
+//         columnDefs: [
+//             { orderable: true, targets: '_all' },
+//             { className: 'dt-center', targets: [4,5,6,7,8] }
+//         ],
+//         language: {
+//             search: "_INPUT_",
+//             searchPlaceholder: "Search shipments...",
+//             paginate: {
+//                 next: '>',
+//                 previous: '<'
+//             }
+//         }
+//     });
+// });
+$(document).ready(function() {
+    $('#shipmentsTable').DataTable({
+        dom: "<'p-4'<'mb-4't>p>", // Simplified DOM structure
+        responsive: true,
+        pageLength: 10,
+        lengthMenu: [5, 10, 25, 50, 100],
+        order: [[9, 'desc']],
+        columnDefs: [
+            { 
+                orderable: true, 
+                targets: '_all' 
+            },
+            { 
+                className: 'text-center', 
+                targets: [4,5,6,7,8] 
+            }
+        ],
+        language: {
+            search: "", // Hide search
+            lengthMenu: "Show _MENU_ entries",
+            info: "Showing _START_ to _END_ of _TOTAL_ entries",
+            infoEmpty: "No entries to show",
+            infoFiltered: "",
+            paginate: {
+                first: '<i class="fas fa-angle-double-left"></i>',
+                last: '<i class="fas fa-angle-double-right"></i>',
+                next: '<i class="fas fa-chevron-right"></i>',
+                previous: '<i class="fas fa-chevron-left"></i>'
+            }
+        }
+    });
+});
+</script>

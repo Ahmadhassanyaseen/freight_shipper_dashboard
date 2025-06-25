@@ -242,7 +242,7 @@
               formData.append('password', data.password);
               formData.append('method', 'shipperLogin');
 
-              const response = await fetch('https://stretchxlfreight.com/logistx/index.php?entryPoint=VendorSystem', {
+              const response = await fetch('helper/login.php', {
                   method: 'POST',
                   body: formData,
               });

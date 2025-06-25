@@ -9,3 +9,9 @@
 .text-primary-color {
     color: var(--primary-color);
 }
+
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover{
+    background: var(--primary-color);
+    color: #fff!important;
+}

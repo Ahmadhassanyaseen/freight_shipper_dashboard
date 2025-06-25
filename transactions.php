@@ -1,3 +1,4 @@
+<?php include 'config/config.php'; ?>
 <?php include 'components/layout/header.php'; ?>
     <?php include 'components/layout/sidebar.php'; ?>
      

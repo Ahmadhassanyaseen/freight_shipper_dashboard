@@ -1,8 +1,5 @@
 <?php
-
-
-
-
+session_start();
 function curlRequest($data ){
 $api_url = 'https://stretchxlfreight.com/logistx/index.php?entryPoint=VendorSystem';
 $curl = curl_init($api_url);
@@ -18,5 +15,13 @@ return json_decode($response, true);
 
 function verifyToken($data){
     $data["method"] = "verifyToken";
+    return curlRequest($data);
+}
+function fetchAllShipperLeads($data){
+    $data["method"] = "fetchAllShipperLeads";
+    return curlRequest($data);
+}
+function updateShipper($data){
+    $data["method"] = "updateShipper";
     return curlRequest($data);
 }
