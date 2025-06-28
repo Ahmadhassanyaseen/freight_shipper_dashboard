@@ -1,4 +1,5 @@
 <?php include 'config/config.php'; ?>
+<?php include 'helper/globalHelper.php'; ?>
 <?php include 'components/layout/header.php'; ?>
     <?php include 'components/layout/sidebar.php'; ?>
      
@@ -40,6 +41,7 @@ $shipments = [
         'status' => 'In Transit',
         'weight' => rand(1, 50) . ' kg',
         'created_at' => randomDate(),
+        'vendor_status' => '1'
     ],
     [
         'name' => 'Acme Corp',
@@ -52,6 +54,7 @@ $shipments = [
         'status' => 'Delivered',
         'weight' => rand(20, 100) . ' kg',
         'created_at' => randomDate(),
+        'vendor_status' => '1'
     ],
     [
         'name' => 'Global Imports',
@@ -64,6 +67,7 @@ $shipments = [
         'status' => 'Pending',
         'weight' => rand(30, 120) . ' kg',
         'created_at' => randomDate(),
+        'vendor_status' => '0'
     ],
     [
         'name' => 'Tech Solutions Inc',
@@ -76,6 +80,7 @@ $shipments = [
         'status' => 'In Transit',
         'weight' => rand(5, 30) . ' kg',
         'created_at' => randomDate(),
+        'vendor_status' => '1'
     ],
     [
         'name' => 'Fresh Foods Ltd',
@@ -88,6 +93,7 @@ $shipments = [
         'status' => 'Cancelled',
         'weight' => rand(50, 200) . ' kg',
         'created_at' => randomDate(),
+        'vendor_status' => '-1'
     ],
     [
         'name' => 'Fashion Forward',
@@ -100,6 +106,7 @@ $shipments = [
         'status' => 'Delivered',
         'weight' => rand(10, 50) . ' kg',
         'created_at' => randomDate(),
+        'vendor_status' => '1'
     ],
     [
         'name' => 'Office Supplies Co',
@@ -112,6 +119,7 @@ $shipments = [
         'status' => 'In Transit',
         'weight' => rand(25, 100) . ' kg',
         'created_at' => randomDate(),
+        'vendor_status' => '-1'
     ],
     [
         'name' => 'Auto Parts Express',
@@ -124,6 +132,7 @@ $shipments = [
         'status' => 'Pending',
         'weight' => rand(100, 500) . ' kg',
         'created_at' => randomDate(),
+        'vendor_status' => '0'
     ]
 ];
             ?>

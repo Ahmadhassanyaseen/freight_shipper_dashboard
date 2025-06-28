@@ -14,6 +14,7 @@
                     <th>Weight</th>
                     <th>Amount</th>
                     <th>Status</th>
+                    <th>Vendor Status</th>
                     <th>Date</th>
                 </tr>
             </thead>
@@ -44,7 +45,21 @@
                         $statusClass = $statusClasses[$shipment['status']] ?? 'bg-gray-100 text-gray-800';
                         ?>
                         <span class="px-2 py-1 text-xs font-semibold leading-tight rounded-full <?= $statusClass ?>">
-                            <?= htmlspecialchars($shipment['status']) ?>
+                            <?= htmlspecialchars($shipment['status'] ) ?>
+                        </span>
+                    </td>
+                    <td>
+                        <?php
+                        $statusClasses = [
+                            
+                            '1' => 'text-green-700 bg-green-100',
+                            '0' => 'text-orange-700 bg-orange-100',
+                            '-1' => 'text-red-700 bg-red-100'
+                        ];
+                        $statusClass = $statusClasses[$shipment['vendor_status']] ?? 'bg-gray-100 text-gray-800';
+                        ?>
+                        <span class="px-2 py-1 text-xs font-semibold leading-tight rounded-full <?= $statusClass ?>">
+                            <?= htmlspecialchars($shipment['vendor_status'] == '1' ? 'Accepted' : ($shipment['vendor_status'] == '0' ? 'Pending' : 'Rejected')) ?>
                         </span>
                     </td>
                     <td><?= date('M d, Y', strtotime($shipment['created_at'])) ?></td>
@@ -96,7 +111,7 @@ $(document).ready(function() {
         responsive: true,
         pageLength: 10,
         lengthMenu: [5, 10, 25, 50, 100],
-        order: [[9, 'desc']],
+        order: [[10, 'desc']],
         columnDefs: [
             { 
                 orderable: true, 

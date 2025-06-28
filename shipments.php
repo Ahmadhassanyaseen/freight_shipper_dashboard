@@ -36,6 +36,7 @@ foreach($response as $key => $value){
     'status' => $value['status_c'] ?? 'Pending',
     'weight' => $value['freight_weight_c'].'lbs',
     'created_at' => $value['date_entered'],
+    'vendor_status' => $value['vendor_status_c']
   ];
 }
             ?>
