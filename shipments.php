@@ -11,7 +11,7 @@
         <main class="h-full overflow-y-auto pb-10">
           <div class=" px-6 pb-10 mx-auto grid">
             <h2
-              class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"
+              class="my-6 text-2xl font-semibold text-gray-700"
             >
               Shipments
             </h2>
@@ -26,6 +26,7 @@ $response = fetchAllShipperLeads($data);
 
 foreach($response as $key => $value){
   $shipments[] = [
+    'id' => $value['id'],
     'name' => $value['name'],
     'quantity' =>$value['freight_box_count_c'],
     'type' => $value['freight_type_c'],
@@ -36,7 +37,22 @@ foreach($response as $key => $value){
     'status' => $value['status_c'] ?? 'Pending',
     'weight' => $value['freight_weight_c'].'lbs',
     'created_at' => $value['date_entered'],
-    'vendor_status' => $value['vendor_status_c']
+    'mileage' => $value['mileage_c'],
+    'addons' => $value['addons_total_c'],
+    'fuel' => $value['fuel_c'],
+    'tolls' => $value['toll_c'],
+    'vendor_status' => $value['vendor_status_c'],
+    'distance' => $value['distance_c'],
+    'vendor_name' => $value['vendor_name'],
+    'vendor_rating' => $value['vendor_rating'],
+    'vendor_dot' => $value['vendor_dot'],
+    'vendor_fmcsa' => $value['vendor_fmcsa'],
+    'vendor_phone' => $value['vendor_phone'],
+    'vendor_email' => $value['vendor_email'],
+    'deadhead' => $value['deadhead_price_c'],
+    'vendor_quotes' => $value['vendor_quotes'] ?? [],
+
+    
   ];
 }
             ?>

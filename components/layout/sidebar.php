@@ -1,10 +1,10 @@
  <!-- Desktop sidebar -->
  <aside
-        class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-shrink-0"
+        class="z-20 hidden w-64 overflow-y-auto bg-white md:block flex-shrink-0"
       >
-        <div class="py-4 text-gray-500 dark:text-gray-400">
+        <div class="py-4 text-gray-500">
           <a
-            class="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200"
+            class="ml-6 text-lg font-bold text-gray-800"
             href="#"
           >
             Stretch XL Freight
@@ -17,7 +17,7 @@
                 id="sidebar_indicator">
               </span>
               <a
-                class="inline-flex items-center w-full text-sm font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100"
+                class="inline-flex items-center w-full text-sm font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800"
                 href="index.php"
               >
                 <svg
@@ -39,7 +39,7 @@
             </li>
             <li class="relative px-6 py-3 sidebar-menu-item">
               <a
-                class="inline-flex items-center w-full text-sm font-semibold text-gray-500 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                class="inline-flex items-center w-full text-sm font-semibold text-gray-500 transition-colors duration-150 hover:text-gray-800"
                 href="shipments.php"
               >
                 <svg
@@ -61,7 +61,7 @@
             </li>
             <li class="relative px-6 py-3 sidebar-menu-item">
               <a
-                class="inline-flex items-center w-full text-sm font-semibold text-gray-500 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                class="inline-flex items-center w-full text-sm font-semibold text-gray-500 transition-colors duration-150 hover:text-gray-800"
                 href="transactions.php"
               >
                 <svg
@@ -99,7 +99,7 @@
         class="fixed inset-0 z-10 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center"
       ></div>
       <aside
-        class="fixed inset-y-0 z-20 flex-shrink-0 w-64 mt-16 overflow-y-auto bg-white dark:bg-gray-800 md:hidden"
+        class="fixed inset-y-0 z-20 flex-shrink-0 w-64 mt-16 overflow-y-auto bg-white md:hidden"
         x-show="isSideMenuOpen"
         x-transition:enter="transition ease-in-out duration-150"
         x-transition:enter-start="opacity-0 transform -translate-x-20"
@@ -110,9 +110,9 @@
         @click.away="closeSideMenu"
         @keydown.escape="closeSideMenu"
       >
-        <div class="py-4 text-gray-500 dark:text-gray-400">
+        <div class="py-4 text-gray-500">
           <a
-            class="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200"
+            class="ml-6 text-lg font-bold text-gray-800 "
             href="#"
           >
             Stretch XL Freight
@@ -124,7 +124,7 @@
                 aria-hidden="true"
               ></span>
               <a
-                class="inline-flex items-center w-full text-sm font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100"
+                class="inline-flex items-center w-full text-sm font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 "
                 href="index.php"
               >
                 <svg
@@ -150,7 +150,7 @@
                 aria-hidden="true"
               ></span>
               <a
-                class="inline-flex items-center w-full text-sm font-semibold text-gray-500 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                class="inline-flex items-center w-full text-sm font-semibold text-gray-500 transition-colors duration-150 hover:text-gray-800"
                 href="shipments.php"
               >
                 <svg
@@ -176,7 +176,7 @@
                 aria-hidden="true"
               ></span>
               <a
-                class="inline-flex items-center w-full text-sm font-semibold text-gray-500 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                class="inline-flex items-center w-full text-sm font-semibold text-gray-500 transition-colors duration-150 hover:text-gray-800 "
                 href="transactions.php"
               >
                 <svg
@@ -218,7 +218,7 @@
               item.prepend(newIndicator);
               
               // Add active class to the link
-              link.classList.add('text-gray-800', 'dark:text-gray-100');
+              link.classList.add('text-gray-800');
               link.classList.remove('text-gray-500');
             }
             
@@ -232,7 +232,7 @@
               // Remove active class from all links
               menuItems.forEach(i => {
                 const a = i.querySelector('a');
-                a.classList.remove('text-gray-800', 'dark:text-gray-100');
+                a.classList.remove('text-gray-800');
                 a.classList.add('text-gray-500');
                 
                 // Remove any existing indicators
@@ -244,7 +244,7 @@
               
               // Add active class to clicked link
               this.classList.remove('text-gray-500');
-              this.classList.add('text-gray-800', 'dark:text-gray-100');
+              this.classList.add('text-gray-800');
               
               // Create and add new indicator
               const newIndicator = indicator.cloneNode(true);

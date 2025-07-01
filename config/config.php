@@ -25,3 +25,7 @@ function updateShipper($data){
     $data["method"] = "updateShipper";
     return curlRequest($data);
 }
+function updateQuote($data){
+    $data["method"] = "updateQuote";
+    return curlRequest($data);
+}
