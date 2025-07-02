@@ -9,11 +9,14 @@
        <?php include 'components/layout/topbar.php'; ?>
         <main class="h-full overflow-y-auto">
           <div class=" px-6 pb-10 mx-auto grid">
+            <div class="flex items-center justify-between mb-6">
             <h2
               class="my-6 text-2xl font-semibold text-gray-700 "
             >
               Dashboard
             </h2>
+            <a href="addLoad.php"  class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded cursor-pointer" >Add New Load</a>
+            </div>
            
             <!-- Cards -->
             <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">

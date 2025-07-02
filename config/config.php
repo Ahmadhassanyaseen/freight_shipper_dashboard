@@ -29,3 +29,8 @@ function updateQuote($data){
     $data["method"] = "updateQuote";
     return curlRequest($data);
 }
+function addLoad($data){
+    $data["method"] = "addLoad";
+    return curlRequest($data);
+}
+
