@@ -21,7 +21,7 @@
             <?php
        
 
-$data['email'] = $userData['email'];
+$data['email'] = $_SESSION['shipper_user']['email'];
 $response = fetchAllShipperLeads($data);
 
 foreach($response as $key => $value){

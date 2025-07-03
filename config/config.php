@@ -33,4 +33,16 @@ function addLoad($data){
     $data["method"] = "addLoad";
     return curlRequest($data);
 }
+function updateLoad($data){
+    $data["method"] = "updateLoad";
+    return curlRequest($data);
+}
+function deleteShipment($data){
+    $data["method"] = "deleteShipment";
+    return curlRequest($data);
+}
+function fetchShipmentById($data){
+    $data["method"] = "fetchShipmentById";
+    return curlRequest($data);
+}
 

@@ -10,7 +10,7 @@ function login($data){
     if($response['status'] == "success"){
         file_put_contents('store.json', json_encode($response['data']));
 
-        // $_SESSION['shipper_user'] = $response['data'];
+        $_SESSION['shipper_user'] = $response['data'];
     }
     return $response;
 }

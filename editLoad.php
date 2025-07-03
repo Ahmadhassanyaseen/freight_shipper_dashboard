@@ -3,6 +3,11 @@
 <?php include 'components/layout/header.php'; ?>
     <?php include 'components/layout/sidebar.php'; ?>
 
+    <?php
+    $shipment = fetchShipmentById(['id' => $_GET['id']]);
+    // print_r($shipment['addons']);
+    ?>
+
     
      
       <div class="flex flex-col flex-1 w-full">
@@ -12,11 +17,12 @@
             <h2
               class="my-6 text-2xl font-semibold text-gray-700 "
             >
-               Add Load
+              Edit Load
             </h2>
            
             
             <form id="loadForm" class="space-y-6">
+                <input type="hidden" name="id" value="<?= $shipment['id'] ?>">
         <!-- Freight Information Section -->
         <div class="bg-white p-6 rounded-lg shadow-md">
             <h3 class="text-lg font-medium text-gray-900 mb-4">Freight Information</h3>
@@ -27,34 +33,34 @@
                 <div>
                     <label for="pickup_address" class="block text-sm font-medium text-gray-700 mb-1">Pickup Address *</label>
                     <div class="relative">
-                        <input type="text" id="pickup_address" name="pickup_address" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" required="" autocomplete="off" placeholder="Pickup Address">
+                        <input type="text" id="pickup_address" name="pickup_address" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" required="" autocomplete="off" placeholder="Pickup Address" value="<?= htmlspecialchars($shipment['pickup_address']) ?>">
                     </div>
                 </div>
                 <div>
                     <label for="drop_address" class="block text-sm font-medium text-gray-700 mb-1">Drop-off Address *</label>
                     <div class="relative">
-                        <input type="text" id="drop_address" name="drop_address" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" required="" autocomplete="off" placeholder="Drop-off Address">
+                        <input type="text" id="drop_address" name="drop_address" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" required="" autocomplete="off" placeholder="Drop-off Address" value="<?= htmlspecialchars($shipment['dropoff_address']) ?>">
                     </div>
                 </div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
                     <label for="pickup_time" class="block text-sm font-medium text-gray-700 mb-1">Pickup Time *</label>
-                    <input type="time" id="pickup_time" name="pickup_time" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" required="" autocomplete="off">
+                    <input type="time" id="pickup_time" name="pickup_time" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" required="" autocomplete="off" value="<?= htmlspecialchars($shipment['pickup_time']) ?>">
                 </div>
                 <div>
                     <label for="pickup_date" class="block text-sm font-medium text-gray-700 mb-1">Pickup Date *</label>
-                    <input type="date" id="pickup_date" name="pickup_date" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" required="" autocomplete="off">
+                    <input type="date" id="pickup_date" name="pickup_date" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" required="" autocomplete="off" value="<?= htmlspecialchars($shipment['pickup_date']) ?>">
                 </div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
                     <label for="dropoff_time" class="block text-sm font-medium text-gray-700 mb-1">Dropoff Time *</label>
-                    <input type="time" id="dropoff_time" name="dropoff_time" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" required="" autocomplete="off">
+                    <input type="time" id="dropoff_time" name="dropoff_time" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" required="" autocomplete="off" value="<?= htmlspecialchars($shipment['dropoff_time']) ?>">
                 </div>
                 <div>
                     <label for="dropoff_date" class="block text-sm font-medium text-gray-700 mb-1">Dropoff Date *</label>
-                    <input type="date" id="dropoff_date" name="dropoff_date" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" required="" autocomplete="off">
+                    <input type="date" id="dropoff_date" name="dropoff_date" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" required="" autocomplete="off" value="<?= htmlspecialchars($shipment['dropoff_date']) ?>">
                 </div>
             </div>
             
@@ -62,34 +68,34 @@
                 <label for="vehicle_type" class="block text-sm font-medium text-gray-700 mb-1">Vehicle Type *</label>
                 <select id="vehicle_type" name="vehicle_type" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" required="">
                     <option value="">Select Vehicle Type</option>
-                    <option value="stepdeck">Step Deck</option>
-                    <option value="power only">Power Only</option>
-                    <option value="b-train">B-Train</option>
-                    <option value="auto carrier">Auto Carrier</option>
-                    <option value="reefer">Reefer</option>
-                    <option value="flatbed">Flatbed</option>
-                    <option value="van">Van</option>
+                    <option value="stepdeck" <?php if($shipment['carrier_vehicle_type'] == 'stepdeck') echo 'selected'; ?>>Step Deck</option>
+                    <option value="power only" <?php if($shipment['carrier_vehicle_type'] == 'power only') echo 'selected'; ?>>Power Only</option>
+                    <option value="b-train" <?php if($shipment['carrier_vehicle_type'] == 'b-train') echo 'selected'; ?>>B-Train</option>
+                    <option value="auto carrier" <?php if($shipment['carrier_vehicle_type'] == 'auto carrier') echo 'selected'; ?>>Auto Carrier</option>
+                    <option value="reefer" <?php if($shipment['carrier_vehicle_type'] == 'reefer') echo 'selected'; ?>>Reefer</option>
+                    <option value="flatbed" <?php if($shipment['carrier_vehicle_type'] == 'flatbed') echo 'selected'; ?>>Flatbed</option>
+                    <option value="van" <?php if($shipment['carrier_vehicle_type'] == 'van') echo 'selected'; ?>>Van</option>
                 </select>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
                     <label for="freight_weight" class="block text-sm font-medium text-gray-700 mb-1">Weight (lbs) *</label>
-                    <input type="number" id="freight_weight" name="freight_weight" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" min="1" required="">
+                    <input type="number" id="freight_weight" name="freight_weight" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" min="1" required="" value="<?= htmlspecialchars($shipment['freight_weight']) ?>">
                 </div>
                 <div>
                     <label for="freight_type" class="block text-sm font-medium text-gray-700 mb-1">Freight Type *</label>
                     <select id="freight_type" name="freight_type" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" required="">
                         <option value="">Select Freight Type</option>
-                        <option value="general">General Cargo</option>
-                        <option value="perishables">Perishables</option>
-                        <option value="non_hazardous">Non-Hazardous</option>
-                        <option value="bulk">Bulk</option>
-                        <option value="heavy">Heavy / Oversized</option>
-                        <option value="vehicles">Vehicles</option>
-                        <option value="high_value">High-Value</option>
-                        <option value="specialized">Specialized</option>
-                        <option value="misc">Miscellaneous</option>
+                        <option value="general" <?php if($shipment['freight_type'] == 'general') echo 'selected'; ?>>General Cargo</option>
+                        <option value="perishables" <?php if($shipment['freight_type'] == 'perishables') echo 'selected'; ?>>Perishables</option>
+                        <option value="non_hazardous" <?php if($shipment['freight_type'] == 'non_hazardous') echo 'selected'; ?>>Non-Hazardous</option>
+                        <option value="bulk" <?php if($shipment['freight_type'] == 'bulk') echo 'selected'; ?>>Bulk</option>
+                        <option value="heavy" <?php if($shipment['freight_type'] == 'heavy') echo 'selected'; ?>>Heavy / Oversized</option>
+                        <option value="vehicles" <?php if($shipment['freight_type'] == 'vehicles') echo 'selected'; ?>>Vehicles</option>
+                        <option value="high_value" <?php if($shipment['freight_type'] == 'high_value') echo 'selected'; ?>>High-Value</option>
+                        <option value="specialized" <?php if($shipment['freight_type'] == 'specialized') echo 'selected'; ?>>Specialized</option>
+                        <option value="misc" <?php if($shipment['freight_type'] == 'misc') echo 'selected'; ?>>Miscellaneous</option>
                     </select>
                 </div>
             </div>
@@ -97,30 +103,30 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                 <div>
                     <label for="freight_length" class="block text-sm font-medium text-gray-700 mb-1">Length (in) *</label>
-                    <input type="number" id="freight_length" name="freight_length" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" min="1" required="">
+                    <input type="number" id="freight_length" name="freight_length" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" min="1" required="" value="<?= htmlspecialchars($shipment['freight_length']) ?>">
                 </div>
                 <div>
                     <label for="freight_width" class="block text-sm font-medium text-gray-700 mb-1">Width (in) *</label>
-                    <input type="number" id="freight_width" name="freight_width" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" min="1" required="">
+                    <input type="number" id="freight_width" name="freight_width" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" min="1" required="" value="<?= htmlspecialchars($shipment['freight_width']) ?>">
                 </div>
                 <div>
                     <label for="freight_height" class="block text-sm font-medium text-gray-700 mb-1">Height (in) *</label>
-                    <input type="number" id="freight_height" name="freight_height" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" min="1" required="">
+                    <input type="number" id="freight_height" name="freight_height" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" min="1" required="" value="<?= htmlspecialchars($shipment['freight_height']) ?>">
                 </div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
                     <label for="freight_pallet_count" class="block text-sm font-medium text-gray-700 mb-1">Number of Pallets</label>
-                    <input type="number" id="freight_pallet_count" name="freight_pallet_count" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" min="1" max="10000" value="1" required="">
+                    <input type="number" id="freight_pallet_count" name="freight_pallet_count" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" min="1" max="10000" value="1" required="" value="<?= htmlspecialchars($shipment['freight_pallet_count']) ?>">
                 </div>
                 <div>
                     <label for="freight_box_count" class="block text-sm font-medium text-gray-700 mb-1">Number of Boxes</label>
-                    <input type="number" id="freight_box_count" name="freight_box_count" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" min="1" max="10000" value="1" required="">
+                    <input type="number" id="freight_box_count" name="freight_box_count" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" min="1" max="10000" value="1" required="" value="<?= htmlspecialchars($shipment['freight_box_count']) ?>">
                 </div>
             </div>
             <div class="mb-4">
                 <label for="freight_description" class="block text-sm font-medium text-gray-700 mb-1">Freight Details</label>
-                <textarea id="freight_description" name="freight_description" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" rows="3" required=""></textarea>
+                <textarea id="freight_description" name="freight_description" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" rows="3" required=""><?= htmlspecialchars($shipment['description']) ?></textarea>
             </div>
             
                 
@@ -492,25 +498,30 @@
                 <div>
                     <label for="shipper_phone" class="block text-sm font-medium text-gray-700 mb-1">Phone *</label>
                     <div class="relative">
-                        <input type="text" id="shipper_phone" name="shipper_phone" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" required="" autocomplete="off" placeholder="Phone">
+                        <input type="text" id="shipper_phone" name="shipper_phone" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" required="" autocomplete="off" placeholder="Phone"
+                        value="<?= htmlspecialchars($shipment['shipper_phone']) ?>">
                     </div>
                 </div>
                 <div>
                     <label for="shipper_first_name" class="block text-sm font-medium text-gray-700 mb-1">First Name *</label>
                     <div class="relative">
-                        <input type="text" id="shipper_first_name" name="shipper_first_name" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" required="" autocomplete="off" placeholder="First Name">
+                        <input type="text" id="shipper_first_name" name="shipper_first_name" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" required="" autocomplete="off" placeholder="First Name"
+                        value="<?= htmlspecialchars(explode(" ", $shipment['shipper_name'])[0]) ?>">
                     </div>
                 </div>
                 <div>
                     <label for="shipper_last_name" class="block text-sm font-medium text-gray-700 mb-1">Last Name *</label>
                     <div class="relative">
-                        <input type="text" id="shipper_last_name" name="shipper_last_name" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" required="" autocomplete="off" placeholder="Last Name">
+                        <input type="text" id="shipper_last_name" name="shipper_last_name" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" required="" autocomplete="off" placeholder="Last Name"
+                        value="<?= htmlspecialchars(explode(" ", $shipment['shipper_name'])[1]) ?>">
                     </div>
                 </div>
                 <div class="col-span-2">
                     <label for="shipper_address" class="block text-sm font-medium text-gray-700 mb-1">Address *</label>
                     <div class="relative">
-                        <textarea id="shipper_address" name="shipper_address" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" required="" autocomplete="off" placeholder="Address"></textarea>
+                        <textarea id="shipper_address" name="shipper_address" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" required="" autocomplete="off" placeholder="Address">
+                        <?= htmlspecialchars($shipment['shipper_address']) ?>
+                        </textarea>
                     </div>
                 </div>
             </div>
@@ -608,7 +619,7 @@
                 });
                 
                 $.ajax({
-                    url: './helper/load/add.php',
+                    url: './helper/load/update.php',
                     type: 'POST',
                     data: formData,
                     processData: false,

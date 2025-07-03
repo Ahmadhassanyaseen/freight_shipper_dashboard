@@ -93,14 +93,14 @@ if(isset($_GET['status']) && $_GET['status'] == 'success'){
                   </label>
                   <input
                     type="email"
-                    value="<?= htmlspecialchars($userData['email'] ?? '') ?>"
+                    value="<?= htmlspecialchars($_SESSION['shipper_user']['email'] ?? '') ?>"
                     class="w-full px-3 py-2 mt-2 border rounded-md "
                     disabled
                   />
                   <input
                     type="hidden"
                     name="email"
-                    value="<?= htmlspecialchars($userData['email'] ?? '') ?>"
+                    value="<?= htmlspecialchars($_SESSION['shipper_user']['email'] ?? '') ?>"
                     
                   />
                   <p class="mt-1 text-sm text-gray-500">Email cannot be changed</p>
@@ -114,7 +114,7 @@ if(isset($_GET['status']) && $_GET['status'] == 'success'){
                     type="text"
                     id="user_name"
                     name="user_name"
-                    value="<?= htmlspecialchars($userData['name'] ?? '') ?>"
+                    value="<?= htmlspecialchars($_SESSION['shipper_user']['name'] ?? '') ?>"
                     class="w-full px-3 py-2 mt-2 border rounded-md "
                     required
                   />
