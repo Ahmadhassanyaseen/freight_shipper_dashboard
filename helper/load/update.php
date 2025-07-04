@@ -2,8 +2,13 @@
 include '../../config/config.php';
 
 $data['id'] = $_POST['id'];
-$data['pickup_address'] = $_POST['pickup_address'];
-$data['dropoff_address'] = $_POST['drop_address'];
+// $data['pickup_address'] = $_POST['pickup_address'];
+// $data['dropoff_address'] = $_POST['drop_address'];
+$addons = '';
+foreach($_POST['addons'] as $addon){
+    $addons .= $addon . ',';
+}
+$data['addons'] = $addons;
 $data['pickup_time'] = $_POST['pickup_time'];
 $data['pickup_date'] = $_POST['pickup_date'];
 $data['dropoff_time'] = $_POST['dropoff_time'];
@@ -18,7 +23,7 @@ $data['freight_pallet_count'] = $_POST['freight_pallet_count'];
 $data['freight_box_count'] = $_POST['freight_box_count'];
 $data['freight_description'] = $_POST['freight_description'];
 $data['addons_total'] = $_POST['addons_total'];
-$data['addons'] = $_POST['addons'];
+
 $data['shipper_email'] = $_POST['shipper_email'];
 $data['shipper_phone'] = $_POST['shipper_phone'];
 $data['shipper_first_name'] = $_POST['shipper_first_name'];

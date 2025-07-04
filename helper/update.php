@@ -17,7 +17,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
     $result = updateShipper($data);
      
     if($result['status'] == 'success'){
-        $_SESSION['shipper_user']['name'] = $data['user_name'];
+        // $_SESSION['shipper_user']['name'] = $data['user_name'];
         echo json_encode($result);
         header('Location: ../profile.php?status=success');
         exit;

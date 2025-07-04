@@ -6,6 +6,7 @@
     <?php
     $shipment = fetchShipmentById(['id' => $_GET['id']]);
     // print_r($shipment['addons']);
+    $addOns = explode(',', $shipment['addons']);
     ?>
 
     
@@ -33,13 +34,15 @@
                 <div>
                     <label for="pickup_address" class="block text-sm font-medium text-gray-700 mb-1">Pickup Address *</label>
                     <div class="relative">
-                        <input type="text" id="pickup_address" name="pickup_address" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" required="" autocomplete="off" placeholder="Pickup Address" value="<?= htmlspecialchars($shipment['pickup_address']) ?>">
+                        <input type="text" id="pickup_address" name="pickup_address" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" required="" autocomplete="off" placeholder="Pickup Address" value="<?= htmlspecialchars($shipment['pickup_address']) ?>" disabled>
+                       
                     </div>
                 </div>
                 <div>
                     <label for="drop_address" class="block text-sm font-medium text-gray-700 mb-1">Drop-off Address *</label>
                     <div class="relative">
-                        <input type="text" id="drop_address" name="drop_address" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" required="" autocomplete="off" placeholder="Drop-off Address" value="<?= htmlspecialchars($shipment['dropoff_address']) ?>">
+                        <input type="text" id="drop_address" name="drop_address" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" required="" autocomplete="off" placeholder="Drop-off Address" value="<?= htmlspecialchars($shipment['dropoff_address']) ?>" disabled>
+                      
                     </div>
                 </div>
             </div>
@@ -117,11 +120,11 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
                     <label for="freight_pallet_count" class="block text-sm font-medium text-gray-700 mb-1">Number of Pallets</label>
-                    <input type="number" id="freight_pallet_count" name="freight_pallet_count" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" min="1" max="10000" value="1" required="" value="<?= htmlspecialchars($shipment['freight_pallet_count']) ?>">
+                    <input type="number" id="freight_pallet_count" name="freight_pallet_count" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" min="1" max="10000" value="<?= htmlspecialchars($shipment['freight_pallet_count']) ?>" required="">
                 </div>
                 <div>
                     <label for="freight_box_count" class="block text-sm font-medium text-gray-700 mb-1">Number of Boxes</label>
-                    <input type="number" id="freight_box_count" name="freight_box_count" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" min="1" max="10000" value="1" required="" value="<?= htmlspecialchars($shipment['freight_box_count']) ?>">
+                    <input type="number" id="freight_box_count" name="freight_box_count" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" min="1" max="10000" value="<?= htmlspecialchars($shipment['freight_box_count']) ?>" required="">
                 </div>
             </div>
             <div class="mb-4">
@@ -138,8 +141,8 @@
             <div class="bg-blue-50 p-4 rounded-lg mb-6">
                 <div class="flex justify-between items-center">
                     <div class="font-medium text-gray-700">Selected Add-ons Total:</div>
-                    <div class="text-xl font-bold text-blue-700">$<span id="addons_total">0.00</span></div>
-                    <input type="hidden" name="addons_total" class="addons_total_value" value="0.00">
+                    <div class="text-xl font-bold text-blue-700">$<span id="addons_total"><?php echo $shipment['addons_total']; ?></span></div>
+                    <input type="hidden" name="addons_total" class="addons_total_value" value="<?php echo $shipment['addons_total']; ?>">
                 </div>
             </div>
                 <div class="space-y-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -491,8 +494,16 @@
                 <div>
                     <label for="shipper_email" class="block text-sm font-medium text-gray-700 mb-1">Email *</label>
                     <div class="relative">
-                        <input type="text" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm cursor-not-allowed " required="" disabled autocomplete="off" placeholder="Email" value="<?php echo $_SESSION['shipper_user']['email']; ?>">
-                        <input type="hidden" name="shipper_email" value="<?php echo $_SESSION['shipper_user']['email']; ?>">
+                        <input type="text" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm cursor-not-allowed " required="" disabled autocomplete="off" placeholder="Email" value="<?php 
+                        if(isset($_COOKIE['user'])){
+                            echo json_decode($_COOKIE['user'])->email;
+                        }
+                        ?>">
+                        <input type="hidden" name="shipper_email" value="<?php 
+                        if(isset($_COOKIE['user'])){
+                            echo json_decode($_COOKIE['user'])->email;
+                        }
+                        ?>">
                     </div>
                 </div>
                 <div>
@@ -737,6 +748,20 @@
 
                         // Call the function to load Google Maps API
                         loadGoogleMapsAPI();  
+        })
+    </script>
+
+    <script>
+        $(document).ready(function() {
+          let addons = <?php echo json_encode($addOns); ?>;
+          console.log(addons); 
+          $("input[type='checkbox']").each(function() {
+            if (addons.includes($(this).val())) {
+                $(this).prop('checked', true);
+            }
+        });
+
+          
         })
     </script>
   </body>

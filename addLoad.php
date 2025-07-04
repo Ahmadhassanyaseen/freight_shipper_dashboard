@@ -1,4 +1,4 @@
-<?php include 'helper/globalHelper.php'; ?>
+
 <?php include 'config/config.php'; ?>
 <?php include 'components/layout/header.php'; ?>
     <?php include 'components/layout/sidebar.php'; ?>
@@ -44,7 +44,7 @@
                 </div>
                 <div>
                     <label for="pickup_date" class="block text-sm font-medium text-gray-700 mb-1">Pickup Date *</label>
-                    <input type="date" id="pickup_date" name="pickup_date" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" required="" autocomplete="off">
+                    <input type="date" id="pickup_date" name="pickup_date" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" required="" autocomplete="off" min="<?php echo date('Y-m-d'); ?>">
                 </div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -54,7 +54,7 @@
                 </div>
                 <div>
                     <label for="dropoff_date" class="block text-sm font-medium text-gray-700 mb-1">Dropoff Date *</label>
-                    <input type="date" id="dropoff_date" name="dropoff_date" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" required="" autocomplete="off">
+                    <input type="date" id="dropoff_date" name="dropoff_date" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" required="" autocomplete="off" min="<?php echo date('Y-m-d'); ?>" >
                 </div>
             </div>
             
@@ -485,8 +485,16 @@
                 <div>
                     <label for="shipper_email" class="block text-sm font-medium text-gray-700 mb-1">Email *</label>
                     <div class="relative">
-                        <input type="text" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm cursor-not-allowed " required="" disabled autocomplete="off" placeholder="Email" value="<?php echo $_SESSION['shipper_user']['email']; ?>">
-                        <input type="hidden" name="shipper_email" value="<?php echo $_SESSION['shipper_user']['email']; ?>">
+                        <input type="text" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm cursor-not-allowed " required="" disabled autocomplete="off" placeholder="Email" value="<?php 
+                        if(isset($_COOKIE['user'])){
+                            echo json_decode($_COOKIE['user'])->email;
+                        }
+                        ?>">
+                        <input type="hidden" name="shipper_email" value="<?php 
+                        if(isset($_COOKIE['user'])){
+                            echo json_decode($_COOKIE['user'])->email;
+                        }
+                        ?>">
                     </div>
                 </div>
                 <div>

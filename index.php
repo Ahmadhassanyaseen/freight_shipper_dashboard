@@ -13,7 +13,7 @@
             <h2
               class="my-6 text-2xl font-semibold text-gray-700 "
             >
-              Dashboard
+             Shipper Dashboard
             </h2>
             <a href="addLoad.php"  class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded cursor-pointer" >Add New Load</a>
             </div>
@@ -33,36 +33,72 @@ if (isset($_COOKIE["user"])) {
              
              $data['email'] = $userData['email'];
              $response = fetchAllShipperLeads($data);
+
+            //  print_r($response);
          
 
             
 
-             $stats = [[
-              'title' => 'Total Shipments',
-              'value' => count($response),
-              'icon' => 'boxes-stacked',
-              'color' => 'orange'
-             ],
-             [
-              'title' => 'In Progress Shipments',
-              'value' => '0',
-              'icon' => 'clock',
-              'color' => 'blue'
-             ],
-             [
-              'title' => 'Completed Shipments',
-              'value' => '0',
-              'icon' => 'check',
-              'color' => 'green'
-             ],
-             [
-              'title' => 'Cancelled Shipments',
-              'value' => '0',
-              'icon' => 'xmark',
-              'color' => 'red'
-             ],
-            ];
-              
+            //  $stats = [[
+            //   'title' => 'Total Shipments',
+            //   'value' => count($response),
+            //   'icon' => 'boxes-stacked',
+            //   'color' => 'orange'
+            //  ],
+            //  [
+            //   'title' => 'In Progress Shipments',
+            //   'value' => '0',
+            //   'icon' => 'clock',
+            //   'color' => 'blue'
+            //  ],
+            //  [
+            //   'title' => 'Completed Shipments',
+            //   'value' => '0',
+            //   'icon' => 'check',
+            //   'color' => 'green'
+            //  ],
+            //  [
+            //   'title' => 'Cancelled Shipments',
+            //   'value' => '0',
+            //   'icon' => 'xmark',
+            //   'color' => 'red'
+            //  ],
+            // ];
+            $stats = [
+              [
+                  'title' => 'Total Shipments',
+                  'value' => count($response),
+                  'icon' => 'boxes-stacked',
+                  'color' => 'orange'
+              ],
+              [
+                  'title' => 'In Progress Shipments',
+                  'value' => array_reduce($response, function($carry, $item) {
+                      return $carry + (in_array(strtolower($item['status_c']), ['assigned', 'in progress', 'in_progress', 'inprocess']) ? 1 : 0);
+                  }, 0),
+                  'icon' => 'clock',
+                  'color' => 'blue'
+              ],
+              [
+                  'title' => 'Completed Shipments',
+                  'value' => array_reduce($response, function($carry, $item) {
+                      return $carry + (strtolower($item['status_c']) === 'completed' ? 1 : 0);
+                  }, 0),
+                  'icon' => 'check',
+                  'color' => 'green'
+              ],
+              [
+                  'title' => 'Cancelled/Dead Shipments',
+                  'value' => array_reduce($response, function($carry, $item) {
+                      return $carry + (in_array(strtolower($item['status_c']), ['cancelled', 'dead', 'deleted']) ? 1 : 0);
+                  }, 0),
+                  'icon' => 'xmark',
+                  'color' => 'red'
+              ]
+          ];  
+
+
+
              foreach ($stats as $stat) {
              include 'components/cards/stats.php'; 
              } ?>
@@ -75,6 +111,7 @@ if (isset($_COOKIE["user"])) {
 
 
 
+
 foreach($response as $key => $value){
   $shipments[] = [
     'id' => $value['id'],
@@ -83,6 +120,7 @@ foreach($response as $key => $value){
     'type' => $value['freight_type_c'],
     'tracking_number' => $value['truckerpath_ref_id_c'] ?? 'N/A',
     'pickup' => $value['pickup_address_c'],
+    'pickup_date' => $value['pickup_date_c'],
     'dropoff' => $value['dropoff_address_c'],
     'amount' => '$' . $value['total_price_c'] ?? '0.00',
     'status' => $value['status_c'] ?? 'Pending',

@@ -31,6 +31,7 @@
     <thead>
         <tr>
             <th></th> <!-- Toggle column -->
+            <th>Created</th>
             <th>Customer</th>
             <th>Tracking #</th>
             <th>Pickup</th>
@@ -41,7 +42,7 @@
             <th>Amount</th>
             <th>Status</th>
             <th>Vendor Status</th>
-            <th>Date</th>
+            <th>Pickup Date</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -53,6 +54,7 @@
                     <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4  Maui 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
                 </svg>
             </td>
+            <td class="toggle-details"><?= htmlspecialchars(date('m-d-Y', strtotime($shipment['created_at']))) ?></td>
             <td class="toggle-details"><?= htmlspecialchars($shipment['name']) ?></td>
             <td class="toggle-details"><?= htmlspecialchars($shipment['tracking_number']) ?></td>
             <td class="toggle-details"><?= htmlspecialchars($shipment['pickup']) ?></td>
@@ -70,12 +72,12 @@
                     echo 'bg-green-100 text-green-800';
                 }else if($shipment['status'] == 'Pending'){
                     echo 'bg-orange-100 text-orange-800';
-                }else if($shipment['status'] == 'Dead'){
+                }else if($shipment['status'] == 'Dead' || $shipment['status'] == 'Deleted'){
                     echo 'bg-red-100 text-red-800';
                 }else if($shipment['status'] == 'Assigned'){
                     echo 'bg-gray-100 text-gray-800';
                 }
-                ?>"><?= htmlspecialchars($shipment['status']) ?></span></td>
+                ?>"><?= htmlspecialchars($shipment['status']) ?><span class="ml-1 font-semibold leading-tight"><?php echo count($shipment['vendor_quotes']); ?></span></span></td>
             <td class="toggle-details">
                 <span class="px-2 py-1 text-xs font-semibold leading-tight rounded-full <?php
                 if($shipment['vendor_status'] == '1'){
@@ -93,7 +95,7 @@
                 }else if($shipment['vendor_status'] == '-1'){
                     echo 'Rejected';
                 }  ?></span></td>
-            <td class="toggle-details"><?= htmlspecialchars($shipment['created_at']) ?></td>
+            <td class="toggle-details"><?= htmlspecialchars(date('m-d-Y', strtotime($shipment['pickup_date']))) ?></td>
             <td class="toggle-details">
                 <button class=" text-white py-1 px-2 rounded 
                 <?php if($shipment['status'] == 'Deleted' || $shipment['status'] == 'Dead') {echo 'bg-gray-500 cursor-not-allowed';} else {echo 'bg-blue-500 hover:bg-blue-600 cursor-pointer';} ?>
@@ -135,6 +137,7 @@ $(document).ready(function() {
                         </svg>`;
                 }
             },
+            { data: 'created_at' },
             { data: 'name' },
             { data: 'tracking_number' },
             { data: 'pickup' },
@@ -145,10 +148,10 @@ $(document).ready(function() {
             { data: 'amount' },
             { data: 'status' },
             { data: 'vendor_status' },
-            { data: 'created_at' },
+            { data: 'pickup_date' },
             { data: 'action' }
         ],
-        order: [[11, 'desc']], // Sort by Date column
+        order: [[1, 'desc']], // Sort by Date column
         createdRow: function(row, data, dataIndex) {
             // Store the data-details JSON for the row
             const details = $(row).data('details');
@@ -188,6 +191,7 @@ function formatDetails(data) {
     const hasAcceptedQuote = details.vendor_quotes.some(quote => quote.status === 'accepted');
     details.vendor_quotes.forEach(quote => {
         const statusClass = quote.status === 'accepted' ? 'bg-green-100' : quote.status === 'rejected' ? 'bg-red-100' : '';
+        const showActions = quote.status == 'rejected' || quote.status == 'accepted' ? false : true;
         quotesHtml += `
             <div class="space-y-2 text-sm shadow border border-gray-200 p-2 rounded-lg ${statusClass}">
                 <p class="grid grid-cols-3 text-sm"><span class="font-medium">Name:</span> <span class="col-span-2">${quote.name || 'N/A'}</span></p>
@@ -195,7 +199,7 @@ function formatDetails(data) {
                 <p class="grid grid-cols-3 text-sm"><span class="font-medium">Phone:</span> <span class="col-span-2">${quote.phone || 'N/A'}</span></p>
                 <p class="grid grid-cols-3 text-sm"><span class="font-medium">Quoted Price:</span> <span class="col-span-2">$${quote.price || 'N/A'}</span></p>
                 <p class="grid grid-cols-3 text-sm"><span class="font-medium">Status:</span> <span class="col-span-2">${quote.status || 'N/A'}</span></p>
-                ${!hasAcceptedQuote ? `
+                ${showActions && !hasAcceptedQuote ? `
                 <p class="grid grid-cols-3 text-sm"><span class="font-medium">Action:</span><span class="col-span-2">
                     <button onclick="acceptQuote('${quote.id}')" class="bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-check"></i></button>
                     <button onclick="rejectQuote('${quote.id}')" class="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-times"></i></button>

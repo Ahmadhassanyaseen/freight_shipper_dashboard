@@ -1,8 +1,8 @@
 
-
 <?php
 if(!isset($_COOKIE['user'])){
-    header("Location: login.php");
+    // echo "Not set";
+   echo "<script> window.location.href = 'login.php';</script>";
     exit();
 }
 
