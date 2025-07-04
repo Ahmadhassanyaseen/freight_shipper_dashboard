@@ -1,30 +1,8 @@
 <?php
 
 
-// Clear all session variables
-$_SESSION = array();
+setcookie("user", "", time() - 3600, "/");
 
-// Clear the global variable
-if (isset($GLOBALS['shipper_user'])) {
-    unset($GLOBALS['shipper_user']);
-}
-
-// Clear the specific session variable
-if (isset($_SESSION['shipper_user'])) {
-    unset($_SESSION['shipper_user']);
-}
-
-// Clear the initialization flag
-if (isset($_SESSION['shipper_user_initialized'])) {
-    unset($_SESSION['shipper_user_initialized']);
-}
-
-file_put_contents('store.json', json_encode([]));
-
-// Destroy the session
-session_destroy();
-
-// Return success response
 header('Content-Type: application/json');
 echo json_encode(['status' => 'success']);
 ?>

@@ -1,5 +1,12 @@
 
 
+<?php
+if(!isset($_COOKIE['user'])){
+    header("Location: login.php");
+    exit();
+}
+
+?>
 <!DOCTYPE html>
 <html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
   <head>
@@ -26,10 +33,7 @@
 <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
    
     <script>
-      let user = localStorage.getItem('user');
-      if(!user){
-        window.location.href = 'login.php';
-      }
+     
       function logout(){
         Swal.fire({
           title: "Are you sure?",
@@ -50,7 +54,7 @@
                   icon: "success"
                 });
                 setTimeout(() => {
-                  localStorage.removeItem('user');
+                 
                   window.location.href = 'login.php';
                 }, 1000);
               });

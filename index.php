@@ -1,7 +1,7 @@
   
 
   <?php include 'config/config.php'; ?>
-  <?php include 'helper/globalHelper.php'; ?>
+ 
   <?php include 'components/layout/header.php'; ?>
     <?php include 'components/layout/sidebar.php'; ?>
      
@@ -21,7 +21,16 @@
             <!-- Cards -->
             <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
               <!-- Card -->
+              <?php
+if (isset($_COOKIE["user"])) {
+    $userData = json_decode($_COOKIE["user"], true);
+} else {
+    $userData = [];
+}
+?>
+
              <?php 
+             
              $data['email'] = $userData['email'];
              $response = fetchAllShipperLeads($data);
          

@@ -1,5 +1,5 @@
 <?php
-session_start();
+// session_start();
 function curlRequest($data ){
 $api_url = 'https://stretchxlfreight.com/logistx/index.php?entryPoint=VendorSystem';
 $curl = curl_init($api_url);

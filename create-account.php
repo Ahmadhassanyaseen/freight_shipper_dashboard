@@ -32,13 +32,13 @@
             <img
               aria-hidden="true"
               class="object-cover w-full h-full dark:hidden"
-              src="./assets/img/create-account-office.jpeg"
+              src="./assets/img/signup.jpg"
               alt="Office"
             />
             <img
               aria-hidden="true"
               class="hidden object-cover w-full h-full dark:block"
-              src="./assets/img/create-account-office-dark.jpeg"
+              src="./assets/img/signup.jpg"
               alt="Office"
             />
           </div>

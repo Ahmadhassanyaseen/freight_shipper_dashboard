@@ -30,13 +30,13 @@
             <img
               aria-hidden="true"
               class="object-cover w-full h-full dark:hidden"
-              src="./assets/img/forgot-password-office.jpeg"
+              src="./assets/img/forget.jpg"
               alt="Office"
             />
             <img
               aria-hidden="true"
               class="hidden object-cover w-full h-full dark:block"
-              src="./assets/img/forgot-password-office-dark.jpeg"
+              src="./assets/img/forget.jpg"
               alt="Office"
             />
           </div>

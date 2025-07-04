@@ -21,7 +21,12 @@
             <?php
        
 
-$data['email'] = $_SESSION['shipper_user']['email'];
+if (isset($_COOKIE["user"])) {
+  $userData = json_decode($_COOKIE["user"], true);
+} else {
+  $userData = [];
+}
+$data['email'] = $userData['email'];
 $response = fetchAllShipperLeads($data);
 
 foreach($response as $key => $value){

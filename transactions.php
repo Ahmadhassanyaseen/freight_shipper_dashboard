@@ -31,6 +31,7 @@ function generateTrackingNumber() {
 
 $shipments = [
     [
+      'id' => 1,
         'name' => 'John Smith',
         'quantity' => rand(1, 20),
         'type' => 'Boxes',
@@ -44,6 +45,7 @@ $shipments = [
         'vendor_status' => '1'
     ],
     [
+      'id' => 2,
         'name' => 'Acme Corp',
         'quantity' => rand(5, 30),
         'type' => 'Pallets',
@@ -57,6 +59,7 @@ $shipments = [
         'vendor_status' => '1'
     ],
     [
+      'id' => 3,
         'name' => 'Global Imports',
         'quantity' => rand(10, 50),
         'type' => 'Crates',
@@ -70,6 +73,7 @@ $shipments = [
         'vendor_status' => '0'
     ],
     [
+      'id' => 4,
         'name' => 'Tech Solutions Inc',
         'quantity' => rand(2, 15),
         'type' => 'Parcels',
@@ -83,6 +87,7 @@ $shipments = [
         'vendor_status' => '1'
     ],
     [
+      'id' => 5,
         'name' => 'Fresh Foods Ltd',
         'quantity' => rand(5, 25),
         'type' => 'Refrigerated',
@@ -96,6 +101,7 @@ $shipments = [
         'vendor_status' => '-1'
     ],
     [
+      'id' => 6,
         'name' => 'Fashion Forward',
         'quantity' => rand(15, 40),
         'type' => 'Garments',
@@ -109,6 +115,7 @@ $shipments = [
         'vendor_status' => '1'
     ],
     [
+      'id' => 7,
         'name' => 'Office Supplies Co',
         'quantity' => rand(8, 35),
         'type' => 'Cartons',
@@ -122,6 +129,7 @@ $shipments = [
         'vendor_status' => '-1'
     ],
     [
+      'id' => 8,
         'name' => 'Auto Parts Express',
         'quantity' => rand(1, 10),
         'type' => 'Heavy Machinery',
