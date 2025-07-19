@@ -30,7 +30,7 @@
 <table id="shipmentsTable" class="w-full display dataTable no-footer">
     <thead>
         <tr>
-            <th></th> <!-- Toggle column -->
+            <th></th> 
             <th>Created</th>
             <th>Customer</th>
             <th>Tracking #</th>
@@ -230,16 +230,18 @@ function formatDetails(data) {
                     <p class="grid grid-cols-2"><span class="font-medium">Deadhead:</span> <span>$${details.deadhead}</span></p>
                     <p class="grid grid-cols-2"><span class="font-medium">Total Price:</span> <span>${details.amount}</span></p>
                 </div>
+                ${details.vendor_quotes && details.vendor_quotes.length > 0 ? `
                 <h4 class="font-semibold text-xl text-gray-700 mb-2 mt-8">Selected Carrier Information</h4>
                 <div class="space-y-2 text-md">
                     <p class="grid grid-cols-3"><span class="font-medium">Name:</span> <span class="col-span-2">${details.vendor_name}</span></p>
                     <p class="grid grid-cols-3"><span class="font-medium">Email:</span> <span class="col-span-2">${details.vendor_email}</span></p>
                     <p class="grid grid-cols-3"><span class="font-medium">Phone:</span> <span class="col-span-2">${details.vendor_phone}</span></p>
-                    <p class="grid grid-cols-3"><span class="font-medium">Rating:</span> <span class="col-span-2 capitalize">${details.vendor_rating.replace('_', ' ')}</span></p>
+                    <p class="grid grid-cols-3"><span class="font-medium">Rating:</span> <span class="col-span-2 capitalize">${details.vendor_rating ? details.vendor_rating.replace('_', ' ') : ''}</span></p>
                     <p class="grid grid-cols-3"><span class="font-medium">FMCSA:</span> <span class="col-span-2 text-blue-500 cursor-pointer">
-                        ${details.vendor_fmcsa && details.vendor_fmcsa !== 'http://' ? `<a href="${details.vendor_fmcsa}">${details.vendor_dot}</a>` : details.vendor_dot}
+                        ${details.vendor_fmcsa && details.vendor_fmcsa !== 'http://' ? `<a href="${details.vendor_fmcsa}" target="_blank">${details.vendor_dot || ''}</a>` : (details.vendor_dot || '')}
                     </span></p>
                 </div>
+                ` : ''}
             </div>
             <div class="bg-white p-4 rounded-lg shadow">
                 <h4 class="font-semibold text-xl text-gray-700 mb-2">Carrier Quotes</h4>
