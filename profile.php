@@ -20,6 +20,15 @@ if(isset($_GET['status']) && $_GET['status'] == 'success'){
 
 // Handle form submission
 
+
+
+?>
+<?php
+if (isset($_COOKIE["user"])) {
+    $userData = json_decode($_COOKIE["user"], true);
+} else {
+    $userData = [];
+}
 ?>
 <!DOCTYPE html>
 <html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
@@ -31,7 +40,7 @@ if(isset($_GET['status']) && $_GET['status'] == 'success'){
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <!-- <link rel="stylesheet" href="./assets/css/tailwind.output.css" /> -->
+    <link rel="stylesheet" href="./assets/css/tailwind.output.css" />
     <link rel="stylesheet" href="./assets/css/variable.css" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
@@ -73,83 +82,83 @@ if(isset($_GET['status']) && $_GET['status'] == 'success'){
     </script>
   </head>
   <body>
-    <div class="flex h-screen bg-gray-50 ">
+    <div class="flex h-screen bg-gray-50 dark:bg-gray-900 ">
       <?php include 'components/layout/sidebar.php'; ?>
       <div class="flex flex-col flex-1 w-full">
         <?php include 'components/layout/topbar.php'; ?>
         <main class="h-full overflow-y-auto">
           <div class=" px-6 mx-auto grid">
-            <h2 class="my-6 text-2xl font-semibold text-gray-700 ">
+            <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-white">
               Profile
             </h2>
 
            
 
-            <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md ">
+            <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800 ">
               <form method="POST" class="space-y-6" action="helper/update.php" id="profileForm">
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-1">
+                  <label class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">
                     Email
                   </label>
                   <input
                     type="email"
-                    value="<?= htmlspecialchars($_SESSION['shipper_user']['email'] ?? '') ?>"
-                    class="w-full px-3 py-2 mt-2 border rounded-md "
+                    value="<?= htmlspecialchars($userData['email'] ?? '') ?>"
+                    class="w-full px-3 py-2 mt-2 border rounded-md text-gray-700 dark:text-white "
                     disabled
                   />
                   <input
                     type="hidden"
                     name="email"
-                    value="<?= htmlspecialchars($_SESSION['shipper_user']['email'] ?? '') ?>"
+                    value="<?= htmlspecialchars($userData['email'] ?? '') ?>"
                     
                   />
-                  <p class="mt-1 text-sm text-gray-500">Email cannot be changed</p>
+                  <p class="mt-1 text-sm text-gray-500 dark:text-white">Email cannot be changed</p>
                 </div>
 
                 <div >
-                  <label for="user_name" class="block text-sm font-medium text-gray-700 mb-1">
+                  <label for="user_name" class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">
                     Username
                   </label>
                   <input
                     type="text"
                     id="user_name"
                     name="user_name"
-                    value="<?= htmlspecialchars($_SESSION['shipper_user']['name'] ?? '') ?>"
-                    class="w-full px-3 py-2 mt-2 border rounded-md "
+                    value="<?= htmlspecialchars($userData['name'] ?? '') ?>"
+                    class="w-full px-3 py-2 mt-2 border rounded-md text-gray-700 dark:text-white "
                     required
                   />
                 </div>
 
                 <div class="border-t pt-6 mt-6">
-                  <h3 class="text-lg font-medium text-gray-900 mb-4 mt-4">Change Password</h3>
+                  <h3 class="text-lg font-medium text-gray-700 dark:text-white mb-4 mt-4">Change Password</h3>
                   
                   <div class="space-y-4">
                     
 
                     <div>
-                      <label for="new_password" class="block text-sm font-medium text-gray-700 mb-1">
+                      <label for="new_password" class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">
                         New Password
                       </label>
                       <input
                         type="password"
                         id="new_password"
                         name="new_password"
-                        class="w-full px-3 py-2 mt-2 border rounded-md "
+                        class="w-full px-3 py-2 mt-2 border rounded-md text-gray-700 dark:text-white"
                         placeholder="Enter new password"
                       />
                       <span id="new_password_error" class="text-xs text-red-600 mt-1 hidden"></span>
-                      <p class="mt-1 text-xs text-gray-500">Must be at least 8 characters with uppercase, lowercase, number & special character</p>
+                      <p class="mt-1 text-xs text-gray-700 dark:text-white">Must be at least 8 characters with uppercase, lowercase, number & special character</p>
                     </div>
 
                     <div>
-                      <label for="confirm_password" class="block text-sm font-medium text-gray-700 mb-1">
+                      <label for="confirm_password" class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">
                         Confirm New Password
                       </label>
                       <input
                         type="password"
                         id="confirm_password"
                         name="confirm_password"
-                        class="w-full px-3 py-2 mt-2 border rounded-md "
+                        class="w-full px-3 py-2 mt-2 border rounded-md text-gray-700 dark:text-white"
                         placeholder="Confirm new password"
                       />
                       <span id="confirm_password_error" class="text-xs text-red-600 mt-1 hidden"></span>

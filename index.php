@@ -11,7 +11,7 @@
           <div class=" px-6 pb-10 mx-auto grid">
             <div class="flex items-center justify-between mb-6">
             <h2
-              class="my-6 text-2xl font-semibold text-gray-700 "
+              class="my-6 text-2xl font-semibold text-gray-700 dark:text-white "
             >
              Shipper Dashboard
             </h2>

@@ -10,7 +10,7 @@
         <main class="h-full overflow-y-auto pb-10">
           <div class="container px-6 pb-10 mx-auto grid">
             <h2
-              class="my-6 text-2xl font-semibold text-gray-700 "
+              class="my-6 text-2xl font-semibold text-gray-700 dark:text-white "
             >
                Add Load
             </h2>
@@ -18,49 +18,49 @@
             
             <form id="loadForm" class="space-y-6">
         <!-- Freight Information Section -->
-        <div class="bg-white p-6 rounded-lg shadow-md">
-            <h3 class="text-lg font-medium text-gray-900 mb-4">Freight Information</h3>
+        <div class="bg-white p-6 rounded-lg shadow-md dark:bg-gray-800">
+            <h3 class="text-lg font-medium text-gray-700 mb-4 dark:text-white">Freight Information</h3>
             
           
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
-                    <label for="pickup_address" class="block text-sm font-medium text-gray-700 mb-1">Pickup Address *</label>
+                    <label for="pickup_address" class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">Pickup Address *</label>
                     <div class="relative">
-                        <input type="text" id="pickup_address" name="pickup_address" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" required="" autocomplete="off" placeholder="Pickup Address">
+                        <input type="text" id="pickup_address" name="pickup_address" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm dark:border-gray-600 dark:text-white" required="" autocomplete="off" placeholder="Pickup Address">
                     </div>
                 </div>
                 <div>
-                    <label for="drop_address" class="block text-sm font-medium text-gray-700 mb-1">Drop-off Address *</label>
+                    <label for="drop_address" class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">Drop-off Address *</label>
                     <div class="relative">
-                        <input type="text" id="drop_address" name="drop_address" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" required="" autocomplete="off" placeholder="Drop-off Address">
+                        <input type="text" id="drop_address" name="drop_address" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm dark:border-gray-600 dark:text-white" required="" autocomplete="off" placeholder="Drop-off Address">
                     </div>
                 </div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
-                    <label for="pickup_time" class="block text-sm font-medium text-gray-700 mb-1">Pickup Time *</label>
-                    <input type="time" id="pickup_time" name="pickup_time" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" required="" autocomplete="off">
+                    <label for="pickup_time" class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">Pickup Time *</label>
+                    <input type="time" id="pickup_time" name="pickup_time" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm dark:border-gray-600 dark:text-white" required="" autocomplete="off">
                 </div>
                 <div>
-                    <label for="pickup_date" class="block text-sm font-medium text-gray-700 mb-1">Pickup Date *</label>
-                    <input type="date" id="pickup_date" name="pickup_date" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" required="" autocomplete="off" min="<?php echo date('Y-m-d'); ?>">
+                    <label for="pickup_date" class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">Pickup Date *</label>
+                    <input type="date" id="pickup_date" name="pickup_date" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm dark:border-gray-600 dark:text-white" required="" autocomplete="off" min="<?php echo date('Y-m-d'); ?>">
                 </div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
-                    <label for="dropoff_time" class="block text-sm font-medium text-gray-700 mb-1">Dropoff Time *</label>
-                    <input type="time" id="dropoff_time" name="dropoff_time" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" required="" autocomplete="off">
+                    <label for="dropoff_time" class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">Dropoff Time *</label>
+                    <input type="time" id="dropoff_time" name="dropoff_time" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm dark:border-gray-600 dark:text-white" required="" autocomplete="off">
                 </div>
                 <div>
-                    <label for="dropoff_date" class="block text-sm font-medium text-gray-700 mb-1">Dropoff Date *</label>
-                    <input type="date" id="dropoff_date" name="dropoff_date" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" required="" autocomplete="off" min="<?php echo date('Y-m-d'); ?>" >
+                    <label for="dropoff_date" class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">Dropoff Date *</label>
+                    <input type="date" id="dropoff_date" name="dropoff_date" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm dark:border-gray-600 dark:text-white" required="" autocomplete="off" min="<?php echo date('Y-m-d'); ?>" >
                 </div>
             </div>
             
             <div class="mb-4">
-                <label for="vehicle_type" class="block text-sm font-medium text-gray-700 mb-1">Vehicle Type *</label>
-                <select id="vehicle_type" name="vehicle_type" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" required="">
+                <label for="vehicle_type" class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">Vehicle Type *</label>
+                <select id="vehicle_type" name="vehicle_type" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm dark:border-gray-600 dark:text-white" required="">
                     <option value="">Select Vehicle Type</option>
                     <option value="stepdeck">Step Deck</option>
                     <option value="power only">Power Only</option>
@@ -74,12 +74,12 @@
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
-                    <label for="freight_weight" class="block text-sm font-medium text-gray-700 mb-1">Weight (lbs) *</label>
-                    <input type="number" id="freight_weight" name="freight_weight" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" min="1" required="">
+                    <label for="freight_weight" class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">Weight (lbs) *</label>
+                    <input type="number" id="freight_weight" name="freight_weight" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm dark:border-gray-600 dark:text-white" min="1" required="">
                 </div>
                 <div>
-                    <label for="freight_type" class="block text-sm font-medium text-gray-700 mb-1">Freight Type *</label>
-                    <select id="freight_type" name="freight_type" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" required="">
+                    <label for="freight_type" class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">Freight Type *</label>
+                    <select id="freight_type" name="freight_type" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm dark:border-gray-600 dark:text-white" required="">
                         <option value="">Select Freight Type</option>
                         <option value="general">General Cargo</option>
                         <option value="perishables">Perishables</option>
@@ -96,180 +96,180 @@
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                 <div>
-                    <label for="freight_length" class="block text-sm font-medium text-gray-700 mb-1">Length (in) *</label>
-                    <input type="number" id="freight_length" name="freight_length" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" min="1" required="">
+                    <label for="freight_length" class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">Length (in) *</label>
+                    <input type="number" id="freight_length" name="freight_length" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm dark:border-gray-600 dark:text-white" min="1" required="">
                 </div>
                 <div>
-                    <label for="freight_width" class="block text-sm font-medium text-gray-700 mb-1">Width (in) *</label>
-                    <input type="number" id="freight_width" name="freight_width" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" min="1" required="">
+                    <label for="freight_width" class="block text-sm font-medium text-gray-700 dark:text-white mb-1">Width (in) *</label>
+                    <input type="number" id="freight_width" name="freight_width" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm dark:border-gray-600 dark:text-white" min="1" required="">
                 </div>
                 <div>
-                    <label for="freight_height" class="block text-sm font-medium text-gray-700 mb-1">Height (in) *</label>
-                    <input type="number" id="freight_height" name="freight_height" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" min="1" required="">
+                    <label for="freight_height" class="block text-sm font-medium text-gray-700 dark:text-white mb-1">Height (in) *</label>
+                    <input type="number" id="freight_height" name="freight_height" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm dark:border-gray-600 dark:text-white" min="1" required="">
                 </div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
-                    <label for="freight_pallet_count" class="block text-sm font-medium text-gray-700 mb-1">Number of Pallets</label>
-                    <input type="number" id="freight_pallet_count" name="freight_pallet_count" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" min="1" max="10000" value="1" required="">
+                    <label for="freight_pallet_count" class="block text-sm font-medium text-gray-700 dark:text-white mb-1">Number of Pallets</label>
+                    <input type="number" id="freight_pallet_count" name="freight_pallet_count" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm dark:border-gray-600 dark:text-white" min="1" max="10000" value="1" required="">
                 </div>
                 <div>
-                    <label for="freight_box_count" class="block text-sm font-medium text-gray-700 mb-1">Number of Boxes</label>
-                    <input type="number" id="freight_box_count" name="freight_box_count" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" min="1" max="10000" value="1" required="">
+                    <label for="freight_box_count" class="block text-sm font-medium text-gray-700 dark:text-white mb-1">Number of Boxes</label>
+                    <input type="number" id="freight_box_count" name="freight_box_count" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm dark:border-gray-600 dark:text-white" min="1" max="10000" value="1" required="">
                 </div>
             </div>
             <div class="mb-4">
-                <label for="freight_description" class="block text-sm font-medium text-gray-700 mb-1">Freight Details</label>
-                <textarea id="freight_description" name="freight_description" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" rows="3" required=""></textarea>
+                <label for="freight_description" class="block text-sm font-medium text-gray-700 dark:text-white mb-1">Freight Details</label>
+                <textarea id="freight_description" name="freight_description" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm dark:border-gray-600 dark:text-white" rows="3" required=""></textarea>
             </div>
             
                 
         </div>
-        <div class="bg-white p-6 rounded-lg shadow-md mt-6">
-            <h3 class="text-lg font-medium text-gray-900 mb-2">Additional Services</h3>
-            <p class="text-gray-600 mb-4">Select any additional services you may need for your shipment.</p>
+        <div class="bg-white p-6 rounded-lg shadow-md mt-6 dark:bg-gray-800">
+            <h3 class="text-lg font-medium text-gray-700 mb-2 dark:text-white">Additional Services</h3>
+            <p class="text-gray-600 mb-4 dark:text-gray-400">Select any additional services you may need for your shipment.</p>
             
-            <div class="bg-blue-50 p-4 rounded-lg mb-6">
+            <div class="bg-blue-500 p-4 rounded-lg mb-6 dark:bg-gray-700">
                 <div class="flex justify-between items-center">
-                    <div class="font-medium text-gray-700">Selected Add-ons Total:</div>
-                    <div class="text-xl font-bold text-blue-700">$<span id="addons_total">0.00</span></div>
+                    <div class="font-medium text-white">Selected Add-ons Total:</div>
+                    <div class="text-xl font-bold text-white">$<span id="addons_total">0.00</span></div>
                     <input type="hidden" name="addons_total" class="addons_total_value" value="0.00">
                 </div>
             </div>
                 <div class="space-y-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     <div class="space-y-4">
-                        <h4 class="text-xl font-medium text-gray-800 border-b pb-2">Delivery &amp; Handling</h4>
+                        <h4 class="text-xl font-medium text-gray-800 border-b pb-2 dark:text-white">Delivery &amp; Handling</h4>
                         <div class="grid grid-cols-1 gap-4">
-                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow dark:border-gray-600">
                                 <label class="flex flex-col h-full cursor-pointer">
                                     <div class="flex items-center mb-1">
-                                        <input type="checkbox" name="addons[]" value="liftgate_service-50" data-cost="50" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
-                                        <span class="ml-2 font-medium text-gray-900">Liftgate Service</span>
-                                        <span class="ml-auto font-bold text-blue-700">$50</span>
+                                        <input type="checkbox" name="addons[]" value="liftgate_service-50" data-cost="50" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 dark:border-gray-600">
+                                        <span class="ml-2 font-medium text-gray-700 dark:text-white">Liftgate Service</span>
+                                        <span class="ml-auto font-bold text-blue-700 dark:text-white">$50</span>
                                     </div>
-                                    <span class="text-sm text-gray-500 mt-1">For locations without docks</span>
+                                    <span class="text-sm text-gray-500 mt-1 dark:text-white">For locations without docks</span>
                                 </label>
                             </div>
-                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow dark:border-gray-600">
                                 <label class="flex flex-col h-full cursor-pointer">
                                     <div class="flex items-center mb-1">
-                                        <input type="checkbox" name="addons[]" value="inside_delivery-75" data-cost="75" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
-                                        <span class="ml-2 font-medium text-gray-900">Inside Delivery</span>
-                                        <span class="ml-auto font-bold text-blue-700">$75</span>
+                                        <input type="checkbox" name="addons[]" value="inside_delivery-75" data-cost="75" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 dark:border-gray-600">
+                                        <span class="ml-2 font-medium text-gray-700 dark:text-white">Inside Delivery</span>
+                                        <span class="ml-auto font-bold text-blue-700 dark:text-white">$75</span>
                                     </div>
-                                    <span class="text-sm text-gray-500 mt-1">Delivered inside building</span>
+                                    <span class="text-sm text-gray-500 mt-1 dark:text-white">Delivered inside building</span>
                                 </label>
                             </div>
-                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow dark:border-gray-600">
                                 <label class="flex flex-col h-full cursor-pointer">
                                     <div class="flex items-center mb-1">
-                                        <input type="checkbox" name="addons[]" value="appointment_delivery-100" data-cost="100" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
-                                        <span class="ml-2 font-medium text-gray-900">Appointment Delivery</span>
-                                        <span class="ml-auto font-bold text-blue-700">$100</span>
+                                        <input type="checkbox" name="addons[]" value="appointment_delivery-100" data-cost="100" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 dark:border-gray-600">
+                                        <span class="ml-2 font-medium text-gray-700 dark:text-white">Appointment Delivery</span>
+                                        <span class="ml-auto font-bold text-blue-700 dark:text-white">$100</span>
                                     </div>
-                                    <span class="text-sm text-gray-500 mt-1">Scheduled delivery window</span>
+                                    <span class="text-sm text-gray-500 mt-1 dark:text-white">Scheduled delivery window</span>
                                 </label>
                             </div>
-                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow dark:border-gray-600">
                                 <label class="flex flex-col h-full cursor-pointer">
                                     <div class="flex items-center mb-1">
-                                        <input type="checkbox" name="addons[]" value="residential_delivery-150" data-cost="150" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
-                                        <span class="ml-2 font-medium text-gray-900">Residential Delivery</span>
-                                        <span class="ml-auto font-bold text-blue-700">$150</span>
+                                        <input type="checkbox" name="addons[]" value="residential_delivery-150" data-cost="150" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 dark:border-gray-600">
+                                        <span class="ml-2 font-medium text-gray-700 dark:text-white">Residential Delivery</span>
+                                        <span class="ml-auto font-bold text-blue-700 dark:text-white">$150</span>
                                     </div>
-                                    <span class="text-sm text-gray-500 mt-1">Includes liftgate &amp; appointment</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="space-y-4">
-                        <h4 class="text-xl font-medium text-gray-800 border-b pb-2">Time Services</h4>
-                        <div class="grid grid-cols-1  gap-4">
-                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
-                                <label class="flex flex-col h-full cursor-pointer">
-                                    <div class="flex items-center mb-1">
-                                        <input type="checkbox" name="addons[]" value="detention-50" data-cost="50" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
-                                        <span class="ml-2 font-medium text-gray-900">Detention (Wait Time)</span>
-                                        <span class="ml-auto font-bold text-blue-700">$50/hr</span>
-                                    </div>
-                                    <span class="text-sm text-gray-500 mt-1">Wait beyond 2 hrs free</span>
-                                </label>
-                            </div>
-                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
-                                <label class="flex flex-col h-full cursor-pointer">
-                                    <div class="flex items-center mb-1">
-                                        <input type="checkbox" name="addons[]" value="layover-200" data-cost="200" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
-                                        <span class="ml-2 font-medium text-gray-900">Layover</span>
-                                        <span class="ml-auto font-bold text-blue-700">$200/day</span>
-                                    </div>
-                                    <span class="text-sm text-gray-500 mt-1">Overnight delays</span>
-                                </label>
-                            </div>
-                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
-                                <label class="flex flex-col h-full cursor-pointer">
-                                    <div class="flex items-center mb-1">
-                                        <input type="checkbox" name="addons[]" value="team_drivers-200" data-cost="200" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
-                                        <span class="ml-2 font-medium text-gray-900">Team Drivers</span>
-                                        <span class="ml-auto font-bold text-blue-700">$200</span>
-                                    </div>
-                                    <span class="text-sm text-gray-500 mt-1">Faster transit</span>
-                                </label>
-                            </div>
-                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
-                                <label class="flex flex-col h-full cursor-pointer">
-                                    <div class="flex items-center mb-1">
-                                        <input type="checkbox" name="addons[]" value="expedited_service-200" data-cost="200" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
-                                        <span class="ml-2 font-medium text-gray-900">Expedited Service</span>
-                                        <span class="ml-auto font-bold text-blue-700">$200</span>
-                                    </div>
-                                    <span class="text-sm text-gray-500 mt-1">Urgent delivery premium</span>
+                                    <span class="text-sm text-gray-500 mt-1 dark:text-white">Includes liftgate &amp; appointment</span>
                                 </label>
                             </div>
                         </div>
                     </div>
 
                     <div class="space-y-4">
-                        <h4 class="text-xl font-medium text-gray-800 border-b pb-2">Security &amp; Protection</h4>
+                        <h4 class="text-xl font-medium text-gray-800 border-b pb-2 dark:text-white">Time Services</h4>
                         <div class="grid grid-cols-1  gap-4">
-                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow dark:border-gray-600">
                                 <label class="flex flex-col h-full cursor-pointer">
                                     <div class="flex items-center mb-1">
-                                        <input type="checkbox" name="addons[]" value="security-200" data-cost="200" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
-                                        <span class="ml-2 font-medium text-gray-900">Security (Extra)</span>
-                                        <span class="ml-auto font-bold text-blue-700">$200</span>
+                                        <input type="checkbox" name="addons[]" value="detention-50" data-cost="50" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 dark:border-gray-600">
+                                        <span class="ml-2 font-medium text-gray-700 dark:text-white">Detention (Wait Time)</span>
+                                        <span class="ml-auto font-bold text-blue-700 dark:text-white">$50/hr</span>
                                     </div>
-                                    <span class="text-sm text-gray-500 mt-1">Enhanced security</span>
+                                    <span class="text-sm text-gray-500 mt-1 dark:text-white">Wait beyond 2 hrs free</span>
                                 </label>
                             </div>
-                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow dark:border-gray-600">
                                 <label class="flex flex-col h-full cursor-pointer">
                                     <div class="flex items-center mb-1">
-                                        <input type="checkbox" name="addons[]" value="armored_transport-500" data-cost="500" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
-                                        <span class="ml-2 font-medium text-gray-900">Armored Transport</span>
-                                        <span class="ml-auto font-bold text-blue-700">$500</span>
+                                        <input type="checkbox" name="addons[]" value="layover-200" data-cost="200" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 dark:border-gray-600">
+                                        <span class="ml-2 font-medium text-gray-700 dark:text-white">Layover</span>
+                                        <span class="ml-auto font-bold text-blue-700 dark:text-white">$200/day</span>
                                     </div>
-                                    <span class="text-sm text-gray-500 mt-1">For valuable items</span>
+                                    <span class="text-sm text-gray-500 mt-1 dark:text-white">Overnight delays</span>
                                 </label>
                             </div>
-                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow dark:border-gray-600">
                                 <label class="flex flex-col h-full cursor-pointer">
                                     <div class="flex items-center mb-1">
-                                        <input type="checkbox" name="addons[]" value="gps_tracking-50" data-cost="50" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
-                                        <span class="ml-2 font-medium text-gray-900">GPS Tracking</span>
-                                        <span class="ml-auto font-bold text-blue-700">$50</span>
+                                        <input type="checkbox" name="addons[]" value="team_drivers-200" data-cost="200" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 dark:border-gray-600">
+                                        <span class="ml-2 font-medium text-gray-700 dark:text-white">Team Drivers</span>
+                                        <span class="ml-auto font-bold text-blue-700 dark:text-white">$200</span>
                                     </div>
-                                    <span class="text-sm text-gray-500 mt-1">Real-time tracking</span>
+                                    <span class="text-sm text-gray-500 mt-1 dark:text-white">Faster transit</span>
                                 </label>
                             </div>
-                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow dark:border-gray-600">
                                 <label class="flex flex-col h-full cursor-pointer">
                                     <div class="flex items-center mb-1">
-                                        <input type="checkbox" name="addons[]" value="insurance-100" data-cost="100" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
-                                        <span class="ml-2 font-medium text-gray-900">Insurance (Extra)</span>
-                                        <span class="ml-auto font-bold text-blue-700">$100</span>
+                                        <input type="checkbox" name="addons[]" value="expedited_service-200" data-cost="200" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 dark:border-gray-600">
+                                        <span class="ml-2 font-medium text-gray-700 dark:text-white">Expedited Service</span>
+                                        <span class="ml-auto font-bold text-blue-700 dark:text-white">$200</span>
                                     </div>
-                                    <span class="text-sm text-gray-500 mt-1">Additional cargo insurance</span>
+                                    <span class="text-sm text-gray-500 mt-1 dark:text-white">Urgent delivery premium</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <h4 class="text-xl font-medium text-gray-800 border-b pb-2 dark:text-white">Security &amp; Protection</h4>
+                        <div class="grid grid-cols-1  gap-4">
+                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow dark:border-gray-600">
+                                <label class="flex flex-col h-full cursor-pointer">
+                                    <div class="flex items-center mb-1">
+                                        <input type="checkbox" name="addons[]" value="security-200" data-cost="200" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 dark:border-gray-600">
+                                        <span class="ml-2 font-medium text-gray-700 dark:text-white">Security (Extra)</span>
+                                        <span class="ml-auto font-bold text-blue-700 dark:text-white">$200</span>
+                                    </div>
+                                    <span class="text-sm text-gray-500 mt-1 dark:text-white">Enhanced security</span>
+                                </label>
+                            </div>
+                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow dark:border-gray-600">
+                                <label class="flex flex-col h-full cursor-pointer">
+                                    <div class="flex items-center mb-1">
+                                        <input type="checkbox" name="addons[]" value="armored_transport-500" data-cost="500" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 dark:border-gray-600">
+                                        <span class="ml-2 font-medium text-gray-700 dark:text-white">Armored Transport</span>
+                                        <span class="ml-auto font-bold text-blue-700 dark:text-white">$500</span>
+                                    </div>
+                                    <span class="text-sm text-gray-500 mt-1 dark:text-white">For valuable items</span>
+                                </label>
+                            </div>
+                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow dark:border-gray-600">
+                                <label class="flex flex-col h-full cursor-pointer">
+                                    <div class="flex items-center mb-1">
+                                        <input type="checkbox" name="addons[]" value="gps_tracking-50" data-cost="50" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 dark:border-gray-600">
+                                        <span class="ml-2 font-medium text-gray-700 dark:text-white">GPS Tracking</span>
+                                        <span class="ml-auto font-bold text-blue-700 dark:text-white">$50</span>
+                                    </div>
+                                    <span class="text-sm text-gray-500 mt-1 dark:text-white">Real-time tracking</span>
+                                </label>
+                            </div>
+                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow dark:border-gray-600">
+                                <label class="flex flex-col h-full cursor-pointer">
+                                    <div class="flex items-center mb-1">
+                                        <input type="checkbox" name="addons[]" value="insurance-100" data-cost="100" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 dark:border-gray-600">
+                                        <span class="ml-2 font-medium text-gray-700 dark:text-white">Insurance (Extra)</span>
+                                        <span class="ml-auto font-bold text-blue-700 dark:text-white">$100</span>
+                                    </div>
+                                    <span class="text-sm text-gray-500 mt-1 dark:text-white">Additional cargo insurance</span>
                                 </label>
                             </div>
                         </div>
@@ -277,67 +277,67 @@
                     </div>
 
                     <div class="space-y-4">
-                        <h4 class="text-xl font-medium text-gray-800 border-b pb-2">Equipment &amp; Handling</h4>
+                        <h4 class="text-xl font-medium text-gray-800 border-b pb-2 dark:text-white">Equipment &amp; Handling</h4>
                         <div class="grid grid-cols-1  gap-4">
-                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow dark:border-gray-600">
                                 <label class="flex flex-col h-full cursor-pointer">
                                     <div class="flex items-center mb-1">
-                                        <input type="checkbox" name="addons[]" value="tarping-100" data-cost="100" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
-                                        <span class="ml-2 font-medium text-gray-900">Tarping</span>
-                                        <span class="ml-auto font-bold text-blue-700">$100</span>
+                                        <input type="checkbox" name="addons[]" value="tarping-100" data-cost="100" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 dark:border-gray-600">
+                                        <span class="ml-2 font-medium text-gray-700 dark:text-white">Tarping</span>
+                                        <span class="ml-auto font-bold text-blue-700 dark:text-white">$100</span>
                                     </div>
-                                    <span class="text-sm text-gray-500 mt-1">Covers cargo</span>
+                                    <span class="text-sm text-gray-500 mt-1 dark:text-white">Covers cargo</span>
                                 </label>
                             </div>
-                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow dark:border-gray-600">
                                 <label class="flex flex-col h-full cursor-pointer">
                                     <div class="flex items-center mb-1">
-                                        <input type="checkbox" name="addons[]" value="securement-50" data-cost="50" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
-                                        <span class="ml-2 font-medium text-gray-900">Securement (Extra)</span>
-                                        <span class="ml-auto font-bold text-blue-700">$50</span>
+                                        <input type="checkbox" name="addons[]" value="securement-50" data-cost="50" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 dark:border-gray-600">
+                                        <span class="ml-2 font-medium text-gray-700 dark:text-white">Securement (Extra)</span>
+                                        <span class="ml-auto font-bold text-blue-700 dark:text-white">$50</span>
                                     </div>
-                                    <span class="text-sm text-gray-500 mt-1">Chains, straps, etc.</span>
+                                    <span class="text-sm text-gray-500 mt-1 dark:text-white">Chains, straps, etc.</span>
                                 </label>
                             </div>
-                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow dark:border-gray-600">
                                 <label class="flex flex-col h-full cursor-pointer">
                                     <div class="flex items-center mb-1">
-                                        <input type="checkbox" name="addons[]" value="palletizing-50" data-cost="50" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
-                                        <span class="ml-2 font-medium text-gray-900">Palletizing</span>
-                                        <span class="ml-auto font-bold text-blue-700">$50</span>
+                                        <input type="checkbox" name="addons[]" value="palletizing-50" data-cost="50" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 dark:border-gray-600">
+                                        <span class="ml-2 font-medium text-gray-700 dark:text-white">Palletizing</span>
+                                        <span class="ml-auto font-bold text-blue-700 dark:text-white">$50</span>
                                     </div>
-                                    <span class="text-sm text-gray-500 mt-1">Easier cargo handling</span>
+                                    <span class="text-sm text-gray-500 mt-1 dark:text-white">Easier cargo handling</span>
                                 </label>
                             </div>
-                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow dark:border-gray-600">
                                 <label class="flex flex-col h-full cursor-pointer">
                                     <div class="flex items-center mb-1">
-                                        <input type="checkbox" name="addons[]" value="crating-100" data-cost="100" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
-                                        <span class="ml-2 font-medium text-gray-900">Crating</span>
-                                        <span class="ml-auto font-bold text-blue-700">$100</span>
+                                        <input type="checkbox" name="addons[]" value="crating-100" data-cost="100" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 dark:border-gray-600">
+                                        <span class="ml-2 font-medium text-gray-700 dark:text-white">Crating</span>
+                                        <span class="ml-auto font-bold text-blue-700 dark:text-white">$100</span>
                                     </div>
-                                    <span class="text-sm text-gray-500 mt-1">Custom crates</span>
+                                    <span class="text-sm text-gray-500 mt-1 dark:text-white">Custom crates</span>
                                 </label>
                             </div>
-                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow dark:border-gray-600">
                                 <label class="flex flex-col h-full cursor-pointer">
                                     <div class="flex items-center mb-1">
-                                        <input type="checkbox" name="addons[]" value="chassis_rental-50" data-cost="50" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
-                                        <span class="ml-2 font-medium text-gray-900">Chassis Rental</span>
-                                        <span class="ml-auto font-bold text-blue-700">$50</span>
+                                        <input type="checkbox" name="addons[]" value="chassis_rental-50" data-cost="50" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 dark:border-gray-600">
+                                        <span class="ml-2 font-medium text-gray-700 dark:text-white">Chassis Rental</span>
+                                        <span class="ml-auto font-bold text-blue-700 dark:text-white">$50</span>
                                     </div>
-                                    <span class="text-sm text-gray-500 mt-1">Container movement</span>
+                                    <span class="text-sm text-gray-500 mt-1 dark:text-white">Container movement</span>
                                 </label>
                             </div>
                            
-                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow dark:border-gray-600">
                                 <label class="flex flex-col h-full cursor-pointer">
                                     <div class="flex items-center mb-1">
-                                        <input type="checkbox" name="addons[]" value="pre_cooling-50" data-cost="50" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
-                                        <span class="ml-2 font-medium text-gray-900">Pre-Cooling</span>
-                                        <span class="ml-auto font-bold text-blue-700">$50</span>
+                                        <input type="checkbox" name="addons[]" value="pre_cooling-50" data-cost="50" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 dark:border-gray-600">
+                                        <span class="ml-2 font-medium text-gray-700 dark:text-white">Pre-Cooling</span>
+                                        <span class="ml-auto font-bold text-blue-700 dark:text-white">$50</span>
                                     </div>
-                                    <span class="text-sm text-gray-500 mt-1">Pre-load trailer cooling</span>
+                                    <span class="text-sm text-gray-500 mt-1 dark:text-white">Pre-load trailer cooling</span>
                                 </label>
                             </div>
                            
@@ -346,66 +346,66 @@
                     </div>
 
                     <div class="space-y-4">
-                        <h4 class="text-xl font-medium text-gray-800 border-b pb-2">Regulatory</h4>
+                        <h4 class="text-xl font-medium text-gray-800 border-b pb-2 dark:text-white">Regulatory</h4>
                         <div class="grid grid-cols-1  gap-4">
-                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow dark:border-gray-600">
                                 <label class="flex flex-col h-full cursor-pointer">
                                     <div class="flex items-center mb-1">
-                                        <input type="checkbox" name="addons[]" value="hazmat_compliance-500" data-cost="500" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
-                                        <span class="ml-2 font-medium text-gray-900">Hazmat Compliance</span>
-                                    <span class="ml-auto font-bold text-blue-700">$500</span>
+                                        <input type="checkbox" name="addons[]" value="hazmat_compliance-500" data-cost="500" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 dark:border-gray-600">
+                                        <span class="ml-2 font-medium text-gray-700 dark:text-white">Hazmat Compliance</span>
+                                    <span class="ml-auto font-bold text-blue-700 dark:text-white">$500</span>
                                 </div>
-                                <span class="text-sm text-gray-500 mt-1">Certifications &amp; labeling</span>
+                                <span class="text-sm text-gray-500 mt-1 dark:text-white">Certifications &amp; labeling</span>
                                 </label>
                             </div>
-                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow dark:border-gray-600">
                                 <label class="flex flex-col h-full cursor-pointer">
                                     <div class="flex items-center mb-1">
-                                        <input type="checkbox" name="addons[]" value="oversized_permits-100" data-cost="100" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
-                                        <span class="ml-2 font-medium text-gray-900">Oversized Permits</span>
-                                    <span class="ml-auto font-bold text-blue-700">$100</span>
+                                        <input type="checkbox" name="addons[]" value="oversized_permits-100" data-cost="100" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 dark:border-gray-600">
+                                        <span class="ml-2 font-medium text-gray-700 dark:text-white">Oversized Permits</span>
+                                    <span class="ml-auto font-bold text-blue-700 dark:text-white">$100</span>
                                 </div>
-                                <span class="text-sm text-gray-500 mt-1">Required for big loads</span>
+                                <span class="text-sm text-gray-500 mt-1 dark:text-white">Required for big loads</span>
                                 </label>
                             </div>
-                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow dark:border-gray-600">
                                 <label class="flex flex-col h-full cursor-pointer">
                                     <div class="flex items-center mb-1">
-                                        <input type="checkbox" name="addons[]" value="escorts-200" data-cost="200" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
-                                        <span class="ml-2 font-medium text-gray-900">Escorts</span>
-                                    <span class="ml-auto font-bold text-blue-700">$200</span>
+                                        <input type="checkbox" name="addons[]" value="escorts-200" data-cost="200" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 dark:border-gray-600">
+                                        <span class="ml-2 font-medium text-gray-700 dark:text-white">Escorts</span>
+                                    <span class="ml-auto font-bold text-blue-700 dark:text-white">$200</span>
                                 </div>
-                                <span class="text-sm text-gray-500 mt-1">Escort vehicles</span>
+                                <span class="text-sm text-gray-500 mt-1 dark:text-white">Escort vehicles</span>
                                 </label>
                             </div>
-                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow dark:border-gray-600">
                                 <label class="flex flex-col h-full cursor-pointer">
                                     <div class="flex items-center mb-1">
-                                        <input type="checkbox" name="addons[]" value="route_survey-200" data-cost="200" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
-                                        <span class="ml-2 font-medium text-gray-900">Route Survey</span>
-                                    <span class="ml-auto font-bold text-blue-700">$200</span>
+                                        <input type="checkbox" name="addons[]" value="route_survey-200" data-cost="200" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 dark:border-gray-600">
+                                        <span class="ml-2 font-medium text-gray-700 dark:text-white">Route Survey</span>
+                                    <span class="ml-auto font-bold text-blue-700 dark:text-white">$200</span>
                                 </div>
-                                <span class="text-sm text-gray-500 mt-1">Route planning for clearance</span>
+                                <span class="text-sm text-gray-500 mt-1 dark:text-white">Route planning for clearance</span>
                                 </label>
                             </div>
-                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow dark:border-gray-600">
                                 <label class="flex flex-col h-full cursor-pointer">
                                     <div class="flex items-center mb-1">
-                                        <input type="checkbox" name="addons[]" value="customs_clearance-100" data-cost="100" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
-                                        <span class="ml-2 font-medium text-gray-900">Customs Clearance</span>
-                                    <span class="ml-auto font-bold text-blue-700">$100</span>
+                                        <input type="checkbox" name="addons[]" value="customs_clearance-100" data-cost="100" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 dark:border-gray-600">
+                                        <span class="ml-2 font-medium text-gray-700 dark:text-white">Customs Clearance</span>
+                                    <span class="ml-auto font-bold text-blue-700 dark:text-white">$100</span>
                                 </div>
-                                <span class="text-sm text-gray-500 mt-1">International paperwork</span>
+                                <span class="text-sm text-gray-500 mt-1 dark:text-white">International paperwork</span>
                                 </label>
                             </div>
-                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow dark:border-gray-600">
                                 <label class="flex flex-col h-full cursor-pointer">
                                     <div class="flex items-center mb-1">
-                                        <input type="checkbox" name="addons[]" value="port_fees-200" data-cost="200" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
-                                        <span class="ml-2 font-medium text-gray-900">Port Fees</span>
-                                    <span class="ml-auto font-bold text-blue-700">$200</span>
+                                        <input type="checkbox" name="addons[]" value="port_fees-200" data-cost="200" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 dark:border-gray-600">
+                                        <span class="ml-2 font-medium text-gray-700 dark:text-white">Port Fees</span>
+                                    <span class="ml-auto font-bold text-blue-700 dark:text-white">$200</span>
                                 </div>
-                                <span class="text-sm text-gray-500 mt-1">Port handling charges</span>
+                                <span class="text-sm text-gray-500 mt-1 dark:text-white">Port handling charges</span>
                                 </label>
                             </div>
                         </div>
@@ -413,79 +413,79 @@
                     </div>
 
                     <div class="space-y-4">
-                        <h4 class="text-xl font-medium text-gray-800 border-b pb-2">Special Services</h4>
+                        <h4 class="text-xl font-medium text-gray-800 border-b pb-2 dark:text-white">Special Services</h4>
                         <div class="grid grid-cols-1  gap-4">
-                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow dark:border-gray-600">
                                 <label class="flex flex-col h-full cursor-pointer">
                                     <div class="flex items-center mb-1">
-                                        <input type="checkbox" name="addons[]" value="white_glove_service-100" data-cost="100" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
-                                        <span class="ml-2 font-medium text-gray-900">White Glove Service</span>
-                                    <span class="ml-auto font-bold text-blue-700">$100</span>
+                                        <input type="checkbox" name="addons[]" value="white_glove_service-100" data-cost="100" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 dark:border-gray-600">
+                                        <span class="ml-2 font-medium text-gray-700 dark:text-white">White Glove Service</span>
+                                    <span class="ml-auto font-bold text-blue-700 dark:text-white">$100</span>
                                 </div>
-                                <span class="text-sm text-gray-500 mt-1">Setup, unpack, cleanup</span>
+                                <span class="text-sm text-gray-500 mt-1 dark:text-white">Setup, unpack, cleanup</span>
                                 </label>
                             </div>
-                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow dark:border-gray-600">
                                 <label class="flex flex-col h-full cursor-pointer">
                                     <div class="flex items-center mb-1">
-                                    <input type="checkbox" name="addons[]" value="installation-100" data-cost="100" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
-                                    <span class="ml-2 font-medium text-gray-900">Installation</span>
-                                    <span class="ml-auto font-bold text-blue-700">$100</span>
+                                    <input type="checkbox" name="addons[]" value="installation-100" data-cost="100" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 dark:border-gray-600">
+                                    <span class="ml-2 font-medium text-gray-700 dark:text-white">Installation</span>
+                                    <span class="ml-auto font-bold text-blue-700 dark:text-white">$100</span>
                                 </div>
-                                <span class="text-sm text-gray-500 mt-1">On-site setup</span>
+                                <span class="text-sm text-gray-500 mt-1 dark:text-white">On-site setup</span>
                                 </label>
                             </div>
-                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow dark:border-gray-600">
                                 <label class="flex flex-col h-full cursor-pointer">
                                     <div class="flex items-center mb-1">
-                                    <input type="checkbox" name="addons[]" value="debris_removal-50" data-cost="50" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
-                                    <span class="ml-2 font-medium text-gray-900">Debris Removal</span>
-                                    <span class="ml-auto font-bold text-blue-700">$50</span>
+                                    <input type="checkbox" name="addons[]" value="debris_removal-50" data-cost="50" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 dark:border-gray-600">
+                                    <span class="ml-2 font-medium text-gray-700 dark:text-white">Debris Removal</span>
+                                    <span class="ml-auto font-bold text-blue-700 dark:text-white">$50</span>
                                 </div>
-                                    <span class="text-sm text-gray-500 mt-1">Post-delivery trash cleanup</span>
+                                    <span class="text-sm text-gray-500 mt-1 dark:text-white">Post-delivery trash cleanup</span>
                                 </label>
                             </div>
-                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow dark:border-gray-600">
                                 <label class="flex flex-col h-full cursor-pointer">
                                     <div class="flex items-center mb-1">
-                                    <input type="checkbox" name="addons[]" value="heavy_lift-500" data-cost="500" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
-                                    <span class="ml-2 font-medium text-gray-900">Heavy Lift</span>
-                                    <span class="ml-auto font-bold text-blue-700">$500</span>
+                                    <input type="checkbox" name="addons[]" value="heavy_lift-500" data-cost="500" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 dark:border-gray-600">
+                                    <span class="ml-2 font-medium text-gray-700 dark:text-white">Heavy Lift</span>
+                                    <span class="ml-auto font-bold text-blue-700 dark:text-white">$500</span>
                                 </div>
-                                    <span class="text-sm text-gray-500 mt-1">Crane/heavy lift tools</span>
+                                    <span class="text-sm text-gray-500 mt-1 dark:text-white">Crane/heavy lift tools</span>
                                 </label>
                             </div>
-                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow dark:border-gray-600">
                                 <label class="flex flex-col h-full cursor-pointer">
                                     <div class="flex items-center mb-1">
-                                        <input type="checkbox" name="addons[]" value="cleaning-100" data-cost="100" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
-                                        <span class="ml-2 font-medium text-gray-900">Cleaning (Equipment)</span>
-                                        <span class="ml-auto font-bold text-blue-700">$100</span>
+                                        <input type="checkbox" name="addons[]" value="cleaning-100" data-cost="100" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 dark:border-gray-600">
+                                        <span class="ml-2 font-medium text-gray-700 dark:text-white">Cleaning (Equipment)</span>
+                                        <span class="ml-auto font-bold text-blue-700 dark:text-white">$100</span>
                                     </div>
-                                    <span class="text-sm text-gray-500 mt-1">Post-unload cleaning</span>
+                                    <span class="text-sm text-gray-500 mt-1 dark:text-white">Post-unload cleaning</span>
                                 </label>
                             </div>
-                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="border rounded-lg p-4 hover:shadow-md transition-shadow dark:border-gray-600">
                                 <label class="flex flex-col h-full cursor-pointer">
                                     <div class="flex items-center mb-1">
-                                    <input type="checkbox" name="addons[]" value="storage-50" data-cost="50" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
-                                    <span class="ml-2 font-medium text-gray-900">Storage</span>
-                                    <span class="ml-auto font-bold text-blue-700">$50</span>
+                                    <input type="checkbox" name="addons[]" value="storage-50" data-cost="50" class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 dark:border-gray-600">
+                                    <span class="ml-2 font-medium text-gray-700 dark:text-white">Storage</span>
+                                    <span class="ml-auto font-bold text-blue-700 dark:text-white">$50</span>
                                 </div>
-                                    <span class="text-sm text-gray-500 mt-1">Temporary warehousing</span>
+                                    <span class="text-sm text-gray-500 mt-1 dark:text-white">Temporary warehousing</span>
                                 </label>
                             </div>
                         </div>
                     </div>
                 </div>
          </div>
-            <div class="bg-white p-6 rounded-lg shadow-md mt-6">
-            <h3 class="text-lg font-medium text-gray-900 mb-4">Shipper Information</h3>
+            <div class="bg-white p-6 rounded-lg shadow-md mt-6 dark:bg-gray-800">
+            <h3 class="text-lg font-medium text-gray-700 mb-4 dark:text-white">Shipper Information</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
-                    <label for="shipper_email" class="block text-sm font-medium text-gray-700 mb-1">Email *</label>
+                    <label for="shipper_email" class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">Email *</label>
                     <div class="relative">
-                        <input type="text" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm cursor-not-allowed " required="" disabled autocomplete="off" placeholder="Email" value="<?php 
+                        <input type="text" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm cursor-not-allowed dark:border-gray-600 dark:text-white" required="" disabled autocomplete="off" placeholder="Email" value="<?php 
                         if(isset($_COOKIE['user'])){
                             echo json_decode($_COOKIE['user'])->email;
                         }
@@ -498,27 +498,27 @@
                     </div>
                 </div>
                 <div>
-                    <label for="shipper_phone" class="block text-sm font-medium text-gray-700 mb-1">Phone *</label>
+                    <label for="shipper_phone" class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">Phone *</label>
                     <div class="relative">
-                        <input type="text" id="shipper_phone" name="shipper_phone" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" required="" autocomplete="off" placeholder="Phone">
+                        <input type="text" id="shipper_phone" name="shipper_phone" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm dark:border-gray-600 dark:text-white" required="" autocomplete="off" placeholder="Phone">
                     </div>
                 </div>
                 <div>
-                    <label for="shipper_first_name" class="block text-sm font-medium text-gray-700 mb-1">First Name *</label>
+                    <label for="shipper_first_name" class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">First Name *</label>
                     <div class="relative">
-                        <input type="text" id="shipper_first_name" name="shipper_first_name" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" required="" autocomplete="off" placeholder="First Name">
+                        <input type="text" id="shipper_first_name" name="shipper_first_name" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm dark:border-gray-600 dark:text-white" required="" autocomplete="off" placeholder="First Name">
                     </div>
                 </div>
                 <div>
-                    <label for="shipper_last_name" class="block text-sm font-medium text-gray-700 mb-1">Last Name *</label>
+                    <label for="shipper_last_name" class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">Last Name *</label>
                     <div class="relative">
-                        <input type="text" id="shipper_last_name" name="shipper_last_name" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" required="" autocomplete="off" placeholder="Last Name">
+                        <input type="text" id="shipper_last_name" name="shipper_last_name" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm dark:border-gray-600 dark:text-white" required="" autocomplete="off" placeholder="Last Name">
                     </div>
                 </div>
                 <div class="col-span-2">
-                    <label for="shipper_address" class="block text-sm font-medium text-gray-700 mb-1">Address *</label>
+                    <label for="shipper_address" class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">Address *</label>
                     <div class="relative">
-                        <textarea id="shipper_address" name="shipper_address" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" required="" autocomplete="off" placeholder="Address"></textarea>
+                        <textarea id="shipper_address" name="shipper_address" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm dark:border-gray-600 dark:text-white" required="" autocomplete="off" placeholder="Address"></textarea>
                     </div>
                 </div>
             </div>

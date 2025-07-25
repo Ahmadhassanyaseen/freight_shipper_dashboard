@@ -19,3 +19,21 @@
     background: var(--primary-color);
     color: #fff!important;
 }
+.bg-gray-500{
+    background-color: #606060!important;
+}
+.bg-red-500{
+    background-color: #D74559!important;
+}
+.truncate {
+    width: 200px;
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  #shipmentsTable_wrapper{
+    width: 90vw;
+    overflow: auto;
+  }

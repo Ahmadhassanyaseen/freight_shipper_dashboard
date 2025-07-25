@@ -8,7 +8,7 @@
         <main class="h-full overflow-y-auto pb-10">
           <div class="container px-6 pb-10 mx-auto grid">
             <h2
-              class="my-6 text-2xl font-semibold text-gray-700"
+              class="my-6 text-2xl font-semibold text-gray-700 dark:text-white"
             >
               Transactions
             </h2>
@@ -145,7 +145,7 @@ $shipments = [
 ];
             ?>
 
-           <?php include 'components/table/shipment.php'; ?>
+           <?php // include 'components/table/shipment.php'; ?>
 
            
           </div>

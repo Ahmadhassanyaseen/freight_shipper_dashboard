@@ -27,13 +27,13 @@
     }
 </style>
 
-<table id="shipmentsTable" class="w-full display dataTable no-footer">
+<table id="shipmentsTable" class="w-full display dataTable no-footer bg-white text-gray-700 dark:bg-gray-800 dark:text-white">
     <thead>
         <tr>
             <th></th> 
             <th>Created</th>
             <th>Customer</th>
-            <th>Tracking #</th>
+            <th class="truncate">Tracking #</th>
             <th>Pickup</th>
             <th>Dropoff</th>
             <th>Type</th>
@@ -41,24 +41,24 @@
             <th>Weight</th>
             <th>Amount</th>
             <th>Status</th>
-            <th>Vendor Status</th>
-            <th>Pickup Date</th>
+            <th class="truncate">Vendor Status</th>
+            <th class="truncate">Pickup Date</th>
             <th>Actions</th>
         </tr>
     </thead>
     <tbody>
         <?php foreach ($shipments as $shipment): ?>
-        <tr data-details='<?php echo htmlspecialchars(json_encode($shipment), ENT_QUOTES, 'UTF-8'); ?>' class="cursor-pointer hover:bg-gray-50">
-            <td class="flex items-center toggle-details">
+        <tr data-details='<?php echo htmlspecialchars(json_encode($shipment), ENT_QUOTES, 'UTF-8'); ?>' class="cursor-pointer hover:bg-gray-50 dark:bg-gray-700 bg-white">
+            <td class="flex items-center toggle-details ">
                 <svg class=" mr-2" width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4  Maui 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
                 </svg>
             </td>
-            <td class="toggle-details"><?= htmlspecialchars(date('m-d-Y', strtotime($shipment['created_at']))) ?></td>
-            <td class="toggle-details"><?= htmlspecialchars($shipment['name']) ?></td>
+            <td class="toggle-details truncate"><?= htmlspecialchars(date('m-d-Y', strtotime($shipment['created_at']))) ?></td>
+            <td class="toggle-details truncate"><?= htmlspecialchars(htmlspecialchars_decode($shipment['name'])) ?></td>
             <td class="toggle-details"><?= htmlspecialchars($shipment['tracking_number']) ?></td>
-            <td class="toggle-details"><?= htmlspecialchars($shipment['pickup']) ?></td>
-            <td class="toggle-details"><?= htmlspecialchars($shipment['dropoff']) ?></td>
+            <td class="toggle-details truncate"><?= htmlspecialchars($shipment['pickup']) ?></td>
+            <td class="toggle-details truncate"><?= htmlspecialchars($shipment['dropoff']) ?></td>
             <td class="toggle-details"><?= htmlspecialchars($shipment['type']) ?></td>
             <td class="toggle-details"><?= htmlspecialchars($shipment['quantity']) ?></td>
             <td class="toggle-details"><?= htmlspecialchars($shipment['weight']) ?></td>
@@ -190,7 +190,7 @@ function formatDetails(data) {
     let quotesHtml = details.vendor_quotes.length ? '' : '<p>No quotes available</p>';
     const hasAcceptedQuote = details.vendor_quotes.some(quote => quote.status === 'accepted');
     details.vendor_quotes.forEach(quote => {
-        const statusClass = quote.status === 'accepted' ? 'bg-green-100' : quote.status === 'rejected' ? 'bg-red-100' : '';
+        const statusClass = quote.status === 'accepted' ? 'bg-green-100 text-gray-700' : quote.status === 'rejected' ? 'bg-red-100 text-gray-700' : '';
         const showActions = quote.status == 'rejected' || quote.status == 'accepted' ? false : true;
         quotesHtml += `
             <div class="space-y-2 text-sm shadow border border-gray-200 p-2 rounded-lg ${statusClass}">
@@ -208,9 +208,9 @@ function formatDetails(data) {
     });
 
     return `
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <div class="bg-white p-4 rounded-lg shadow">
-                <h4 class="font-semibold text-xl text-gray-700 mb-2">Route Information</h4>
+        <div class="flex gap-4">
+            <div class="bg-white text-gray-700 p-4 rounded-lg shadow dark:bg-gray-700 dark:text-white w-full">
+                <h4 class="font-semibold text-xl text-gray-700 dark:text-white mb-2">Route Information</h4>
                 <div class="space-y-2 text-sm">
                     <div class="mapouter">
                         <div class="gmap_canvas">
@@ -219,8 +219,8 @@ function formatDetails(data) {
                     </div>
                 </div>
             </div>
-            <div class="bg-white p-4 rounded-lg shadow">
-                <h4 class="font-semibold text-xl text-gray-700 mb-2">Shipment Information</h4>
+            <div class="bg-white text-gray-700 p-4 rounded-lg shadow dark:bg-gray-700 dark:text-white w-full">
+                <h4 class="font-semibold text-xl text-gray-700 dark:text-white mb-2">Shipment Information</h4>
                 <div class="space-y-2 text-md">
                     <p class="grid grid-cols-2"><span class="font-medium">Distance:</span> <span>${details.distance} miles</span></p>
                     <p class="grid grid-cols-2"><span class="font-medium">Mileage:</span> <span>$${details.mileage}</span></p>
@@ -231,7 +231,7 @@ function formatDetails(data) {
                     <p class="grid grid-cols-2"><span class="font-medium">Total Price:</span> <span>${details.amount}</span></p>
                 </div>
                 ${details.vendor_quotes && details.vendor_quotes.length > 0 ? `
-                <h4 class="font-semibold text-xl text-gray-700 mb-2 mt-8">Selected Carrier Information</h4>
+                <h4 class="font-semibold text-xl text-gray-700 dark:text-white mb-2 mt-8">Selected Carrier Information</h4>
                 <div class="space-y-2 text-md">
                     <p class="grid grid-cols-3"><span class="font-medium">Name:</span> <span class="col-span-2">${details.vendor_name}</span></p>
                     <p class="grid grid-cols-3"><span class="font-medium">Email:</span> <span class="col-span-2">${details.vendor_email}</span></p>
@@ -243,8 +243,8 @@ function formatDetails(data) {
                 </div>
                 ` : ''}
             </div>
-            <div class="bg-white p-4 rounded-lg shadow">
-                <h4 class="font-semibold text-xl text-gray-700 mb-2">Carrier Quotes</h4>
+            <div class="bg-white text-gray-700 p-4 rounded-lg shadow dark:bg-gray-700 dark:text-white w-full">
+                <h4 class="font-semibold text-xl text-gray-700 dark:text-white mb-2">Carrier Quotes</h4>
                 <div class="space-y-2 text-sm">${quotesHtml}</div>
             </div>
         </div>

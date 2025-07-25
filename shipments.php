@@ -11,7 +11,7 @@
         <main class="h-full overflow-y-auto pb-10">
           <div class=" px-6 pb-10 mx-auto grid">
             <h2
-              class="my-6 text-2xl font-semibold text-gray-700"
+            class="my-6 text-2xl font-semibold text-gray-700 dark:text-white"
             >
               Shipments
             </h2>
@@ -37,6 +37,7 @@ foreach($response as $key => $value){
     'type' => $value['freight_type_c'],
     'tracking_number' => $value['truckerpath_ref_id_c'] ?? 'N/A',
     'pickup' => $value['pickup_address_c'],
+    'pickup_date' => $value['pickup_date_c'],
     'dropoff' => $value['dropoff_address_c'],
     'amount' => '$' . $value['total_price_c'] ?? '0.00',
     'status' => $value['status_c'] ?? 'Pending',
