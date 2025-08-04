@@ -26,8 +26,15 @@
     background-color: #D74559!important;
 }
 .truncate {
-    width: 200px;
-    max-width: 200px;
+    width: 100px;
+    max-width: 100px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+.truncate-x {
+    width: 70px;
+    max-width: 70px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

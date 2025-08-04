@@ -36,13 +36,13 @@
             <th class="truncate">Tracking #</th>
             <th>Pickup</th>
             <th>Dropoff</th>
-            <th>Type</th>
+            <th class="truncate-x">Type</th>
             <th>Quantity</th>
             <th>Weight</th>
             <th>Amount</th>
             <th>Status</th>
-            <th class="truncate">Vendor Status</th>
-            <th class="truncate">Pickup Date</th>
+            <th class="truncate-x">Vendor Status</th>
+            <th class="truncate-x">Pickup Date</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -59,7 +59,7 @@
             <td class="toggle-details"><?= htmlspecialchars($shipment['tracking_number']) ?></td>
             <td class="toggle-details truncate"><?= htmlspecialchars($shipment['pickup']) ?></td>
             <td class="toggle-details truncate"><?= htmlspecialchars($shipment['dropoff']) ?></td>
-            <td class="toggle-details"><?= htmlspecialchars($shipment['type']) ?></td>
+            <td class="toggle-details truncate-x"><?= htmlspecialchars($shipment['type']) ?></td>
             <td class="toggle-details"><?= htmlspecialchars($shipment['quantity']) ?></td>
             <td class="toggle-details"><?= htmlspecialchars($shipment['weight']) ?></td>
             <td class="toggle-details"><?= htmlspecialchars($shipment['amount']) ?></td>
@@ -95,7 +95,7 @@
                 }else if($shipment['vendor_status'] == '-1'){
                     echo 'Rejected';
                 }  ?></span></td>
-            <td class="toggle-details"><?= htmlspecialchars(date('m-d-Y', strtotime($shipment['pickup_date']))) ?></td>
+            <td class="toggle-details truncate-x"><?= htmlspecialchars(date('m-d-Y', strtotime($shipment['pickup_date']))) ?></td>
             <td class="toggle-details">
                 <button class=" text-white py-1 px-2 rounded 
                 <?php if($shipment['status'] == 'Deleted' || $shipment['status'] == 'Dead') {echo 'bg-gray-500 cursor-not-allowed';} else {echo 'bg-blue-500 hover:bg-blue-600 cursor-pointer';} ?>

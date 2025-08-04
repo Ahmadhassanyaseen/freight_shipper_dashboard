@@ -46,3 +46,11 @@ function fetchShipmentById($data){
     return curlRequest($data);
 }
 
+function fetchAllUserCards($data){
+    $data["method"] = "fetchAllUserCards";
+    return curlRequest($data);
+}
+function fetchShipperDataById($data){
+    $data["method"] = "fetchShipperDataById";
+    return curlRequest($data);
+}

@@ -1,3 +1,12 @@
+<?php include 'config/config.php'; ?>
+<?php
+if(!isset($_GET['id'])){
+    header("Location: login.php");
+    exit();
+}
+$data['id'] = $_GET['id'];
+$response = fetchShipperDataById($data);
+?>
 <!DOCTYPE html>
 <html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
   <head>
@@ -9,8 +18,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./assets/css/tailwind.output.css" />
-    <link rel="stylesheet" href="./assets/css/variable.css" />
-    
+    <link rel="stylesheet" href="./assets/css/variable.css" />  
     <script
       src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
       defer
@@ -51,19 +59,16 @@
             <img
               aria-hidden="true"
               class="hidden object-cover w-full h-full dark:block"
-                 src="./assets/img/forget.jpg"
+              src="./assets/img/forget.jpg"
               alt="Office"
             />
           </div>
           <form method="POST" id="new-password-form" class="flex items-center justify-center p-6 sm:p-12 md:w-1/2">
             <div class="w-full">
-              <h1 class="mb-6 text-xl font-semibold text-gray-700 dark:text-gray-200">
-                Set New Password
-              </h1>
-              
-              <input type="hidden" id="token" name="token" value="<?php echo htmlspecialchars($_GET['token'] ?? ''); ?>">
-              <input type="hidden" id="email" name="email" value="<?php echo htmlspecialchars($_GET['email'] ?? ''); ?>">
-
+                <h1 class="mb-6 text-xl font-semibold text-gray-700 dark:text-white"><?php echo $response['name']; ?></h1>
+              <h2 class="mb-6 text-xl font-semibold text-gray-700 dark:text-white">
+                Please set a password for your account
+              </h2>
               <div class="mb-4">
                 <label class="block text-sm text-gray-700 dark:text-gray-400 mb-1" for="password">
                   New Password
@@ -79,7 +84,6 @@
                 />
                 <div id="password-error" class="error">Password must be at least 8 characters long and include numbers and special characters</div>
               </div>
-
               <div class="mb-6">
                 <label class="block text-sm text-gray-700 dark:text-gray-400 mb-1" for="confirm_password">
                   Confirm New Password
@@ -94,14 +98,12 @@
                 />
                 <div id="confirm-password-error" class="error">Passwords do not match</div>
               </div>
-
               <button
                 class="w-full px-4 py-2 text-sm font-medium text-white transition-colors duration-150 bg-primary-color border border-transparent rounded-lg hover:bg-primary-color-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-color"
                 type="submit"
               >
-                Reset Password
+                Set Password
               </button>
-
               <p class="mt-4 text-center">
                 <a class="text-sm font-medium text-primary-color hover:underline" href="login.php">
                   Back to Login
@@ -112,7 +114,6 @@
         </div>
       </div>
     </div>
-
     <script>
       document.addEventListener('DOMContentLoaded', function() {
         const form = document.getElementById('new-password-form');
@@ -120,10 +121,8 @@
         const confirmPassword = document.getElementById('confirm_password');
         const passwordError = document.getElementById('password-error');
         const confirmPasswordError = document.getElementById('confirm-password-error');
-
         // Password validation pattern
         const passwordPattern = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/;
-
         function validatePassword() {
           const isValid = passwordPattern.test(password.value);
           if (!isValid) {
@@ -138,7 +137,6 @@
             return true;
           }
         }
-
         function validateConfirmPassword() {
           const passwordsMatch = password.value === confirmPassword.value;
           if (!passwordsMatch) {
@@ -153,22 +151,17 @@
             return true;
           }
         }
-
         // Real-time validation
         password.addEventListener('input', validatePassword);
         confirmPassword.addEventListener('input', validateConfirmPassword);
-
         // Form submission
         form.addEventListener('submit', async function(e) {
           e.preventDefault();
-          
           const isPasswordValid = validatePassword();
           const isConfirmPasswordValid = validateConfirmPassword();
-
           if (!isPasswordValid || !isConfirmPasswordValid) {
             return;
           }
-
           try {
             // Show loading state
             Swal.fire({
@@ -179,22 +172,18 @@
                 Swal.showLoading();
               }
             });
-
             const formData = new FormData(form);
-            formData.append('method', 'resetPassword');
-
+            formData.append('method', 'setPassword');
+            formData.append('id', '<?php echo $response['id']; ?>');
             const response = await fetch('https://stretchxlfreight.com/logistx/index.php?entryPoint=VendorSystem', {
               method: 'POST',
               body: formData,
             });
-
             if (!response.ok) {
               throw new Error('Network response was not ok');
             }
-
             const result = await response.json();
             console.log('API Response:', result);
-
             if (result.status === 'success') {
               await Swal.fire({
                 title: 'Success!',
