@@ -133,17 +133,17 @@ if (isset($_COOKIE['user'])) {
                 <tbody class="divide-y divide-gray-200">
                     <tr>
                         <td class="px-4 py-3">Base Rate</td>
-                        <td class="px-4 py-3 text-right">$<?php echo number_format(floatval($shipment['total_price']) - floatval($shipment['addons_total']), 2) ?></td>
+                        <td class="px-4 py-3 text-right">$<?php echo number_format(floatval(str_replace(',', '', $shipment['total_price'])) - floatval(str_replace(',', '', $shipment['addons_total'])), 2) ?></td>
                     </tr>
                     <?php if (!empty($shipment['addons_total'])): ?>
                     <tr>
                         <td class="px-4 py-3">Additional Services</td>
-                        <td class="px-4 py-3 text-right">$<?= number_format($shipment['addons_total'], 2) ?></td>
+                        <td class="px-4 py-3 text-right">$<?= number_format(floatval(str_replace(',', '', $shipment['addons_total'])), 2) ?></td>
                     </tr>
                     <?php endif; ?>
                     <tr class="bg-gray-50 font-semibold">
                         <td class="px-4 py-3">Total Amount</td>
-                        <td class="px-4 py-3 text-right">$<?= number_format($shipment['total_price'], 2) ?></td>
+                        <td class="px-4 py-3 text-right">$<?= number_format(floatval(str_replace(',', '', $shipment['total_price'])), 2) ?></td>
                     </tr>
                 </tbody>
             </table>
