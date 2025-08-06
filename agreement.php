@@ -604,7 +604,7 @@ if (isset($_COOKIE['user'])) {
             formData.append('user_id', paymentData.user_id);
             formData.append('shipmentData', JSON.stringify(paymentData.shipmentData));
             formData.append('card_id', paymentData.card_id);
-            formData.append('quote_id', <?php echo $_GET['quote_id']; ?>);
+            formData.append('quote_id', '<?php echo $_GET['quote_id']; ?>');
             
             
             // Now process the payment with the PDF URL included
