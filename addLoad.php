@@ -657,59 +657,136 @@
                 $('#addons_total').text(total.toFixed(2));
                 $('.addons_total_value').val(total.toFixed(2));
             }) 
-         function initGooglePlacesAutocomplete() {
-                    // Check if Google Maps API is loaded
-                    if (typeof google === 'undefined' || !google.maps || !google.maps.places) {
-                        console.error('Google Maps API not loaded');
-                        // Try to reload the API if not loaded
-                        setTimeout(loadGoogleMapsAPI, 1000);
-                        return;
-                    }
+        //  function initGooglePlacesAutocomplete() {
+        //             // Check if Google Maps API is loaded
+        //             if (typeof google === 'undefined' || !google.maps || !google.maps.places) {
+        //                 console.error('Google Maps API not loaded');
+        //                 // Try to reload the API if not loaded
+        //                 setTimeout(loadGoogleMapsAPI, 1000);
+        //                 return;
+        //             }
 
-                    try {
-                        // Initialize autocomplete for pickup address
-                        const pickupInput = document.getElementById('pickup_address');
-                        if (pickupInput) {
-                            const pickupAutocomplete = new google.maps.places.Autocomplete(pickupInput, {
-                                types: ['address'],
-                                componentRestrictions: { country: 'us' }
-                            });
+        //             try {
+        //                 // Initialize autocomplete for pickup address
+        //                 const pickupInput = document.getElementById('pickup_address');
+        //                 if (pickupInput) {
+        //                     const pickupAutocomplete = new google.maps.places.Autocomplete(pickupInput, {
+        //                         types: ['address'],
+        //                         componentRestrictions: { country: 'us' }
+        //                     });
 
-                            // When a place is selected
-                            pickupAutocomplete.addListener('place_changed', function () {
-                                const place = pickupAutocomplete.getPlace();
-                                if (!place.geometry) {
-                                    console.log("No details available for input");
-                                    return;
-                                }
-                                console.log('Place selected:', place);
-                            });
-                        }
+        //                     // When a place is selected
+        //                     pickupAutocomplete.addListener('place_changed', function () {
+        //                         const place = pickupAutocomplete.getPlace();
+        //                         if (!place.geometry) {
+        //                             console.log("No details available for input");
+        //                             return;
+        //                         }
+        //                         console.log('Place selected:', place);
+        //                     });
+        //                 }
                     
 
-                        // Initialize autocomplete for drop-off address
-                        const dropoffInput = document.getElementById('drop_address');
+        //                 // Initialize autocomplete for drop-off address
+        //                 const dropoffInput = document.getElementById('drop_address');
                         
-                        if (dropoffInput) {
-                            const dropoffAutocomplete = new google.maps.places.Autocomplete(dropoffInput, {
-                                types: ['address'],
-                                componentRestrictions: { country: 'us' }
-                            });
+        //                 if (dropoffInput) {
+        //                     const dropoffAutocomplete = new google.maps.places.Autocomplete(dropoffInput, {
+        //                         types: ['address'],
+        //                         componentRestrictions: { country: 'us' }
+        //                     });
 
-                            dropoffAutocomplete.addListener('place_changed', function () {
-                                const place = dropoffAutocomplete.getPlace();
-                                if (!place.geometry) {
-                                    console.log("No details available for input");
-                                    return;
-                                }
-                                console.log('Place selected:', place);
-                            });
-                        }
+        //                     dropoffAutocomplete.addListener('place_changed', function () {
+        //                         const place = dropoffAutocomplete.getPlace();
+        //                         if (!place.geometry) {
+        //                             console.log("No details available for input");
+        //                             return;
+        //                         }
+        //                         console.log('Place selected:', place);
+        //                     });
+        //                 }
                         
-                    } catch (error) {
-                        console.error('Error initializing Google Places:', error);
-                    }
-            }
+        //             } catch (error) {
+        //                 console.error('Error initializing Google Places:', error);
+        //             }
+        //     }
+        function formatAddress(place) {
+    let location = place.name || '';
+    let state = '';
+    let country = '';
+
+    // Find state and country from address components
+    for (const component of place.address_components) {
+        const types = component.types;
+        if (types.includes('administrative_area_level_1')) {
+            state = component.short_name;
+        }
+        if (types.includes('country')) {
+            country = component.short_name;
+        }
+    }
+
+    // Build the formatted address
+    let formattedAddress = location;
+    if (state) formattedAddress += `, ${state}`;
+    if (country) formattedAddress += `, ${country}`;
+
+    return formattedAddress;
+}
+
+function initGooglePlacesAutocomplete() {
+    // Check if Google Maps API is loaded
+    if (typeof google === 'undefined' || !google.maps || !google.maps.places) {
+        console.error('Google Maps API not loaded');
+        setTimeout(loadGoogleMapsAPI, 1000);
+        return;
+    }
+
+    try {
+        // Initialize autocomplete for pickup address
+        const pickupInput = document.getElementById('pickup_address');
+        if (pickupInput) {
+            const pickupAutocomplete = new google.maps.places.Autocomplete(pickupInput, {
+                types: ['(cities)'],
+                componentRestrictions: { country: 'us' },
+                fields: ['name', 'address_components']
+            });
+
+            // When a place is selected
+            pickupAutocomplete.addListener('place_changed', function() {
+                const place = pickupAutocomplete.getPlace();
+                if (!place.geometry) {
+                    console.log("No details available for input");
+                    return;
+                }
+                // Format the address
+                pickupInput.value = formatAddress(place);
+            });
+        }
+
+        // Initialize autocomplete for drop-off address
+        const dropoffInput = document.getElementById('drop_address');
+        if (dropoffInput) {
+            const dropoffAutocomplete = new google.maps.places.Autocomplete(dropoffInput, {
+                types: ['(cities)'],
+                componentRestrictions: { country: 'us' },
+                fields: ['name', 'address_components']
+            });
+
+            dropoffAutocomplete.addListener('place_changed', function() {
+                const place = dropoffAutocomplete.getPlace();
+                if (!place.geometry) {
+                    console.log("No details available for input");
+                    return;
+                }
+                // Format the address
+                dropoffInput.value = formatAddress(place);
+            });
+        }
+    } catch (error) {
+        console.error('Error initializing Google Places:', error);
+    }
+}
 
             // Load Google Maps API
                         function loadGoogleMapsAPI() {

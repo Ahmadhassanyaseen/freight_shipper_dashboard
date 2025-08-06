@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Generation Test</title>
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .signature-container {
+            margin: 20px 0;
+        }
+        #signature-pad {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        .buttons {
+            margin: 20px 0;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 4px;
+            display: none;
+        }
+        .success {
+            background-color: #dff0d8;
+            border: 1px solid #d6e9c6;
+            color: #3c763d;
+        }
+        .error {
+            background-color: #f2dede;
+            border: 1px solid #ebccd1;
+            color: #a94442;
+        }
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>PDF Generation Test</h1>
+    
+    <div class="signature-container">
+        <h3>Signature</h3>
+        <div>
+            <canvas id="signature-pad" width="400" height="200"></canvas>
+        </div>
+        <div>
+            <button id="clear-signature">Clear Signature</button>
+        </div>
+    </div>
+    
+    <div>
+        <label for="name">Your Name:</label>
+        <input type="text" id="name" placeholder="Enter your name" required>
+    </div>
+    
+    <div class="buttons">
+        <button id="test-pdf">Test PDF Generation</button>
+        <button id="test-endpoint">Test PDF Endpoint</button>
+    </div>
+    
+    <div id="result"></div>
+    
+    <script>
+        // Initialize signature pad
+        const canvas = document.getElementById('signature-pad');
+        const signaturePad = new SignaturePad(canvas);
+        
+        // Handle window resize
+        function resizeCanvas() {
+            const ratio = Math.max(window.devicePixelRatio || 1, 1);
+            canvas.width = canvas.offsetWidth * ratio;
+            canvas.height = canvas.offsetHeight * ratio;
+            canvas.getContext('2d').scale(ratio, ratio);
+            signaturePad.clear();
+        }
+        
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        
+        // Clear signature
+        document.getElementById('clear-signature').addEventListener('click', () => {
+            signaturePad.clear();
+        });
+        
+        // Test PDF Generation
+        document.getElementById('test-pdf').addEventListener('click', async () => {
+            const name = document.getElementById('name').value.trim();
+            const signature = signaturePad.toDataURL('image/png');
+            
+            if (!name) {
+                showResult('Please enter your name', 'error');
+                return;
+            }
+            
+            if (signaturePad.isEmpty()) {
+                showResult('Please provide a signature', 'error');
+                return;
+            }
+            
+            const testData = {
+                test: true,
+                shipper_name: name,
+                signature: signature,
+                // Add any other required fields here
+                shipmentData: {
+                    id: 'test_' + Date.now(),
+                    // Add sample shipment data
+                    pickup_address: '123 Test St, Test City',
+                    dropoff_address: '456 Delivery St, Delivery City',
+                    // Add other required fields...
+                }
+            };
+            
+            await testPdfGeneration(testData);
+        });
+        
+        // Test PDF Endpoint
+        document.getElementById('test-endpoint').addEventListener('click', async () => {
+            try {
+                const response = await fetch('test-pdf-endpoint.php');
+                const data = await response.json();
+                showResult(JSON.stringify(data, null, 2), data.success ? 'success' : 'error');
+            } catch (error) {
+                showResult('Error: ' + error.message, 'error');
+            }
+        });
+        
+        // Test PDF generation with the main endpoint
+        async function testPdfGeneration(data) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.style.display = 'none';
+            
+            try {
+                const response = await fetch('pdf.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const responseText = await response.text();
+                
+                try {
+                    const data = JSON.parse(responseText);
+                    showResult(JSON.stringify(data, null, 2), data.success ? 'success' : 'error');
+                } catch (e) {
+                    // If not JSON, show the raw response
+                    showResult('Invalid JSON response: ' + responseText, 'error');
+                }
+            } catch (error) {
+                showResult('Error: ' + error.message, 'error');
+            }
+        }
+        
+        // Show result in the UI
+        function showResult(message, type) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.textContent = message;
+            resultDiv.className = type;
+            resultDiv.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

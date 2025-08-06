@@ -5,7 +5,7 @@
 
     <?php
     $shipment = fetchShipmentById(['id' => $_GET['id']]);
-    // print_r($shipment['addons']);
+    // print_r($shipment);
     $addOns = explode(',', $shipment['addons']);
     ?>
 
@@ -53,7 +53,7 @@
                 </div>
                 <div>
                     <label for="pickup_date" class="block text-sm font-medium text-gray-700 dark:text-white mb-1">Pickup Date *</label>
-                    <input type="date" id="pickup_date" name="pickup_date" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" required="" autocomplete="off" value="<?= htmlspecialchars($shipment['pickup_date']) ?>">
+                    <input type="date" id="pickup_date" name="pickup_date" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" required="" autocomplete="off" value="<?= date('Y-m-d', strtotime($shipment['pickup_date'])) ?>">
                 </div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -63,7 +63,7 @@
                 </div>
                 <div>
                     <label for="dropoff_date" class="block text-sm font-medium text-gray-700 dark:text-white mb-1">Dropoff Date *</label>
-                    <input type="date" id="dropoff_date" name="dropoff_date" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" required="" autocomplete="off" value="<?= htmlspecialchars($shipment['dropoff_date']) ?>">
+                    <input type="date" id="dropoff_date" name="dropoff_date" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm" required="" autocomplete="off" value="<?= date('Y-m-d', strtotime($shipment['dropoff_date'])) ?>">
                 </div>
             </div>
             

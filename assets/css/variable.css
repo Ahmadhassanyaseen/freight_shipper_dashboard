@@ -44,3 +44,6 @@
     width: 90vw;
     overflow: auto;
   }
+  .mb-3{
+    margin-bottom: 1rem;
+  }

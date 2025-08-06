@@ -201,7 +201,7 @@ function formatDetails(data) {
                 <p class="grid grid-cols-3 text-sm"><span class="font-medium">Status:</span> <span class="col-span-2">${quote.status || 'N/A'}</span></p>
                 ${showActions && !hasAcceptedQuote ? `
                 <p class="grid grid-cols-3 text-sm"><span class="font-medium">Action:</span><span class="col-span-2">
-                    <button onclick="acceptQuote('${quote.id}')" class="bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-check"></i></button>
+                    <button onclick="acceptQuote('${details.id}', '${quote.id}')" class="bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-check"></i></button>
                     <button onclick="rejectQuote('${quote.id}')" class="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-times"></i></button>
                 </span></p>` : ''}
             </div>`;
@@ -252,7 +252,7 @@ function formatDetails(data) {
 }
 
 // Placeholder for accept/reject quote functions (define these based on your backend)
-function acceptQuote(id){
+function acceptQuote(id, quoteId){
     Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -263,21 +263,23 @@ function acceptQuote(id){
         confirmButtonText: 'Yes, accept it!'
     }).then((result) => {
         if (result.isConfirmed) {
-            $.ajax({
-                url: './helper/updateQuote.php',
-                type: 'POST',
-                data: {id: id, status: 'accepted'},
-                success: function(response) {
-                    Swal.fire(
-                        'Accepted!',
-                        'Your quote h   as been accepted.',
-                        'success'
-                    );
-                    setTimeout(() => {
-                        location.reload();
-                    }, 1000);
-                }
-            });
+            console.log('Accepting quote...');
+            window.location.href = 'agreement.php?id=' + id + '&quote_id=' + quoteId;
+            // $.ajax({
+            //     url: './helper/updateQuote.php',
+            //     type: 'POST',
+            //     data: {id: id, status: 'accepted'},
+            //     success: function(response) {
+            //         Swal.fire(
+            //             'Accepted!',
+            //             'Your quote h   as been accepted.',
+            //             'success'
+            //         );
+            //         setTimeout(() => {
+            //             location.reload();
+            //         }, 1000);
+            //     }
+            // });
         }
     });
     
