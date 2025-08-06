@@ -736,18 +736,14 @@ if (isset($_COOKIE['user'])) {
                                 <?php
                             }
                         } else {
-                            echo '<div class="text-center py-4 text-gray-500">No saved cards found. Please add a new card.</div>';
+                            echo '<div class="text-center py-4 text-gray-500">No saved cards found. Please add a new card.
+                            <a href="https://stretchxlfreight.com/dashboard/payments.php" class="text-primary-color hover:text-primary-color-dark font-medium">Add a new payment method</a></div>';
                         }
                         ?>
                         <!-- Add more saved cards as needed -->
                     </div>
                     
-                    <div class="mt-6 text-center">
-                        <p class="text-sm text-gray-500 mb-4">Or</p>
-                        <button onclick="switchTab('new-card-tab')" class="text-primary-color hover:text-primary-color-dark font-medium">
-                            Add a new payment method
-                        </button>
-                    </div>
+                   
                 </div>
                 
                 <!-- New Card Tab -->
