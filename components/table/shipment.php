@@ -175,9 +175,12 @@ $(document).ready(function() {
         }
     });
 });
+
 // Function to format the details row content
 function formatDetails(data) {
     const details = typeof data === 'string' ? JSON.parse(data) : data;
+    // Store the details in a global variable for later use
+    window.currentShipmentDetails = details;
     
     // Generate map URL
     const pickup = details.pickup.split(', ').slice(0, 3).join(',');
@@ -187,13 +190,15 @@ function formatDetails(data) {
     const mapUrl = `https://maps.google.com/maps?q=${pickup}to=${dropoff}&t=&z=${zoomLevel}&ie=UTF8&iwloc=&output=embed`;
 
     // Generate vendor quotes HTML
-    let quotesHtml = details.vendor_quotes.length ? '' : '<p>No quotes available</p>';
+    // let quotesHtml = details.tp_quotes.length || details.vendor_quotes.length ? '' : '<p>No quotes available</p>';
+    let quotesHtml = '';
     const hasAcceptedQuote = details.vendor_quotes.some(quote => quote.status === 'accepted');
     details.vendor_quotes.forEach(quote => {
         const statusClass = quote.status === 'accepted' ? 'bg-green-100 text-gray-700' : quote.status === 'rejected' ? 'bg-red-100 text-gray-700' : '';
         const showActions = quote.status == 'rejected' || quote.status == 'accepted' ? false : true;
         quotesHtml += `
-            <div class="space-y-2 text-sm shadow border border-gray-200 p-2 rounded-lg ${statusClass}">
+            <div class="quote-card space-y-2 text-sm shadow border border-gray-200 p-2 rounded-lg ${statusClass}">
+                <p class="grid grid-cols-3 text-sm"><span class="font-medium">Source:</span> <span class="col-span-2">XL</span></p>
                 <p class="grid grid-cols-3 text-sm"><span class="font-medium">Name:</span> <span class="col-span-2">${quote.name || 'N/A'}</span></p>
                 <p class="grid grid-cols-3 text-sm"><span class="font-medium">Email:</span> <span class="col-span-2">${quote.email || 'N/A'}</span></p>
                 <p class="grid grid-cols-3 text-sm"><span class="font-medium">Phone:</span> <span class="col-span-2">${quote.phone || 'N/A'}</span></p>
@@ -206,6 +211,65 @@ function formatDetails(data) {
                 </span></p>` : ''}
             </div>`;
     });
+    // let tpQuotesHtml = details.tp_quotes.length || details.vendor_quotes.length > 0 ? '' : '<p>No TruckersPath quotes available</p>';
+    let tpQuotesHtml = '';
+    const hasAcceptedQuoteTP = details.tp_quotes.some(quote => quote.status === 'accepted');
+    details.tp_quotes.forEach(quote => {
+        const statusClass = quote.status === 'accepted' ? 'bg-green-100 text-gray-700' : quote.status === 'rejected' ? 'bg-red-100 text-gray-700' : '';
+        const showActions = quote.status == 'rejected' || quote.status == 'accepted' ? false : true;
+        tpQuotesHtml += `
+            <div class="quote-card space-y-2 text-sm shadow border border-gray-200 p-2 rounded-lg ${statusClass}">
+                <p class="grid grid-cols-3 text-sm"><span class="font-medium">Name:</span> <span class="col-span-2">${quote.contact.name || 'N/A'}</span></p>
+                 <p class="grid grid-cols-3 text-sm"><span class="font-medium">Source:</span> <span class="col-span-2">TP</span></p>
+                <p class="grid grid-cols-3 text-sm"><span class="font-medium">Email:</span> <span class="col-span-2">${quote.contact.email || 'N/A'}</span></p>
+                <p class="grid grid-cols-3 text-sm"><span class="font-medium">Phone:</span> <span class="col-span-2">${quote.contact.phone || 'N/A'}</span></p>
+                <p class="grid grid-cols-3 text-sm"><span class="font-medium">Quoted Price:</span> <span class="col-span-2">$${quote.priceCents || 'N/A'}</span></p>
+                <p class="grid grid-cols-3 text-sm"><span class="font-medium">Status:</span> <span class="col-span-2">${quote.status || 'N/A'}</span></p>
+                ${showActions && !hasAcceptedQuoteTP ? `
+                <p class="grid grid-cols-3 text-sm"><span class="font-medium">Action:</span><span class="col-span-2">
+                    <button onclick="acceptQuote('${details.id}', '${quote.id}')" class="bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-check"></i></button>
+                    <button onclick="rejectQuote('${quote.id}')" class="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-times"></i></button>
+                    <button onclick="viewVendor(event, '${quote.id}', 'tp')" class="bg-green-500 hover:bg-green-600 text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-eye"></i></button>
+                </span></p>` : ''}
+            </div>`;
+    });
+
+    // let finalQuotesHtml = quotesHtml + tpQuotesHtml;
+    finalQuotesHtml = quotesHtml + tpQuotesHtml;
+    if(quotesHtml == '' && tpQuotesHtml == ''){
+      finalQuotesHtml = '<p>No quotes available</p>';
+    }
+    
+    let selectedCarrierHtml = '';
+    if(details.vendor_quotes && details.vendor_quotes.length > 0){
+      selectedCarrierHtml = `
+                <h4 class="font-semibold text-xl text-gray-700 dark:text-white mb-2 mt-8">Selected Carrier Information</h4>
+                <div class="selected-carrier-section space-y-2 text-md">
+                    <p class="grid grid-cols-3"><span class="font-medium" >Name:</span> <span class="col-span-2" id="vendor_name_${details.vendor_quotes[0].id}">${details.vendor_name}</span></p>
+                    <p class="grid grid-cols-3"><span class="font-medium" >Email:</span> <span class="col-span-2" id="vendor_email_${details.vendor_quotes[0].id}">${details.vendor_email}</span></p>
+                    <p class="grid grid-cols-3"><span class="font-medium" >Phone:</span> <span class="col-span-2" id="vendor_phone_${details.vendor_quotes[0].id}">${details.vendor_phone}</span></p>
+                    <p class="grid grid-cols-3"><span class="font-medium" >Rating:</span> <span class="col-span-2 capitalize" id="vendor_rating_${details.vendor_quotes[0].id}">${details.vendor_rating ? details.vendor_rating.replace('_', ' ') : ''}</span></p>
+                    <p class="grid grid-cols-3"><span class="font-medium" >FMCSA:</span> <span class="col-span-2 text-blue-500 cursor-pointer" id="vendor_fmcsa_${details.vendor_quotes[0].id}">
+                        ${details.vendor_fmcsa && details.vendor_fmcsa !== 'http://' ? `<a href="${details.vendor_fmcsa}" target="_blank">${details.vendor_dot || ''}</a>` : (details.vendor_dot || '')}
+                    </span></p>
+                </div>
+                `;
+    }
+    if(details.tp_quotes && details.tp_quotes.length > 0){
+      selectedCarrierHtml = `
+                <h4 class="font-semibold text-xl text-gray-700 dark:text-white mb-2 mt-8">Selected Carrier Information</h4>
+                <div class="selected-carrier-section space-y-2 text-md">
+                    <p class="grid grid-cols-3"><span class="font-medium" >Name:</span> <span class="col-span-2" id="tp_name_${details.tp_quotes[0].id}">${details.tp_quotes[0].contact.name}</span></p>
+                    <p class="grid grid-cols-3"><span class="font-medium" >Email:</span> <span class="col-span-2" id="tp_email_${details.tp_quotes[0].id}">${details.tp_quotes[0].contact.email}</span></p>
+                    <p class="grid grid-cols-3"><span class="font-medium" >Phone:</span> <span class="col-span-2" id="tp_phone_${details.tp_quotes[0].id}">${details.tp_quotes[0].contact.phone}</span></p>
+                    <p class="grid grid-cols-3"><span class="font-medium" >Rating:</span> <span class="col-span-2 capitalize" id="tp_rating_${details.tp_quotes[0].id}">${details.tp_quotes[0].company.safetyRating}</span></p>
+                    <p class="grid grid-cols-3"><span class="font-medium" >FMCSA:</span> <span class="col-span-2 text-blue-500 cursor-pointer" id="tp_fmcsa_${details.tp_quotes[0].id}">
+                        ${details.tp_quotes[0].company.dot && details.tp_quotes[0].company.dot !== 'http://' ? `<a href="${details.tp_quotes[0].company.dot}" target="_blank">${details.tp_quotes[0].company.dot || ''}</a>` : (details.tp_quotes[0].company.dot || '')}
+                    </span></p>
+                </div>
+                `;
+    }
+    
 
     return `
         <div class="flex gap-4">
@@ -230,23 +294,13 @@ function formatDetails(data) {
                     <p class="grid grid-cols-2"><span class="font-medium">Deadhead:</span> <span>$${details.deadhead}</span></p>
                     <p class="grid grid-cols-2"><span class="font-medium">Total Price:</span> <span>${details.amount}</span></p>
                 </div>
-                ${details.vendor_quotes && details.vendor_quotes.length > 0 ? `
-                <h4 class="font-semibold text-xl text-gray-700 dark:text-white mb-2 mt-8">Selected Carrier Information</h4>
-                <div class="space-y-2 text-md">
-                    <p class="grid grid-cols-3"><span class="font-medium">Name:</span> <span class="col-span-2">${details.vendor_name}</span></p>
-                    <p class="grid grid-cols-3"><span class="font-medium">Email:</span> <span class="col-span-2">${details.vendor_email}</span></p>
-                    <p class="grid grid-cols-3"><span class="font-medium">Phone:</span> <span class="col-span-2">${details.vendor_phone}</span></p>
-                    <p class="grid grid-cols-3"><span class="font-medium">Rating:</span> <span class="col-span-2 capitalize">${details.vendor_rating ? details.vendor_rating.replace('_', ' ') : ''}</span></p>
-                    <p class="grid grid-cols-3"><span class="font-medium">FMCSA:</span> <span class="col-span-2 text-blue-500 cursor-pointer">
-                        ${details.vendor_fmcsa && details.vendor_fmcsa !== 'http://' ? `<a href="${details.vendor_fmcsa}" target="_blank">${details.vendor_dot || ''}</a>` : (details.vendor_dot || '')}
-                    </span></p>
-                </div>
-                ` : ''}
+                ${selectedCarrierHtml}
             </div>
             <div class="bg-white text-gray-700 p-4 rounded-lg shadow dark:bg-gray-700 dark:text-white w-full">
                 <h4 class="font-semibold text-xl text-gray-700 dark:text-white mb-2">Carrier Quotes</h4>
-                <div class="space-y-2 text-sm">${quotesHtml}</div>
+                <div class="space-y-2 text-sm">${finalQuotesHtml}</div>
             </div>
+           
         </div>
     `;
 }
@@ -351,6 +405,164 @@ function editShipment(id){
     window.location.href = './editLoad.php?id=' + id;
 }
 
+function viewVendor(event, id, type) {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    console.log('View vendor clicked:', { id, type });
+    
+    // Get the details from the global variable set in formatDetails
+    const details = window.currentShipmentDetails || {};
+    console.log('Current shipment details:', details);
+    
+    // Ensure we have the necessary arrays
+    if (!details.tp_quotes) details.tp_quotes = [];
+    if (!details.vendor_quotes) details.vendor_quotes = [];
+    
+    let quote, carrierInfo = '';
+    
+    // Find the quote based on type
+    if (type === 'tp') {
+        quote = details.tp_quotes.find(q => q.id == id || q.id === String(id));
+        console.log('TP Quote found:', quote);
+        
+        if (quote) {
+            const safetyRating = quote.company?.safetyRating || '';
+            const ratingClass = safetyRating.toLowerCase() === 'satisfactory' ? 'text-green-500' : 'text-red-500';
+            
+            carrierInfo = `
+                <div class="selected-carrier-section">
+                   
+                    <div class="space-y-2 text-md bg-white p-4 rounded-lg shadow">
+                        <p class="grid grid-cols-3"><span class="font-medium">Name:</span> <span class="col-span-2">${quote.contact?.name || 'N/A'}</span></p>
+                        <p class="grid grid-cols-3"><span class="font-medium">Email:</span> <span class="col-span-2">${quote.contact?.email || 'N/A'}</span></p>
+                        <p class="grid grid-cols-3"><span class="font-medium">Phone:</span> <span class="col-span-2">${quote.contact?.phone || 'N/A'}</span></p>
+                        <p class="grid grid-cols-3"><span class="font-medium">Company:</span> <span class="col-span-2">${quote.company?.name || 'N/A'}</span></p>
+                        <p class="grid grid-cols-3"><span class="font-medium">DOT:</span> <span class="col-span-2">${quote.company?.dot || 'N/A'}</span></p>
+                        <p class="grid grid-cols-3">
+                            <span class="font-medium">Safety Rating:</span> 
+                            <span class="col-span-2 ${ratingClass}">
+                                ${safetyRating || 'N/A'}
+                            </span>
+                        </p>
+                        <p class="grid grid-cols-3">
+                            <span class="font-medium">Quote Amount:</span> 
+                            <span class="col-span-2">$${(quote.priceCents / 100).toFixed(2) || '0.00'}</span>
+                        </p>
+                    </div>
+                </div>
+            `;
+        }
+    } else if (type === 'xl') {
+        quote = details.vendor_quotes.find(q => q.id == id || q.id === String(id));
+        console.log('XL Quote found:', quote);
+        
+        if (quote) {
+            carrierInfo = `
+                <div class="selected-carrier-section">
+                    
+                    <div class="space-y-2 text-md bg-white p-4 rounded-lg shadow">
+                        <p class="grid grid-cols-3"><span class="font-medium">Name:</span> <span class="col-span-2">${quote.name || 'N/A'}</span></p>
+                        <p class="grid grid-cols-3"><span class="font-medium">Email:</span> <span class="col-span-2">${quote.email || 'N/A'}</span></p>
+                        <p class="grid grid-cols-3"><span class="font-medium">Phone:</span> <span class="col-span-2">${quote.phone || 'N/A'}</span></p>
+                        <p class="grid grid-cols-3"><span class="font-medium">Company:</span> <span class="col-span-2">${quote.company || 'N/A'}</span></p>
+                        <p class="grid grid-cols-3"><span class="font-medium">Quote Amount:</span> <span class="col-span-2">$${quote.amount || '0.00'}</span></p>
+                        <p class="grid grid-cols-3"><span class="font-medium">Status:</span> <span class="col-span-2 capitalize">${quote.status || 'Pending'}</span></p>
+                    </div>
+                </div>
+            `;
+        }
+    }
+    
+    if (carrierInfo) {
+        // Find the parent container that holds the carrier information
+        const parentContainer = event.target.closest('.flex.gap-4');
+        if (parentContainer) {
+            // The carrier info section is inside the second child of the flex container
+            const rightColumn = parentContainer.children[1];
+            if (rightColumn) {
+                // Find the selected-carrier-section within the right column
+                const existingCarrierSection = rightColumn.querySelector('.selected-carrier-section');
+                
+                // Create a new carrier section
+                const newCarrierSection = document.createElement('div');
+                newCarrierSection.className = 'selected-carrier-section';
+                newCarrierSection.innerHTML = carrierInfo;
+                
+                // Replace the existing carrier section or append if it doesn't exist
+                if (existingCarrierSection) {
+                    existingCarrierSection.replaceWith(newCarrierSection);
+                } else {
+                    // Insert after the shipment information
+                    const shipmentInfo = rightColumn.querySelector('h4:first-of-type').parentNode;
+                    rightColumn.insertBefore(newCarrierSection, shipmentInfo.nextSibling);
+                }
+                
+                // Scroll to the carrier info section
+                // setTimeout(() => {
+                //     newCarrierSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                // }, 100);
+                
+                // Highlight the selected quote
+                const quoteCards = document.querySelectorAll('.quote-card');
+                quoteCards.forEach(card => {
+                    card.classList.remove('ring-2', 'ring-blue-500');
+                });
+                
+                const quoteCard = event.target.closest('.quote-card');
+                if (quoteCard) {
+                    quoteCard.classList.add('ring-2', 'ring-blue-500');
+                }
+            } else {
+                console.error('Right column not found in the parent container');
+            }
+        } else {
+            console.error('Parent container not found');
+        }
+    } else {
+        console.error('Could not update carrier info:', {
+            selectedCarrierSection: !!selectedCarrierSection,
+            carrierInfo: !!carrierInfo,
+            quoteFound: !!quote,
+            type,
+            id
+        });
+    }
+}
+
+// function fetchQuotesFromTP(id) {
+//     console.log('Fetching quotes for shipment ID:', id);
+    
+//     // Create a regular object for the data
+//     const requestData = {
+//         method: 'fetchQuotesFromTP',
+//         shipment_id: id
+//     };
+    
+//     $.ajax({
+//         url: 'https://stretchxlfreight.com/logistx/index.php?entryPoint=VendorSystem',
+//         type: 'POST',
+//         data: requestData,
+//         dataType: 'json',
+//         processData: true, // Don't process the data
+//         contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+//         success: function(response) {
+//             console.log('API Response:', response);
+//             // Handle the response here
+//         },
+//         error: function(xhr, status, error) {
+//             console.error('Error fetching quotes:', {
+//                 status: status,
+//                 error: error,
+//                 responseText: xhr.responseText
+//             });
+//         }
+//     });
+// }
+
+// // Uncomment this line to test the function
+// fetchQuotesFromTP("285226517");
+// fetchQuotesFromTP("285574879");
 
 </script>
 
