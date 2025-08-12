@@ -27,7 +27,7 @@ if (isset($_COOKIE["user"])) {
   $userData = [];
 }
 $data['email'] = $userData['email'];
-$response = fetchAllShipperLeads($data);
+$response = fetchAllShipperLeadsConverted($data);
 
 foreach($response as $key => $value){
   $shipments[] = [
@@ -49,12 +49,12 @@ foreach($response as $key => $value){
     'tolls' => $value['toll_c'],
     'vendor_status' => $value['vendor_status_c'],
     'distance' => $value['distance_c'],
-    'vendor_name' => $value['vendor_name'],
-    'vendor_rating' => $value['vendor_rating'],
-    'vendor_dot' => $value['vendor_dot'],
-    'vendor_fmcsa' => $value['vendor_fmcsa'],
-    'vendor_phone' => $value['vendor_phone'],
-    'vendor_email' => $value['vendor_email'],
+    'vendor_name' => $value['vendor_name'] ?? 'N/A',
+    'vendor_rating' => $value['vendor_rating'] ?? 'N/A',
+    'vendor_dot' => $value['vendor_dot'] ?? 'N/A',
+    'vendor_fmcsa' => $value['vendor_fmcsa'] ?? 'N/A',
+    'vendor_phone' => $value['vendor_phone'] ?? 'N/A',
+    'vendor_email' => $value['vendor_email'] ?? 'N/A',
     'deadhead' => $value['deadhead_price_c'],
     'vendor_quotes' => $value['vendor_quotes'] ?? [],
 

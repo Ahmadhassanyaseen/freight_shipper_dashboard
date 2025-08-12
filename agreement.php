@@ -42,6 +42,7 @@
 </style>
    <?php include 'components/layout/sidebar.php'; ?>
    <?php
+
 if (isset($_COOKIE['user'])) {
     $userData = json_decode($_COOKIE['user'], true);
 } else {
@@ -50,7 +51,8 @@ if (isset($_COOKIE['user'])) {
 ?>
         
     <?php
-    $shipment = fetchShipmentById(['id' => $_GET['id']]);
+    // print_r($_POST);
+    $shipment = fetchShipmentById(['id' => $_POST['id']]);
     // print_r($shipment);
     $addOns = explode(',', $shipment['addons']);
     ?>
@@ -604,7 +606,8 @@ if (isset($_COOKIE['user'])) {
             formData.append('user_id', paymentData.user_id);
             formData.append('shipmentData', JSON.stringify(paymentData.shipmentData));
             formData.append('card_id', paymentData.card_id);
-            formData.append('quote_id', '<?php echo $_GET['quote_id']; ?>');
+            formData.append('quote_id', '<?php echo $_POST['quote_id']; ?>');
+            formData.append('quote', '<?php echo $_POST['quote']; ?>');
             
             
             // Now process the payment with the PDF URL included

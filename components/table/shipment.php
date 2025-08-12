@@ -77,7 +77,13 @@
                 }else if($shipment['status'] == 'Assigned'){
                     echo 'bg-gray-100 text-gray-800';
                 }
-                ?>"><?= htmlspecialchars($shipment['status']) ?><span class="ml-1 font-semibold leading-tight"><?php echo count($shipment['vendor_quotes']); ?></span></span></td>
+                ?>"><?= htmlspecialchars($shipment['status']) ?><span class="ml-1 font-semibold leading-tight"><?php 
+               if(isset($shipment['vendor_quotes']) && isset($shipment['tp_quotes'])) {
+                   echo count($shipment['vendor_quotes']) + count($shipment['tp_quotes']);
+               }else if(isset($shipment['vendor_quotes'])) {
+                   echo count($shipment['vendor_quotes']);
+               ;
+               } ?></span></span></td>
             <td class="toggle-details">
                 <span class="px-2 py-1 text-xs font-semibold leading-tight rounded-full <?php
                 if($shipment['vendor_status'] == '1'){
@@ -192,10 +198,10 @@ function formatDetails(data) {
     // Generate vendor quotes HTML
     // let quotesHtml = details.tp_quotes.length || details.vendor_quotes.length ? '' : '<p>No quotes available</p>';
     let quotesHtml = '';
-    const hasAcceptedQuote = details.vendor_quotes.some(quote => quote.status === 'accepted');
-    details.vendor_quotes.forEach(quote => {
+    const hasAcceptedQuote = details.vendor_quotes?.some(quote => quote.status === 'accepted');
+    details.vendor_quotes?.forEach(quote => {
         const statusClass = quote.status === 'accepted' ? 'bg-green-100 text-gray-700' : quote.status === 'rejected' ? 'bg-red-100 text-gray-700' : '';
-        const showActions = quote.status == 'rejected' || quote.status == 'accepted' ? false : true;
+        const showActions = quote.status == 'rejected' || quote.status == 'accepted' || details.status == 'Converted' || details.status == 'Dead' || details.status == 'Deleted' ? false : true;
         quotesHtml += `
             <div class="quote-card space-y-2 text-sm shadow border border-gray-200 p-2 rounded-lg ${statusClass}">
                 <p class="grid grid-cols-3 text-sm"><span class="font-medium">Source:</span> <span class="col-span-2">XL</span></p>
@@ -206,17 +212,18 @@ function formatDetails(data) {
                 <p class="grid grid-cols-3 text-sm"><span class="font-medium">Status:</span> <span class="col-span-2">${quote.status || 'N/A'}</span></p>
                 ${showActions && !hasAcceptedQuote ? `
                 <p class="grid grid-cols-3 text-sm"><span class="font-medium">Action:</span><span class="col-span-2">
-                    <button onclick="acceptQuote('${details.id}', '${quote.id}')" class="bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-check"></i></button>
+                    <button onclick="acceptQuote('${details.id}', '${quote.id}' , '${encodeURIComponent(JSON.stringify(quote))}')" class="bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-check"></i></button>
                     <button onclick="rejectQuote('${quote.id}')" class="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-times"></i></button>
+                     <button onclick="viewVendor(event, '${quote.id}', 'xl')" class="bg-green-500 hover:bg-green-600 text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-eye"></i></button>
                 </span></p>` : ''}
             </div>`;
     });
     // let tpQuotesHtml = details.tp_quotes.length || details.vendor_quotes.length > 0 ? '' : '<p>No TruckersPath quotes available</p>';
     let tpQuotesHtml = '';
-    const hasAcceptedQuoteTP = details.tp_quotes.some(quote => quote.status === 'accepted');
-    details.tp_quotes.forEach(quote => {
+    const hasAcceptedQuoteTP = details.tp_quotes?.some(quote => quote.status === 'accepted');
+    details.tp_quotes?.forEach(quote => {
         const statusClass = quote.status === 'accepted' ? 'bg-green-100 text-gray-700' : quote.status === 'rejected' ? 'bg-red-100 text-gray-700' : '';
-        const showActions = quote.status == 'rejected' || quote.status == 'accepted' ? false : true;
+        const showActions = quote.status == 'rejected' || quote.status == 'accepted' || details.status == 'Converted' || details.status == 'Dead' || details.status == 'Deleted' ? false : true;
         tpQuotesHtml += `
             <div class="quote-card space-y-2 text-sm shadow border border-gray-200 p-2 rounded-lg ${statusClass}">
                 <p class="grid grid-cols-3 text-sm"><span class="font-medium">Name:</span> <span class="col-span-2">${quote.contact.name || 'N/A'}</span></p>
@@ -227,7 +234,7 @@ function formatDetails(data) {
                 <p class="grid grid-cols-3 text-sm"><span class="font-medium">Status:</span> <span class="col-span-2">${quote.status || 'N/A'}</span></p>
                 ${showActions && !hasAcceptedQuoteTP ? `
                 <p class="grid grid-cols-3 text-sm"><span class="font-medium">Action:</span><span class="col-span-2">
-                    <button onclick="acceptQuote('${details.id}', '${quote.id}')" class="bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-check"></i></button>
+                    <button onclick="acceptQuote('${details.id}', '${quote.id}' , '${encodeURIComponent(JSON.stringify(quote))}')" class="bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-check"></i></button>
                     <button onclick="rejectQuote('${quote.id}')" class="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-times"></i></button>
                     <button onclick="viewVendor(event, '${quote.id}', 'tp')" class="bg-green-500 hover:bg-green-600 text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-eye"></i></button>
                 </span></p>` : ''}
@@ -306,7 +313,7 @@ function formatDetails(data) {
 }
 
 // Placeholder for accept/reject quote functions (define these based on your backend)
-function acceptQuote(id, quoteId){
+function acceptQuote(id, quoteId , quote){
     Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -318,22 +325,33 @@ function acceptQuote(id, quoteId){
     }).then((result) => {
         if (result.isConfirmed) {
             console.log('Accepting quote...');
-            window.location.href = 'agreement.php?id=' + id + '&quote_id=' + quoteId;
-            // $.ajax({
-            //     url: './helper/updateQuote.php',
-            //     type: 'POST',
-            //     data: {id: id, status: 'accepted'},
-            //     success: function(response) {
-            //         Swal.fire(
-            //             'Accepted!',
-            //             'Your quote h   as been accepted.',
-            //             'success'
-            //         );
-            //         setTimeout(() => {
-            //             location.reload();
-            //         }, 1000);
-            //     }
-            // });
+            // window.location.href = 'agreement.php?id=' + id + '&quote_id=' + quoteId + '&quote=' + quote;
+            // Redirect to agreement.php with parameters
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = 'agreement.php';
+            
+            const idInput = document.createElement('input');
+            idInput.type = 'hidden';
+            idInput.name = 'id';
+            idInput.value = id;
+            
+            const quoteIdInput = document.createElement('input');
+            quoteIdInput.type = 'hidden';
+            quoteIdInput.name = 'quote_id';
+            quoteIdInput.value = quoteId;
+            
+            const quoteInput = document.createElement('input');
+            quoteInput.type = 'hidden';
+            quoteInput.name = 'quote';
+            quoteInput.value = decodeURIComponent(quote);
+            
+            form.appendChild(idInput);
+            form.appendChild(quoteIdInput);
+            form.appendChild(quoteInput);
+            
+            document.body.appendChild(form);
+            form.submit();
         }
     });
     

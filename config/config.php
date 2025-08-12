@@ -21,6 +21,10 @@ function fetchAllShipperLeads($data){
     $data["method"] = "fetchAllShipperLeads";
     return curlRequest($data);
 }
+function fetchAllShipperLeadsConverted($data){
+    $data["method"] = "fetchAllShipperLeadsConverted";
+    return curlRequest($data);
+}
 function updateShipper($data){
     $data["method"] = "updateShipper";
     return curlRequest($data);
