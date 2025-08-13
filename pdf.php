@@ -54,7 +54,7 @@ function generateAgreementPdf($agreementData, $signature, $paymentData = null) {
 
     // Company Header with styling
     $html .= '<div style="text-align:center;margin-bottom:30px;border-bottom:3px solid #2c5aa0;padding-bottom:15px;">';
-    $html .= '<h1 style="color:#2c5aa0;font-size:24px;margin:0;font-weight:bold;">StretchXL Freight</h1>';
+    $html .= '<h1 style="color:#2c5aa0;font-size:24px;margin:0;font-weight:bold;line-height:0.1;">StretchXL Freight</h1>';
     $html .= '<h2 style="color:#666;font-size:16px;margin:5px 0 0 0;">FREIGHT SHIPPING AGREEMENT</h2>';
     $html .= '<div style="color:#888;font-size:10px;margin-top:10px;">Agreement ID: ' . htmlspecialchars($agreementData['id']) . '</div>';
     $html .= '<div style="color:#888;font-size:10px;">Generated: ' . date('F j, Y \a\t g:i A') . '</div>';
@@ -66,10 +66,10 @@ function generateAgreementPdf($agreementData, $signature, $paymentData = null) {
     $html .= '<tr><td colspan="4" style="background-color:#2c5aa0;color:white;font-weight:bold;font-size:12px;text-align:center;">SHIPPER INFORMATION</td></tr>';
     
     $html .= '<tr style="background-color:#f8f9fa;">';
-    $html .= '<td style="width:20%;font-weight:bold;color:#2c5aa0;">Name:</td>';
-    $html .= '<td style="width:30%;">' . htmlspecialchars($agreementData['shipper_name']) . '</td>';
-    $html .= '<td style="width:20%;font-weight:bold;color:#2c5aa0;">Phone:</td>';
-    $html .= '<td style="width:30%;">' . htmlspecialchars($agreementData['shipper_phone']) . '</td>';
+    $html .= '<td style="width:15%;font-weight:bold;color:#2c5aa0;">Name:</td>';
+    $html .= '<td style="width:35%;">' . htmlspecialchars($agreementData['shipper_name']) . '</td>';
+    $html .= '<td style="width:15%;font-weight:bold;color:#2c5aa0;">Phone:</td>';
+    $html .= '<td style="width:35%;">' . htmlspecialchars($agreementData['shipper_phone']) . '</td>';
     $html .= '</tr>';
     
     $html .= '<tr>';
@@ -87,16 +87,16 @@ function generateAgreementPdf($agreementData, $signature, $paymentData = null) {
     $html .= '<tr><td colspan="4" style="background-color:#28a745;color:white;font-weight:bold;font-size:12px;text-align:center;">SHIPMENT DETAILS</td></tr>';
     
     $html .= '<tr style="background-color:#f8f9fa;">';
-    $html .= '<td style="width:25%;font-weight:bold;color:#28a745;">Pickup Location:</td>';
-    $html .= '<td style="width:25%;">' . htmlspecialchars($agreementData['pickup_address']) . '</td>';
-    $html .= '<td style="width:25%;font-weight:bold;color:#28a745;">Delivery Location:</td>';
-    $html .= '<td style="width:25%;">' . htmlspecialchars($agreementData['dropoff_address']) . '</td>';
+    $html .= '<td style="width:20%;font-weight:bold;color:#28a745;">Pickup Location:</td>';
+    $html .= '<td style="width:30%;">' . htmlspecialchars($agreementData['pickup_address']) . '</td>';
+    $html .= '<td style="width:20%;font-weight:bold;color:#28a745;">Dropoff Location:</td>';
+    $html .= '<td style="width:30%;">' . htmlspecialchars($agreementData['dropoff_address']) . '</td>';
     $html .= '</tr>';
     
     $html .= '<tr>';
     $html .= '<td style="font-weight:bold;color:#28a745;">Pickup Date/Time:</td>';
     $html .= '<td>' . date('M j, Y g:i A', strtotime($agreementData['pickup_date'] . ' ' . $agreementData['pickup_time'])) . '</td>';
-    $html .= '<td style="font-weight:bold;color:#28a745;">Delivery Date/Time:</td>';
+    $html .= '<td style="font-weight:bold;color:#28a745;">Dropoff Date/Time:</td>';
     $html .= '<td>' . date('M j, Y g:i A', strtotime($agreementData['dropoff_date'] . ' ' . $agreementData['dropoff_time'])) . '</td>';
     $html .= '</tr>';
     
@@ -180,8 +180,10 @@ function generateAgreementPdf($agreementData, $signature, $paymentData = null) {
     $html .= '</table>';
     $html .= '</div>';
 
+   
+    
     // Payment Information (if provided)
-    if ($paymentData && isset($paymentData['card_id'])) {
+    if ($paymentData && isset($paymentData['card_number'])) {
         $html .= '<div style="margin-bottom:25px;">';
         $html .= '<table cellspacing="0" cellpadding="8" border="0" style="width:100%;border:2px solid #6f42c1;border-radius:5px;">';
         $html .= '<tr><td colspan="2" style="background-color:#6f42c1;color:white;font-weight:bold;font-size:12px;text-align:center;">PAYMENT INFORMATION</td></tr>';
@@ -193,7 +195,7 @@ function generateAgreementPdf($agreementData, $signature, $paymentData = null) {
         
         $html .= '<tr>';
         $html .= '<td style="font-weight:bold;color:#4c2a85;">Card ID:</td>';
-        $html .= '<td>****-****-****-' . substr($paymentData['card_id'], -4) . '</td>';
+        $html .= '<td>****-****-****-' . substr($paymentData['card_number'], -4) . '</td>';
         $html .= '</tr>';
         
         $html .= '<tr style="background-color:#f8f6ff;">';
@@ -203,10 +205,11 @@ function generateAgreementPdf($agreementData, $signature, $paymentData = null) {
         $html .= '</table>';
         $html .= '</div>';
     }
+   
 
     // Terms and Conditions
     $html .= '<div style="margin-bottom:30px;">';
-    $html .= '<h3 style="color:#2c5aa0;font-size:14px;margin-bottom:15px;border-bottom:1px solid #2c5aa0;padding-bottom:5px;">TERMS AND CONDITIONS</h3>';
+    $html .= '<h3 style="color:#2c5aa0;font-size:14px;margin-bottom:30px;border-bottom:1px solid #2c5aa0;padding-bottom:20px;">TERMS AND CONDITIONS</h3>';
     $html .= '<div style="font-size:9px;line-height:1.6;color:#333;">';
     $html .= '<table cellspacing="0" cellpadding="3" border="0" style="width:100%;">';
     
@@ -492,14 +495,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         error_log('PDF Generation Request: ' . print_r([
             'shipmentData_keys' => array_keys($data['shipmentData']),
             'has_signature' => !empty($data['signature']),
-            'has_payment' => !empty($data['card_id']) && !empty($data['amount'])
+            'has_payment' => !empty($data['card_number']) && !empty($data['amount'])
         ], true));
 
         // Extract payment data if available
         $paymentData = null;
-        if (isset($data['card_id']) && isset($data['amount'])) {
+        if (isset($data['card_number']) && isset($data['amount'])) {
             $paymentData = [
-                'card_id' => $data['card_id'],
+                'card_number' => $data['card_number'],
                 'amount' => $data['amount']
             ];
         }

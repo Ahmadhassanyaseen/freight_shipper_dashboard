@@ -460,7 +460,7 @@ if (isset($_COOKIE['user'])) {
     // }
 
     // Handle saved card selection
-    function selectCard(cardId) {
+    function selectCard(cardId, cardNumber) {
         const shipperName = document.getElementById('shipper-name').value;
         const signatureData = document.getElementById('shipper-signature-data').value;
         
@@ -472,6 +472,7 @@ if (isset($_COOKIE['user'])) {
         const paymentData = {
             method: 'agreementPayment',
             card_id: cardId,
+            card_number: cardNumber,
             agreement_id: '<?= $shipment['id'] ?>',
             shipper_name: shipperName,
             signature: signatureData,
@@ -540,14 +541,14 @@ if (isset($_COOKIE['user'])) {
         console.log('Generating PDF with data:', {
             shipmentData: paymentData.shipmentData,
             signature: paymentData.signature ? 'signature-present' : 'signature-missing',
-            card_id: paymentData.card_id || 'no-card-id'
+            card_number: paymentData.card_number || 'no-card-number'
         });
         
         // Create the request payload
         const pdfRequestData = {
             shipmentData: paymentData.shipmentData,
             signature: paymentData.signature,
-            card_id: paymentData.card_id,
+            card_number: paymentData.card_number,
             amount: paymentData.amount
         };
         
@@ -732,7 +733,7 @@ if (isset($_COOKIE['user'])) {
                                             <p class="text-xs text-gray-400"><?= $card['name'] ?></p>
                                         </div>
                                     </div>
-                                    <button onclick="selectCard('<?= $card['id'] ?>')" class="bg-primary-color hover:bg-primary-color-dark text-white px-4 py-2 rounded-md text-sm">
+                                    <button onclick="selectCard('<?= $card['id'] ?>', '<?= $card['card_number'] ?>')" class="bg-primary-color hover:bg-primary-color-dark text-white px-4 py-2 rounded-md text-sm">
                                         Use this card
                                     </button>
                                 </div>

@@ -201,7 +201,7 @@ function formatDetails(data) {
     const hasAcceptedQuote = details.vendor_quotes?.some(quote => quote.status === 'accepted');
     details.vendor_quotes?.forEach(quote => {
         const statusClass = quote.status === 'accepted' ? 'bg-green-100 text-gray-700' : quote.status === 'rejected' ? 'bg-red-100 text-gray-700' : '';
-        const showActions = quote.status == 'rejected' || quote.status == 'accepted' || details.status == 'Converted' || details.status == 'Dead' || details.status == 'Deleted' ? false : true;
+        const showActions = quote.status == 'rejected' || quote.status == 'accepted' || details.status == 'Converted' || details.status == 'Dead' || details.status == 'Deleted' || details.status == 'ACCEPTED' ? false : true;
         quotesHtml += `
             <div class="quote-card space-y-2 text-sm shadow border border-gray-200 p-2 rounded-lg ${statusClass}">
                 <p class="grid grid-cols-3 text-sm"><span class="font-medium">Source:</span> <span class="col-span-2">XL</span></p>
@@ -223,7 +223,7 @@ function formatDetails(data) {
     const hasAcceptedQuoteTP = details.tp_quotes?.some(quote => quote.status === 'accepted');
     details.tp_quotes?.forEach(quote => {
         const statusClass = quote.status === 'accepted' ? 'bg-green-100 text-gray-700' : quote.status === 'rejected' ? 'bg-red-100 text-gray-700' : '';
-        const showActions = quote.status == 'rejected' || quote.status == 'accepted' || details.status == 'Converted' || details.status == 'Dead' || details.status == 'Deleted' ? false : true;
+        const showActions = quote.status == 'rejected' || quote.status == 'accepted' || details.status == 'Converted' || details.status == 'Dead' || details.status == 'Deleted' || details.status == 'ACCEPTED' ? false : true;
         tpQuotesHtml += `
             <div class="quote-card space-y-2 text-sm shadow border border-gray-200 p-2 rounded-lg ${statusClass}">
                 <p class="grid grid-cols-3 text-sm"><span class="font-medium">Name:</span> <span class="col-span-2">${quote.contact.name || 'N/A'}</span></p>
