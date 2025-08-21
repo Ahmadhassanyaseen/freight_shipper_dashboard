@@ -25,25 +25,32 @@
     table.dataTable thead>tr>th.sorting:before,table.dataTable thead>tr>th.sorting:after{
         display: none;
     }
+    .xeno-table tbody tr:nth-child(odd) {
+        background-color:#f27474;
+        color: #fff;
+    }
 </style>
-
-<table id="shipmentsTable" class="w-full display dataTable no-footer bg-white text-gray-700 dark:bg-gray-800 dark:text-white">
-    <thead>
+<div class="flex items-center gap-2 justify-end mb-4 cursor-pointer">
+    <input type="checkbox" name="hide_dead" id="hide_dead" onclick="hideDead()" checked="<?php echo $hide_dead ? 'checked' : ''; ?>">
+    <label for="hide_dead">Hide Dead</label>
+</div>
+<table id="shipmentsTable" class="w-full display dataTable no-footer bg-white text-gray-700 dark:bg-gray-800 dark:text-white xeno-table">
+    <thead class="text-white">
         <tr>
-            <th></th> 
-            <th>Created</th>
-            <th>Customer</th>
-            <th class="truncate">Tracking #</th>
-            <th>Pickup</th>
-            <th>Dropoff</th>
-            <th class="truncate-x">Type</th>
-            <th>Quantity</th>
-            <th>Weight</th>
-            <th>Amount</th>
-            <th>Status</th>
-            <th class="truncate-x">Vendor Status</th>
-            <th class="truncate-x">Pickup Date</th>
-            <th>Actions</th>
+            <th class="bg-blue-500 rounded-tl-xl "></th> 
+            <th class="bg-blue-500">Created</th>
+            <th class="bg-blue-500">Customer</th>
+            <th class="bg-blue-500 truncate">Tracking #</th>
+            <th class="bg-blue-500">Pickup</th>
+            <th class="bg-blue-500">Dropoff</th>
+            <th class="bg-blue-500 truncate-x">Type</th>
+            <th class="bg-blue-500">Quantity</th>
+            <th class="bg-blue-500">Weight</th>
+            <th class="bg-blue-500">Amount</th>
+            <th class="bg-blue-500">Status</th>
+            <th class="bg-blue-500 truncate-x">Vendor Status</th>
+            <th class="bg-blue-500 truncate-x">Pickup Date</th>
+            <th class="bg-blue-500 rounded-tr-xl">Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -548,39 +555,13 @@ function viewVendor(event, id, type) {
     }
 }
 
-// function fetchQuotesFromTP(id) {
-//     console.log('Fetching quotes for shipment ID:', id);
-    
-//     // Create a regular object for the data
-//     const requestData = {
-//         method: 'fetchQuotesFromTP',
-//         shipment_id: id
-//     };
-    
-//     $.ajax({
-//         url: 'https://stretchxlfreight.com/logistx/index.php?entryPoint=VendorSystem',
-//         type: 'POST',
-//         data: requestData,
-//         dataType: 'json',
-//         processData: true, // Don't process the data
-//         contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-//         success: function(response) {
-//             console.log('API Response:', response);
-//             // Handle the response here
-//         },
-//         error: function(xhr, status, error) {
-//             console.error('Error fetching quotes:', {
-//                 status: status,
-//                 error: error,
-//                 responseText: xhr.responseText
-//             });
-//         }
-//     });
-// }
+function hideDead() {
+    console.log('Hide dead clicked');
+    const hideDead = document.getElementById('hide_dead');
+    window.location.href = './index.php?hide_dead=' + hideDead.checked;
+}
 
-// // Uncomment this line to test the function
-// fetchQuotesFromTP("285226517");
-// fetchQuotesFromTP("285574879");
+
 
 </script>
 

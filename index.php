@@ -1,4 +1,11 @@
+  <?php
+  $hide_dead = false;
+
+  if(isset($_GET['hide_dead'])) {
+    $hide_dead = $_GET['hide_dead'];
+  }
   
+  ?>
 
   <?php include 'config/config.php'; ?>
  
@@ -34,36 +41,7 @@ if (isset($_COOKIE["user"])) {
              $data['email'] = $userData['email'];
              $response = fetchAllShipperLeads($data);
 
-            //  print_r($response);
-         
-
             
-
-            //  $stats = [[
-            //   'title' => 'Total Shipments',
-            //   'value' => count($response),
-            //   'icon' => 'boxes-stacked',
-            //   'color' => 'orange'
-            //  ],
-            //  [
-            //   'title' => 'In Progress Shipments',
-            //   'value' => '0',
-            //   'icon' => 'clock',
-            //   'color' => 'blue'
-            //  ],
-            //  [
-            //   'title' => 'Completed Shipments',
-            //   'value' => '0',
-            //   'icon' => 'check',
-            //   'color' => 'green'
-            //  ],
-            //  [
-            //   'title' => 'Cancelled Shipments',
-            //   'value' => '0',
-            //   'icon' => 'xmark',
-            //   'color' => 'red'
-            //  ],
-            // ];
             $stats = [
               [
                   'title' => 'Total Shipments',
@@ -82,7 +60,7 @@ if (isset($_COOKIE["user"])) {
               [
                   'title' => 'Completed Shipments',
                   'value' => array_reduce($response, function($carry, $item) {
-                      return $carry + (strtolower($item['status_c']) === 'completed' ? 1 : 0);
+                      return $carry + (strtolower($item['status_c']) === 'converted' ? 1 : 0);
                   }, 0),
                   'icon' => 'check',
                   'color' => 'green'
@@ -104,6 +82,16 @@ if (isset($_COOKIE["user"])) {
              } ?>
               
             </div>
+            <div class="flex gap-5 mb-5">
+            
+            <div class="w-1/2">
+
+            <?php include 'components/cards/chart.php'; ?>
+            </div>
+            <div class="w-1/2">
+            <?php include 'components/cards/chartMain.php'; ?>
+            </div>
+          </div>
             <?php
             
           
@@ -113,6 +101,9 @@ if (isset($_COOKIE["user"])) {
 
 
 foreach($response as $key => $value){
+  if($hide_dead && in_array(strtolower($value['status_c']), ['cancelled', 'dead', 'deleted'])) {
+    continue;
+  }
   $shipments[] = [
     'id' => $value['id'],
     'name' => $value['name'],
