@@ -1,8 +1,8 @@
   <?php
   $hide_dead = false;
 
-  if(isset($_GET['hide_dead'])) {
-    $hide_dead = $_GET['hide_dead'];
+  if(isset($_GET['hide_dead']) && $_GET['hide_dead'] == 'true') {
+    $hide_dead = true;
   }
   
   ?>

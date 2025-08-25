@@ -2,6 +2,9 @@
 include '../config/config.php';
 $data['id'] = $_POST['id'];
 $data['status'] = $_POST['status'];
+$data['vendor_id'] = $_POST['vendor_id'];
+$data['freight_id'] = $_POST['freight_id'];
+
 
 $result = updateQuote($data);
 

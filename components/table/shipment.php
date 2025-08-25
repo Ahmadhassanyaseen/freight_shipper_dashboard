@@ -30,8 +30,12 @@
         color: #fff;
     }
 </style>
+
 <div class="flex items-center gap-2 justify-end mb-4 cursor-pointer">
-    <input type="checkbox" name="hide_dead" id="hide_dead" onclick="hideDead()" checked="<?php echo $hide_dead ? 'checked' : ''; ?>">
+    <input type="checkbox" name="hide_dead" id="hide_dead" onclick="hideDead()" <?php 
+    if(isset($_GET['hide_dead']) && $_GET['hide_dead'] == 'true') {
+    echo 'checked';
+  } ?>>
     <label for="hide_dead">Hide Dead</label>
 </div>
 <table id="shipmentsTable" class="w-full display dataTable no-footer bg-white text-gray-700 dark:bg-gray-800 dark:text-white xeno-table">
@@ -54,7 +58,11 @@
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($shipments as $shipment): ?>
+        
+        <?php
+        if(isset($shipments) && is_array($shipments)){
+        
+        foreach ($shipments as $shipment): ?>
         <tr data-details='<?php echo htmlspecialchars(json_encode($shipment), ENT_QUOTES, 'UTF-8'); ?>' class="cursor-pointer hover:bg-gray-50 dark:bg-gray-700 bg-white">
             <td class="flex items-center toggle-details ">
                 <svg class=" mr-2" width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -127,7 +135,8 @@
                 </button>
             </td>
         </tr>
-        <?php endforeach; ?>
+        <?php endforeach; 
+        }?>
     </tbody>
 </table>
 
@@ -205,6 +214,7 @@ function formatDetails(data) {
     // Generate vendor quotes HTML
     // let quotesHtml = details.tp_quotes.length || details.vendor_quotes.length ? '' : '<p>No quotes available</p>';
     let quotesHtml = '';
+    console.log(details.vendor_quotes);
     const hasAcceptedQuote = details.vendor_quotes?.some(quote => quote.status === 'accepted');
     details.vendor_quotes?.forEach(quote => {
         const statusClass = quote.status === 'accepted' ? 'bg-green-100 text-gray-700' : quote.status === 'rejected' ? 'bg-red-100 text-gray-700' : '';
@@ -220,7 +230,7 @@ function formatDetails(data) {
                 ${showActions && !hasAcceptedQuote ? `
                 <p class="grid grid-cols-3 text-sm"><span class="font-medium">Action:</span><span class="col-span-2">
                     <button onclick="acceptQuote('${details.id}', '${quote.id}' , '${encodeURIComponent(JSON.stringify(quote))}')" class="bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-check"></i></button>
-                    <button onclick="rejectQuote('${quote.id}')" class="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-times"></i></button>
+                    <button onclick="rejectQuote('${quote.vendor_id}','${quote.id}' , '${details.id}')" class="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-times"></i></button>
                      <button onclick="viewVendor(event, '${quote.id}', 'xl')" class="bg-green-500 hover:bg-green-600 text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-eye"></i></button>
                 </span></p>` : ''}
             </div>`;
@@ -242,7 +252,7 @@ function formatDetails(data) {
                 ${showActions && !hasAcceptedQuoteTP ? `
                 <p class="grid grid-cols-3 text-sm"><span class="font-medium">Action:</span><span class="col-span-2">
                     <button onclick="acceptQuote('${details.id}', '${quote.id}' , '${encodeURIComponent(JSON.stringify(quote))}')" class="bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-check"></i></button>
-                    <button onclick="rejectQuote('${quote.id}')" class="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-times"></i></button>
+                    <button onclick="rejectQuote('${quote.vendor_id}','${quote.id}' , '${details.id}')" class="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-times"></i></button>
                     <button onclick="viewVendor(event, '${quote.id}', 'tp')" class="bg-green-500 hover:bg-green-600 text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-eye"></i></button>
                 </span></p>` : ''}
             </div>`;
@@ -364,7 +374,7 @@ function acceptQuote(id, quoteId , quote){
     
 
 }
-function rejectQuote(id){
+function rejectQuote(id, quoteId , freight_id){
     Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -378,7 +388,7 @@ function rejectQuote(id){
             $.ajax({
                 url: './helper/updateQuote.php',
                 type: 'POST',
-                data: {id: id, status: 'rejected'},
+                data: {id: quoteId, status: 'rejected', vendor_id: id, freight_id: freight_id},
                 success: function(response) {
                     Swal.fire(
                         'Rejected!',
