@@ -46,9 +46,9 @@ foreach ($response as $item) {
 }
 ?>
 
-<div class="bg-white rounded-lg shadow p-6">
+<div class="bg-white rounded-lg shadow p-6 dark:bg-gray-800 dark:text-white">
     <div class="flex justify-between items-center mb-4">
-        <h2 class="text-lg font-semibold text-gray-800">System Wide Load Count</h2>
+    <h2 class="text-lg font-semibold text-gray-800 mb-4 dark:text-white">System Wide Load Count</h2>
         <!-- <div class="flex space-x-2">
             <button class="prev-arrow px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 focus:outline-none">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -149,7 +149,8 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             min: 0,
             forceNiceScale: true,
-            tickAmount: 5
+            tickAmount: 5,
+            
         },
         tooltip: {
             shared: true,

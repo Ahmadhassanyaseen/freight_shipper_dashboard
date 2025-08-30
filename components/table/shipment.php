@@ -217,6 +217,7 @@ function formatDetails(data) {
     console.log(details.vendor_quotes);
     const hasAcceptedQuote = details.vendor_quotes?.some(quote => quote.status === 'accepted');
     details.vendor_quotes?.forEach(quote => {
+        quote.status = quote.status.toLowerCase();
         const statusClass = quote.status === 'accepted' ? 'bg-green-100 text-gray-700' : quote.status === 'rejected' ? 'bg-red-100 text-gray-700' : '';
         const showActions = quote.status == 'rejected' || quote.status == 'accepted' || details.status == 'Converted' || details.status == 'Dead' || details.status == 'Deleted' || details.status == 'ACCEPTED' ? false : true;
         quotesHtml += `
@@ -229,7 +230,7 @@ function formatDetails(data) {
                 <p class="grid grid-cols-3 text-sm"><span class="font-medium">Status:</span> <span class="col-span-2">${quote.status || 'N/A'}</span></p>
                 ${showActions && !hasAcceptedQuote ? `
                 <p class="grid grid-cols-3 text-sm"><span class="font-medium">Action:</span><span class="col-span-2">
-                    <button onclick="acceptQuote('${details.id}', '${quote.id}' , '${encodeURIComponent(JSON.stringify(quote))}')" class="bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-check"></i></button>
+                    <button onclick="acceptQuote('${details.id}', '${quote.id}' , '${encodeURIComponent(JSON.stringify(quote))}' , 'xl')" class="bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-check"></i></button>
                     <button onclick="rejectQuote('${quote.vendor_id}','${quote.id}' , '${details.id}')" class="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-times"></i></button>
                      <button onclick="viewVendor(event, '${quote.id}', 'xl')" class="bg-green-500 hover:bg-green-600 text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-eye"></i></button>
                 </span></p>` : ''}
@@ -239,6 +240,7 @@ function formatDetails(data) {
     let tpQuotesHtml = '';
     const hasAcceptedQuoteTP = details.tp_quotes?.some(quote => quote.status === 'accepted');
     details.tp_quotes?.forEach(quote => {
+        quote.status = quote.status.toLowerCase();
         const statusClass = quote.status === 'accepted' ? 'bg-green-100 text-gray-700' : quote.status === 'rejected' ? 'bg-red-100 text-gray-700' : '';
         const showActions = quote.status == 'rejected' || quote.status == 'accepted' || details.status == 'Converted' || details.status == 'Dead' || details.status == 'Deleted' || details.status == 'ACCEPTED' ? false : true;
         tpQuotesHtml += `
@@ -251,7 +253,7 @@ function formatDetails(data) {
                 <p class="grid grid-cols-3 text-sm"><span class="font-medium">Status:</span> <span class="col-span-2">${quote.status || 'N/A'}</span></p>
                 ${showActions && !hasAcceptedQuoteTP ? `
                 <p class="grid grid-cols-3 text-sm"><span class="font-medium">Action:</span><span class="col-span-2">
-                    <button onclick="acceptQuote('${details.id}', '${quote.id}' , '${encodeURIComponent(JSON.stringify(quote))}')" class="bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-check"></i></button>
+                    <button onclick="acceptQuote('${details.id}', '${quote.id}' , '${encodeURIComponent(JSON.stringify(quote))}' , 'tp')" class="bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-check"></i></button>
                     <button onclick="rejectQuote('${quote.vendor_id}','${quote.id}' , '${details.id}')" class="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-times"></i></button>
                     <button onclick="viewVendor(event, '${quote.id}', 'tp')" class="bg-green-500 hover:bg-green-600 text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-eye"></i></button>
                 </span></p>` : ''}
@@ -330,7 +332,7 @@ function formatDetails(data) {
 }
 
 // Placeholder for accept/reject quote functions (define these based on your backend)
-function acceptQuote(id, quoteId , quote){
+function acceptQuote(id, quoteId , quote , type){
     Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -363,9 +365,15 @@ function acceptQuote(id, quoteId , quote){
             quoteInput.name = 'quote';
             quoteInput.value = decodeURIComponent(quote);
             
+            const typeInput = document.createElement('input');
+            typeInput.type = 'hidden';
+            typeInput.name = 'type';
+            typeInput.value = type;
+            
             form.appendChild(idInput);
             form.appendChild(quoteIdInput);
             form.appendChild(quoteInput);
+            form.appendChild(typeInput);
             
             document.body.appendChild(form);
             form.submit();

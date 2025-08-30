@@ -1,6 +1,8 @@
   
 
-  <?php include 'config/config.php'; ?>
+  <?php include 'config/config.php';
+  print_r($_POST);
+  ?>
  
  <?php include 'components/layout/header.php'; ?>
  <!-- Add these in the head section if not already present -->

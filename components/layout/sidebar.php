@@ -88,6 +88,16 @@
                 <span class="ml-4 sidebar-item hidden">Transactions</span>
               </a>
             </li>
+            <li class="relative px-6 py-3 sidebar-menu-item">
+              <a
+                class="inline-flex items-center w-full text-sm font-semibold text-gray-500 transition-colors duration-150 hover:text-gray-800"
+                href="rate.php"
+                title="Lane Rate"
+              >
+                <i class="fas fa-route text-xl"></i>
+                <span class="ml-4 sidebar-item hidden">Lane Rate</span>
+              </a>
+            </li>
            
           </ul>
           
@@ -205,6 +215,19 @@
                   ></path>
                 </svg>
                 <span class="ml-4">Transactions</span>
+              </a>
+            </li>
+            <li class="relative px-6 py-3 sidebar-menu-item">
+              <span
+                class="absolute inset-y-0 left-0 w-1 bg-primary-color rounded-tr-lg rounded-br-lg opacity-0"
+                aria-hidden="true"
+              ></span>
+              <a
+                class="inline-flex items-center w-full text-sm font-semibold text-gray-500 transition-colors duration-150 hover:text-gray-800 "
+                href="rate.php"
+              >
+               <i class="fas fa-route text-xl"></i>
+                <span class="ml-4">Lane Rate</span>
               </a>
             </li>
           </ul>
