@@ -235,12 +235,10 @@
         <div class=" px-6 pb-10 mx-auto ">
             <div class="flex justify-between items-center">
 
-                    <h2
-                        class="my-6 text-2xl font-semibold text-gray-700 dark:text-white"
-                    >
+            <h1 class="text-3xl font-bold my-6 tracking-tight neon-red-header">
                         Payments
-                    </h2>
-                    <button onclick="showAddCardForm()" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
+                    </h1>
+                    <button onclick="showAddCardForm()" class="bgRed hover-lift text-white py-2 px-4 rounded">
                         Add Card
                     </button>
              </div>

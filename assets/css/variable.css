@@ -1,4 +1,4 @@
-:root{
+/* :root{
     --primary-color: #D74559;
 }
 
@@ -51,7 +51,7 @@
     background-color: #22C55E;
   }
   
-  /* Blue shades */
+ 
 .text-blue-50 { color: #eff6ff ; }
 .bg-blue-50 { background-color: #eff6ff ; }
 .text-blue-100 { color: #dbeafe ; }
@@ -73,7 +73,7 @@
 .text-blue-900 { color: #1e3a8a ; }
 .bg-blue-900 { background-color: #1e3a8a ; }
 
-/* Green shades */
+
 .text-green-50 { color: #ecfdf5 ; }
 .bg-green-50 { background-color: #ecfdf5 ; }
 .text-green-100 { color: #d1fae5 ; }
@@ -95,7 +95,7 @@
 .text-green-900 { color: #064e3b ; }
 .bg-green-900 { background-color: #064e3b ; }
 
-/* Purple shades */
+
 .text-purple-50 { color: #f5f3ff ; }
 .bg-purple-50 { background-color: #f5f3ff ; }
 .text-purple-100 { color: #ede9fe ; }
@@ -118,4 +118,121 @@
 .bg-purple-900 { background-color: #4c1d95 ; }
 
 .text-gray-900 { color: #111827 ; }
+ */
 
+ 
+:root{
+  --primary-color: #D74559;
+  --neon-gradient: linear-gradient(135deg, #f44336, #e91e63, #9c27b0);
+  --neon-red: #f44336;
+  --neon-pink: #e91e63;
+  --neon-purple: #9c27b0;
+  --neon-bright-red: #ff5722;
+  --neon-bright-pink: #ff4081;
+  --neon-bright-purple: #e040fb;
+}
+
+.bg-primary-color {
+  background: var(--neon-gradient) !important;
+}
+
+.text-primary-color {
+  color: var(--neon-red);
+}
+
+/* ONLY target the main header element for neon styling */
+body > header,
+header.z-10 {
+  background: var(--neon-gradient) !important;
+  position: relative !important;
+}
+
+/* Neon top border - only on main header */
+body > header::after,
+header.z-10::after {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 2px !important;
+  background: linear-gradient(90deg, var(--neon-bright-red), var(--neon-bright-pink), var(--neon-bright-purple)) !important;
+  box-shadow: 0 0 15px rgba(255, 64, 129, 0.8) !important;
+  z-index: 10 !important;
+}
+
+/* Search field styling - very specific */
+body > header input[placeholder*="Search"] {
+  padding-left: 50px !important;
+  padding-right: 25px !important;
+  background: rgba(255, 255, 255, 0.15) !important;
+  border: 2px solid rgba(255, 87, 34, 0.6) !important;
+  color: white !important;
+  border-radius: 12px !important;
+}
+
+body > header input[placeholder*="Search"]:focus {
+  border-color: var(--neon-bright-pink) !important;
+  box-shadow: 0 0 0 3px rgba(255, 64, 129, 0.4) !important;
+}
+
+/* Header text colors - only main header */
+body > header,
+body > header * {
+  color: white !important;
+}
+
+/* Dropdown menu - FIXED z-index and positioning */
+header ul[aria-label="submenu"] {
+  background: linear-gradient(135deg, 
+      rgba(244, 67, 54, 0.95), 
+      rgba(233, 30, 99, 0.95), 
+      rgba(156, 39, 176, 0.95)) !important;
+  border: 2px solid var(--neon-bright-pink) !important;
+  box-shadow: 
+      0 0 25px rgba(255, 64, 129, 0.6),
+      0 10px 30px rgba(0, 0, 0, 0.3) !important;
+  z-index: 999999 !important;
+  position: absolute !important;
+}
+
+header ul[aria-label="submenu"] a {
+  color: white !important;
+}
+
+header ul[aria-label="submenu"] a:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* DataTables pagination */
+.dataTables_wrapper .dataTables_paginate .paginate_button.current, 
+.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover{
+  background: var(--neon-gradient) !important;
+  color: #fff !important;
+  border-color: var(--neon-bright-pink) !important;
+}
+
+/* Original utility classes */
+.bg-gray-600{
+  background-color: #6f767d !important;
+}
+
+.truncate {
+  width: 100px;
+  max-width: 100px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.truncate-x {
+  width: 100px;
+  max-width: 100px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bg-green-500{
+  background-color: #28a745 !important;
+}

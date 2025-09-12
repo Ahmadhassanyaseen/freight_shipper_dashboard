@@ -34,14 +34,14 @@ foreach ($response as $item) {
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
     <!-- Shipment Status Chart -->
-    <div class="bg-white rounded-lg shadow p-6 dark:bg-gray-800 dark:text-white">
-        <h2 class="text-lg font-semibold text-gray-800 mb-4 dark:text-white">Shipment Status</h2>
+    <div class="modern-btn-2 rounded-lg shadow p-6 text-white">
+        <h2 class="text-lg font-semibold  mb-4 text-white">Shipment Status</h2>
         <div id="statusChart"></div>
     </div>
     
     <!-- Vendor Status Chart -->
-    <div class="bg-white rounded-lg shadow p-6 dark:bg-gray-800 dark:text-white">
-        <h2 class="text-lg font-semibold text-gray-800 mb-4 dark:text-white">Booking Status</h2>
+    <div class="modern-btn-2 rounded-lg shadow p-6 text-white">
+        <h2 class="text-lg font-semibold  mb-4 text-white">Booking Status</h2>
         <div id="vendorChart"></div>
     </div>
 </div>

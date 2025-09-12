@@ -10,11 +10,9 @@
        <?php include 'components/layout/topbar.php'; ?>
         <main class="h-full overflow-y-auto pb-10">
           <div class=" px-6 pb-10 mx-auto grid">
-            <h2
-            class="my-6 text-2xl font-semibold text-gray-700 dark:text-white"
-            >
+          <h1 class="text-3xl font-bold my-6 tracking-tight neon-red-header">
               Shipments
-            </h2>
+            </h1>
            
             
             

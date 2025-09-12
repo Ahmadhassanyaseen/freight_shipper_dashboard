@@ -64,6 +64,7 @@ if(!isset($_COOKIE['user'])){
       // Initialize user session if not already set
       
     </script>
+    <link rel="stylesheet" href="./assets/css/newStyle.css">
   </head>
   <body>
     <div

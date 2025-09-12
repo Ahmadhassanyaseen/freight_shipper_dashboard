@@ -61,14 +61,14 @@
             <div class="mb-4">
                 <label for="vehicle_type" class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">Vehicle Type *</label>
                 <select id="vehicle_type" name="vehicle_type" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm dark:border-gray-600 dark:text-white" required="">
-                    <option value="">Select Vehicle Type</option>
-                    <option value="stepdeck">Step Deck</option>
-                    <option value="power only">Power Only</option>
-                    <option value="b-train">B-Train</option>
-                    <option value="auto carrier">Auto Carrier</option>
-                    <option value="reefer">Reefer</option>
-                    <option value="flatbed">Flatbed</option>
-                    <option value="van">Van</option>
+                    <option value="" class="text-gray-700">Select Vehicle Type</option>
+                    <option value="stepdeck" class="text-gray-700">Step Deck</option>
+                    <option value="power only" class="text-gray-700">Power Only</option>
+                    <option value="b-train" class="text-gray-700">B-Train</option>
+                    <option value="auto carrier" class="text-gray-700">Auto Carrier</option>
+                    <option value="reefer" class="text-gray-700">Reefer</option>
+                    <option value="flatbed" class="text-gray-700">Flatbed</option>
+                    <option value="van" class="text-gray-700">Van</option>
                 </select>
             </div>
             
@@ -80,16 +80,16 @@
                 <div>
                     <label for="freight_type" class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">Freight Type *</label>
                     <select id="freight_type" name="freight_type" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm dark:border-gray-600 dark:text-white" required="">
-                        <option value="">Select Freight Type</option>
-                        <option value="general">General Cargo</option>
-                        <option value="perishables">Perishables</option>
-                        <option value="non_hazardous">Non-Hazardous</option>
-                        <option value="bulk">Bulk</option>
-                        <option value="heavy">Heavy / Oversized</option>
-                        <option value="vehicles">Vehicles</option>
-                        <option value="high_value">High-Value</option>
-                        <option value="specialized">Specialized</option>
-                        <option value="misc">Miscellaneous</option>
+                        <option value="" class="text-gray-700">Select Freight Type</option>
+                        <option value="general" class="text-gray-700">General Cargo</option>
+                        <option value="perishables" class="text-gray-700">Perishables</option>
+                        <option value="non_hazardous" class="text-gray-700">Non-Hazardous</option>
+                        <option value="bulk" class="text-gray-700">Bulk</option>
+                        <option value="heavy" class="text-gray-700">Heavy / Oversized</option>
+                        <option value="vehicles" class="text-gray-700">Vehicles</option>
+                        <option value="high_value" class="text-gray-700">High-Value</option>
+                        <option value="specialized" class="text-gray-700">Specialized</option>
+                        <option value="misc" class="text-gray-700">Miscellaneous</option>
                     </select>
                 </div>
             </div>

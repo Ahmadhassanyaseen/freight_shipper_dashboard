@@ -15,31 +15,31 @@ if (isset($_COOKIE["user"])) {
     <main class="h-full overflow-y-auto">
         <div class="px-6 pb-10 mx-auto">
             <div class="flex items-center justify-between mb-6">
-                <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-white">
+            <h1 class="text-3xl font-bold my-6 tracking-tight neon-red-header">
                     Lane Rate
-                </h2>
+                </h1>
             </div>
 
             <!-- Rate Check Form -->
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-6">
+            <div class="bgRed rounded-lg shadow p-6 mb-6">
                 <form id="rateCheckForm" class="space-y-4">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label for="pickup" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Pickup Location</label>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 hover-lift glassmorphism-card bgBlue">
+                        <div class="">
+                            <label for="pickup" class="block text-sm font-medium text-white mb-1">Pickup Location</label>
                             <input type="text" id="pickup" name="pickup" 
-                                   class="w-full px-4 bg-white py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                                   class="w-full px-4 modern-input bg-white py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                                    placeholder="Enter pickup location" required>
                         </div>
                         <div>
-                            <label for="destination" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Delivery Location</label>
+                            <label for="destination" class="block text-sm font-medium text-white mb-1">Delivery Location</label>
                             <input type="text" id="destination" name="destination" 
-                                   class="w-full px-4 bg-white py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                                   class="w-full modern-input px-4 bg-white py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                                    placeholder="Enter delivery location" required>
                         </div>
                     </div>
                     <div class="flex justify-end">
                         <button type="submit" 
-                                class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                class="px-4 py-2 bgBlue text-white rounded-md hover-lift focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                             Check Rates
                         </button>
                     </div>
@@ -47,7 +47,7 @@ if (isset($_COOKIE["user"])) {
             </div>
 
             <!-- Results Section -->
-            <div id="rateResults" class="hidden bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+            <div id="rateResults" class="hidden bgRed rounded-lg shadow p-6">
                 <div class="animate-pulse">
                     <div class="h-6 bg-gray-200 dark:bg-gray-700 rounded w-1/3 mb-4"></div>
                     <div class="space-y-4">
@@ -139,60 +139,60 @@ function displayRateData(data) {
     
     // Format the data for display
     rateDataDiv.innerHTML = `
-        <div class="mb-6">
-            <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">
+        <div class="mb-6 bgRed">
+            <h3 class="text-lg font-semibold text-white mb-4">
                 Rate Details for ${data.pickup_location} to ${data.dropoff_location}
             </h3>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                <div class="bg-blue-50 dark:bg-gray-700 p-4 rounded-lg">
-                    <h4 class="text-sm font-medium text-blue-800 dark:text-white mb-1">Estimated Rate</h4>
-                    <p class="text-2xl font-bold text-blue-600 dark:text-white">${formatCurrency(data.data.averageRateForMileage)}</p>
-                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Based on market rates</p>
+                <div class=" p-4 rounded-lg">
+                    <h4 class="text-sm font-medium text-white mb-1">Estimated Rate</h4>
+                    <p class="text-2xl font-bold text-white">${formatCurrency(data.data.averageRateForMileage)}</p>
+                    <p class="text-xs text-white mt-1">Based on market rates</p>
                 </div>
                 
-                <div class="bg-green-50 dark:bg-gray-700 p-4 rounded-lg">
-                    <h4 class="text-sm font-medium text-green-800 dark:text-white mb-1">Distance</h4>
-                    <p class="text-2xl font-bold text-green-600 dark:text-white">${formatNumber(Math.round(data.data.rateMileage))} miles</p>
-                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Approximate distance</p>
+                <div class=" p-4 rounded-lg">
+                    <h4 class="text-sm font-medium text-white mb-1">Distance</h4>
+                    <p class="text-2xl font-bold text-white">${formatNumber(Math.round(data.data.rateMileage))} miles</p>
+                    <p class="text-xs text-white mt-1">Approximate distance</p>
                 </div>
                 
-                <div class="bg-purple-50 dark:bg-gray-700 p-4 rounded-lg">
-                    <h4 class="text-sm font-medium text-purple-800 dark:text-white mb-1">Rate per Mile</h4>
-                    <p class="text-2xl font-bold text-purple-600 dark:text-white">${data.data.avgRatePerMile.toFixed(2)}/mi</p>
-                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Average rate per mile</p>
+                <div class=" p-4 rounded-lg">
+                    <h4 class="text-sm font-medium text-white mb-1">Rate per Mile</h4>
+                    <p class="text-2xl font-bold text-white">${data.data.avgRatePerMile.toFixed(2)}/mi</p>
+                    <p class="text-xs text-white mt-1">Average rate per mile</p>
                 </div>
             </div>
             
-            <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+            <div class="bgRed border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
                 <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                    <h4 class="text-base font-medium text-gray-900 dark:text-white">Rate Breakdown</h4>
+                    <h4 class="text-base font-medium text-white">Rate Breakdown</h4>
                 </div>
                 <div class="divide-y divide-gray-200 dark:divide-gray-700">
                     <div class="grid grid-cols-1 md:grid-cols-2">
                         <div class="px-6 py-4">
-                            <p class="text-sm text-gray-700 dark:text-gray-400">Linehaul Revenue</p>
-                            <p class="font-medium text-gray-900 dark:text-white">${formatCurrency(data.data.linehaulRevenue)}</p>
+                            <p class="text-sm text-white">Linehaul Revenue</p>
+                            <p class="font-medium text-white">${formatCurrency(data.data.linehaulRevenue)}</p>
                         </div>
                         <div class="px-6 py-4">
-                            <p class="text-sm text-gray-700 dark:text-gray-400">Fuel Cost (${data.data.mpg} MPG)</p>
-                            <p class="font-medium text-gray-900 dark:text-white">${formatCurrency(data.data.fuelCost)}</p>
+                            <p class="text-sm text-white">Fuel Cost (${data.data.mpg} MPG)</p>
+                            <p class="font-medium text-white">${formatCurrency(data.data.fuelCost)}</p>
                         </div>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2">
                         <div class="px-6 py-4">
-                            <p class="text-sm text-gray-700 dark:text-gray-400">Toll Costs</p>
-                            <p class="font-medium text-gray-900 dark:text-white">${formatCurrency(data.data.tollCosts)}</p>
+                            <p class="text-sm text-white">Toll Costs</p>
+                            <p class="font-medium text-white">${formatCurrency(data.data.tollCosts)}</p>
                         </div>
                         <div class="px-6 py-4">
-                            <p class="text-sm text-gray-700 dark:text-gray-400">Rate Level</p>
-                            <p class="font-medium text-gray-900 dark:text-white">${data.data.finalLevel}</p>
+                            <p class="text-sm text-white">Rate Level</p>
+                            <p class="font-medium text-white">${data.data.finalLevel}</p>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <div class="mt-4 text-xs text-gray-700 dark:text-gray-400">
+            <div class="mt-4 text-xs text-white">
                 <p>Note: These rates are estimates based on current market conditions and may vary. Fuel surcharge ${data.data.rateIncludesFuelSurcharge ? 'is' : 'is not'} included.</p>
                 <p class="mt-1">Last updated: ${new Date(data.timestamp).toLocaleString()}</p>
             </div>
@@ -223,9 +223,9 @@ document.getElementById('rateCheckForm').addEventListener('submit', async functi
     
     try {
         // Encode the locations for the URL
-        const encodedPickup = encodeURIComponent(pickup);
-        const encodedDestination = encodeURIComponent(destination);
-        const apiUrl = `https://stretchxlfreight.com/xion/rate.php?pickup=${encodedPickup}&dropoff=${encodedDestination}`;
+        // const encodedPickup = encodeURIComponent(pickup);
+        // const encodedDestination = encodeURIComponent(destination);
+        // const apiUrl = `https://stretchxlfreight.com/xion/rate.php?pickup=${encodedPickup}&dropoff=${encodedDestination}`;
         
         // Show loading state
         const submitButton = this.querySelector('button[type="submit"]');
@@ -240,11 +240,13 @@ document.getElementById('rateCheckForm').addEventListener('submit', async functi
         `;
         
         // Make the API request
-        const response = await fetch(apiUrl, {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json'
-            }
+        const formData = new FormData();
+        formData.append('pickup_address', pickup);
+        formData.append('dropoff_address', destination);
+        
+        const response = await fetch('https://stretchxlfreight.com/xion/lane-rate.php', {
+            method: 'POST',
+            body: formData
         });
         
         if (!response.ok) {

@@ -46,9 +46,9 @@ foreach ($response as $item) {
 }
 ?>
 
-<div class="bg-white rounded-lg shadow p-6 dark:bg-gray-800 dark:text-white">
+<div class="modern-btn rounded-lg shadow p-6 text-white">
     <div class="flex justify-between items-center mb-4">
-    <h2 class="text-lg font-semibold text-gray-800 mb-4 dark:text-white">System Wide Load Count</h2>
+    <h2 class="text-lg font-semibold text-white">System Wide Load Count</h2>
         <!-- <div class="flex space-x-2">
             <button class="prev-arrow px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 focus:outline-none">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -172,7 +172,7 @@ document.addEventListener('DOMContentLoaded', function() {
             horizontalAlign: 'center',
             // offsetY: -5
         },
-        colors: ['#3B82F6', '#10B981', '#EF4444'],
+        colors: ['#3B82F6', '#10B981', '#ff0000'],
         // navigation: {
         //     enabled: true,
         //     position: 'top-right',

@@ -80,6 +80,8 @@ if (isset($_COOKIE["user"])) {
         });
       }
     </script>
+    <link rel="stylesheet" href="./assets/css/variable.css" />
+    <link rel="stylesheet" href="./assets/css/newStyle.css" />
   </head>
   <body>
     <div class="flex h-screen bg-gray-50 dark:bg-gray-900 ">
@@ -88,22 +90,23 @@ if (isset($_COOKIE["user"])) {
         <?php include 'components/layout/topbar.php'; ?>
         <main class="h-full overflow-y-auto">
           <div class=" px-6 mx-auto grid">
-            <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-white">
+          <h1 class="text-3xl font-bold my-6 tracking-tight neon-red-header">
               Profile
-            </h2>
+            </h1>
 
            
 
             <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800 ">
               <form method="POST" class="space-y-6" action="helper/update.php" id="profileForm">
+                <div class="hover-lift glassmorphism-card bgBlue">
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">
+                  <label class="block text-sm font-medium text-white mb-1 ">
                     Email
                   </label>
                   <input
                     type="email"
                     value="<?= htmlspecialchars($userData['email'] ?? '') ?>"
-                    class="w-full px-3 py-2 mt-2 border rounded-md text-gray-700 dark:text-white "
+                    class="w-full px-3 py-2 mt-2 border rounded-md text-white  "
                     disabled
                   />
                   <input
@@ -112,11 +115,11 @@ if (isset($_COOKIE["user"])) {
                     value="<?= htmlspecialchars($userData['email'] ?? '') ?>"
                     
                   />
-                  <p class="mt-1 text-sm text-gray-500 dark:text-white">Email cannot be changed</p>
+                  <p class="mt-1 text-sm text-white">Email cannot be changed</p>
                 </div>
 
-                <div >
-                  <label for="user_name" class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">
+                <div class="mt-4">
+                  <label for="user_name" class="block text-sm font-medium text-white mb-1 ">
                     Username
                   </label>
                   <input
@@ -124,41 +127,41 @@ if (isset($_COOKIE["user"])) {
                     id="user_name"
                     name="user_name"
                     value="<?= htmlspecialchars($userData['name'] ?? '') ?>"
-                    class="w-full px-3 py-2 mt-2 border rounded-md text-gray-700 dark:text-white "
+                    class="w-full px-3 py-2 mt-2 border rounded-md text-white "
                     required
                   />
                 </div>
-
-                <div class="border-t pt-6 mt-6">
-                  <h3 class="text-lg font-medium text-gray-700 dark:text-white mb-4 mt-4">Change Password</h3>
+                </div>
+                <div class="border-t pt-6 mt-6 hover-lift glassmorphism-card bgBlue">
+                  <h2 class="text-xl font-medium text-white mb-4 mt-4">Change Password</h2>
                   
                   <div class="space-y-4">
                     
 
                     <div>
-                      <label for="new_password" class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">
+                      <label for="new_password" class="block text-sm font-medium text-white mb-1 ">
                         New Password
                       </label>
                       <input
                         type="password"
                         id="new_password"
                         name="new_password"
-                        class="w-full px-3 py-2 mt-2 border rounded-md text-gray-700 dark:text-white"
+                        class="w-full px-3 py-2 mt-2 border rounded-md text-white"
                         placeholder="Enter new password"
                       />
                       <span id="new_password_error" class="text-xs text-red-600 mt-1 hidden"></span>
-                      <p class="mt-1 text-xs text-gray-700 dark:text-white">Must be at least 8 characters with uppercase, lowercase, number & special character</p>
+                      <p class="mt-1 text-xs text-white">Must be at least 8 characters with uppercase, lowercase, number & special character</p>
                     </div>
 
                     <div>
-                      <label for="confirm_password" class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">
+                      <label for="confirm_password" class="block text-sm font-medium text-white mb-1 ">
                         Confirm New Password
                       </label>
                       <input
                         type="password"
                         id="confirm_password"
                         name="confirm_password"
-                        class="w-full px-3 py-2 mt-2 border rounded-md text-gray-700 dark:text-white"
+                        class="w-full px-3 py-2 mt-2 border rounded-md text-white"
                         placeholder="Confirm new password"
                       />
                       <span id="confirm_password_error" class="text-xs text-red-600 mt-1 hidden"></span>
@@ -169,7 +172,7 @@ if (isset($_COOKIE["user"])) {
                 <div class="flex  mt-4">
                   <button
                     type="submit"
-                    class="px-4 py-2 text-sm font-medium text-white bg-primary-color rounded-md hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-color cursor-pointer"
+                    class="px-4 py-2 text-sm font-medium text-white hover-lift bg-primary-color rounded-md hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-color cursor-pointer"
                   >
                     Save Changes
                   </button>

@@ -1,6 +1,8 @@
 <?php
 include '../../config/config.php';
 
+$addons = implode(',', $_POST['addons']);
+
 $data['pickup_address'] = $_POST['pickup_address'];
 $data['dropoff_address'] = $_POST['drop_address'];
 $data['pickup_time'] = $_POST['pickup_time'];
@@ -17,7 +19,8 @@ $data['freight_pallet_count'] = $_POST['freight_pallet_count'];
 $data['freight_box_count'] = $_POST['freight_box_count'];
 $data['freight_description'] = $_POST['freight_description'];
 $data['addons_total'] = $_POST['addons_total'];
-$data['addons'] = $_POST['addons'];
+// Handle addons array properly
+$data['addons'] = $addons;
 $data['shipper_email'] = $_POST['shipper_email'];
 $data['shipper_phone'] = $_POST['shipper_phone'];
 $data['shipper_first_name'] = $_POST['shipper_first_name'];
@@ -26,8 +29,12 @@ $data['shipper_name'] = $_POST['shipper_first_name'] . ' ' . $_POST['shipper_las
 $data['name'] = $_POST['shipper_first_name'] . ' ' . $_POST['shipper_last_name'];
 $data['shipper_address'] = $_POST['shipper_address'];
 
+
+// print_r($data);
+// exit;
+
 $response = addLoad($data);
-// print_r($response);
+// // print_r($response);
 if($response['status'] == 'success'){
     echo json_encode(['status' => 'success']);
     exit;

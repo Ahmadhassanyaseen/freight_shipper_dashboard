@@ -36,7 +36,7 @@
     if(isset($_GET['hide_dead']) && $_GET['hide_dead'] == 'true') {
     echo 'checked';
   } ?>>
-    <label for="hide_dead">Hide Dead</label>
+    <label for="hide_dead" class="text-gray-700 dark:text-white">Hide Dead</label>
 </div>
 <table id="shipmentsTable" class="w-full display dataTable no-footer bg-white text-gray-700 dark:bg-gray-800 dark:text-white xeno-table">
     <thead class="text-white">
@@ -119,7 +119,7 @@
             <td class="toggle-details truncate-x"><?= htmlspecialchars(date('m-d-Y', strtotime($shipment['pickup_date']))) ?></td>
             <td class="toggle-details">
                 <button class=" text-white py-1 px-2 rounded 
-                <?php if($shipment['status'] == 'Deleted' || $shipment['status'] == 'Dead') {echo 'bg-gray-500 cursor-not-allowed';} else {echo 'bg-blue-500 hover:bg-blue-600 cursor-pointer';} ?>
+                <?php if($shipment['status'] == 'Deleted' || $shipment['status'] == 'Dead') {echo 'bg-gray-500 cursor-not-allowed';} else {echo 'bgBlue cursor-pointer';} ?>
                 " onclick="editShipment('<?= htmlspecialchars($shipment['id']) ?>')" 
                 
                 <?php if($shipment['status'] == 'Deleted' || $shipment['status'] == 'Dead') {echo 'disabled';} ?>
@@ -127,7 +127,7 @@
                     <i class="fa fa-edit"></i>
                 </button>
                 <button class=" text-white py-1 px-2 rounded
-                <?php if($shipment['status'] == 'Deleted' || $shipment['status'] == 'Dead') {echo 'bg-gray-500 cursor-not-allowed';} else {echo 'bg-red-500 hover:bg-red-600 cursor-pointer';} ?>
+                <?php if($shipment['status'] == 'Deleted' || $shipment['status'] == 'Dead') {echo 'bg-gray-500 cursor-not-allowed';} else {echo 'bgRed cursor-pointer';} ?>
                 " onclick="deleteShipment('<?= htmlspecialchars($shipment['id']) ?>')"
                 <?php if($shipment['status'] == 'Deleted' || $shipment['status'] == 'Dead') {echo 'disabled';} ?>
                 >

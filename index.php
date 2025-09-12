@@ -17,12 +17,10 @@
         <main class="h-full overflow-y-auto">
           <div class=" px-6 pb-10 mx-auto grid">
             <div class="flex items-center justify-between mb-6">
-            <h2
-              class="my-6 text-2xl font-semibold text-gray-700 dark:text-white "
-            >
+            <h1 class="text-3xl font-bold my-6 tracking-tight neon-red-header">
              Shipper Dashboard
-            </h2>
-            <a href="addLoad.php"  class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded cursor-pointer" >Add New Load</a>
+            </h1>
+            <a href="addLoad.php"  class="bgBlue text-white py-2 px-4 rounded cursor-pointer" >Add New Load</a>
             </div>
            
             <!-- Cards -->
@@ -47,7 +45,8 @@ if (isset($_COOKIE["user"])) {
                   'title' => 'Total Shipments',
                   'value' => count($response),
                   'icon' => 'boxes-stacked',
-                  'color' => 'orange'
+                  'color' => 'orange',
+                  'bgClass' => 'modern-btn-2',
               ],
               [
                   'title' => 'In Progress Shipments',
@@ -55,7 +54,8 @@ if (isset($_COOKIE["user"])) {
                       return $carry + (in_array(strtolower($item['status_c']), ['assigned', 'in progress', 'in_progress', 'inprocess']) ? 1 : 0);
                   }, 0),
                   'icon' => 'clock',
-                  'color' => 'blue'
+                  'color' => 'blue',
+                  'bgClass' => 'modern-btn-2',
               ],
               [
                   'title' => 'Completed Shipments',
@@ -63,7 +63,8 @@ if (isset($_COOKIE["user"])) {
                       return $carry + (strtolower($item['status_c']) === 'converted' ? 1 : 0);
                   }, 0),
                   'icon' => 'check',
-                  'color' => 'green'
+                  'color' => 'green',
+                  'bgClass' => 'modern-btn',
               ],
               [
                   'title' => 'Cancelled/Dead Shipments',
@@ -71,7 +72,8 @@ if (isset($_COOKIE["user"])) {
                       return $carry + (in_array(strtolower($item['status_c']), ['cancelled', 'dead', 'deleted']) ? 1 : 0);
                   }, 0),
                   'icon' => 'xmark',
-                  'color' => 'red'
+                  'color' => 'red',
+                  'bgClass' => 'modern-btn',
               ]
           ];  
 
