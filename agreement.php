@@ -1,7 +1,7 @@
   
 
   <?php include 'config/config.php';
-  print_r($_POST);
+//   print_r($_POST);
   ?>
  
  <?php include 'components/layout/header.php'; ?>

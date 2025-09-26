@@ -429,6 +429,9 @@
     .bgRed{
         background: linear-gradient(135deg, #f44336, #e91e63, #9c27b0);
     }
+    .bgGreen{
+        background: linear-gradient(135deg, #3df843, #7dd41b, #0ea200);
+    }
     #shipmentsTable tbody tr:hover{
         background-color: #F3F4F6 !important;
     color: #111827 !important;

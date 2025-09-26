@@ -27,14 +27,12 @@
             <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
               <!-- Card -->
               <?php
-if (isset($_COOKIE["user"])) {
-    $userData = json_decode($_COOKIE["user"], true);
-} else {
-    $userData = [];
-}
-?>
-
-             <?php 
+              if (isset($_COOKIE["user"])) {
+                  $userData = json_decode($_COOKIE["user"], true);
+              } else {
+                  $userData = [];
+              }
+              
              
              $data['email'] = $userData['email'];
              $response = fetchAllShipperLeads($data);
@@ -81,7 +79,8 @@ if (isset($_COOKIE["user"])) {
 
              foreach ($stats as $stat) {
              include 'components/cards/stats.php'; 
-             } ?>
+             }
+              ?>
               
             </div>
             <div class="flex gap-5 mb-5">
@@ -111,7 +110,7 @@ foreach($response as $key => $value){
     'name' => $value['name'],
     'quantity' =>$value['freight_pallet_count_c'],
     'type' => $value['freight_type_c'],
-    'tracking_number' => $value['truckerpath_ref_id_c'] ?? 'N/A',
+    'tracking_number' => $value['opertunity_id_c'] ?? 'N/A',
     'pickup' => $value['pickup_address_c'],
     'pickup_date' => $value['pickup_date_c'],
     'dropoff' => $value['dropoff_address_c'],

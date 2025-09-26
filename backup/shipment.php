@@ -233,9 +233,9 @@ function formatDetails(data) {
                 <p class="grid grid-cols-3 text-sm"><span class="font-medium">Status:</span> <span class="col-span-2">${quote.status || 'N/A'}</span></p>
                 ${showActions && !hasAcceptedQuote ? `
                 <p class="grid grid-cols-3 text-sm"><span class="font-medium">Action:</span><span class="col-span-2">
-                    <button onclick="acceptQuote('${details.id}', '${quote.id}' , '${encodeURIComponent(JSON.stringify(quote))}' , 'xl')" class="bgBlue text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-check"></i></button>
-                    <button onclick="rejectQuote('${quote.vendor_id}','${quote.id}' , '${details.id}')" class="bgRed text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-times"></i></button>
-                     <button onclick="viewVendor(event, '${quote.id}', 'xl')" class="bgGreen text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-eye"></i></button>
+                    <button onclick="acceptQuote('${details.id}', '${quote.id}' , '${encodeURIComponent(JSON.stringify(quote))}' , 'xl')" class="bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-check"></i></button>
+                    <button onclick="rejectQuote('${quote.vendor_id}','${quote.id}' , '${details.id}')" class="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-times"></i></button>
+                     <button onclick="viewVendor(event, '${quote.id}', 'xl')" class="bg-green-500 hover:bg-green-600 text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-eye"></i></button>
                 </span></p>` : ''}
             </div>`;
     });
@@ -256,9 +256,9 @@ function formatDetails(data) {
                 <p class="grid grid-cols-3 text-sm"><span class="font-medium">Status:</span> <span class="col-span-2">${quote.status || 'N/A'}</span></p>
                 ${showActions && !hasAcceptedQuoteTP ? `
                 <p class="grid grid-cols-3 text-sm"><span class="font-medium">Action:</span><span class="col-span-2">
-                    <button onclick="acceptQuote('${details.id}', '${quote.id}' , '${encodeURIComponent(JSON.stringify(quote))}' , 'tp')" class="bgBlue text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-check"></i></button>
-                    <button onclick="rejectQuote('${quote.vendor_id}','${quote.id}' , '${details.id}')" class="bgRed text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-times"></i></button>
-                    <button onclick="viewVendor(event, '${quote.id}', 'tp')" class="bgGreen text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-eye"></i></button>
+                    <button onclick="acceptQuote('${details.id}', '${quote.id}' , '${encodeURIComponent(JSON.stringify(quote))}' , 'tp')" class="bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-check"></i></button>
+                    <button onclick="rejectQuote('${quote.vendor_id}','${quote.id}' , '${details.id}')" class="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-times"></i></button>
+                    <button onclick="viewVendor(event, '${quote.id}', 'tp')" class="bg-green-500 hover:bg-green-600 text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-eye"></i></button>
                 </span></p>` : ''}
             </div>`;
     });
@@ -479,7 +479,7 @@ function viewVendor(event, id, type) {
             carrierInfo = `
                 <div class="selected-carrier-section">
                    
-                    <div class="space-y-2 text-md bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
+                    <div class="space-y-2 text-md bg-white p-4 rounded-lg shadow">
                         <p class="grid grid-cols-3"><span class="font-medium">Name:</span> <span class="col-span-2">${quote.contact?.name || 'N/A'}</span></p>
                         <p class="grid grid-cols-3"><span class="font-medium">Email:</span> <span class="col-span-2">${quote.contact?.email || 'N/A'}</span></p>
                         <p class="grid grid-cols-3"><span class="font-medium">Phone:</span> <span class="col-span-2">${quote.contact?.phone || 'N/A'}</span></p>
@@ -507,7 +507,7 @@ function viewVendor(event, id, type) {
             carrierInfo = `
                 <div class="selected-carrier-section">
                     
-                    <div class="space-y-2 text-md bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
+                    <div class="space-y-2 text-md bg-white p-4 rounded-lg shadow">
                         <p class="grid grid-cols-3"><span class="font-medium">Name:</span> <span class="col-span-2">${quote.name || 'N/A'}</span></p>
                         <p class="grid grid-cols-3"><span class="font-medium">Email:</span> <span class="col-span-2">${quote.email || 'N/A'}</span></p>
                         <p class="grid grid-cols-3"><span class="font-medium">Phone:</span> <span class="col-span-2">${quote.phone || 'N/A'}</span></p>
