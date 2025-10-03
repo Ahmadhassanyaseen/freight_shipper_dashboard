@@ -199,6 +199,21 @@ $(document).ready(function() {
             // $(this).addClass('rotate-45');
         }
     });
+
+    // Automatically open the first row's details by default
+    setTimeout(function() {
+        const firstRow = $('#shipmentsTable tbody tr:first');
+        if (firstRow.length > 0) {
+            const firstToggleCell = firstRow.find('td.toggle-details');
+            if (firstToggleCell.length > 0) {
+                const row = table.row(firstRow);
+                const details = firstRow.data('details-json');
+                if (details) {
+                    row.child(formatDetails(details)).show();
+                }
+            }
+        }
+    }, 100);
 });
 
 // Function to format the details row content
