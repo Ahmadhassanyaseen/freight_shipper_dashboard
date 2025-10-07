@@ -337,6 +337,8 @@ function formatDetails(data) {
                     <p class="grid grid-cols-2"><span class="font-medium">Tolls:</span> <span>$${details.tolls}</span></p>
                     <p class="grid grid-cols-2"><span class="font-medium">Deadhead:</span> <span>$${details.deadhead}</span></p>
                     <p class="grid grid-cols-2"><span class="font-medium">Total Price:</span> <span>${details.amount}</span></p>
+                    <p class="grid grid-cols-2"><span class="font-medium">Pickup:</span> <span>${details.pickup}</span></p>
+                    <p class="grid grid-cols-2"><span class="font-medium">Destination:</span> <span>${details.dropoff}</span></p>
                 </div>
                 ${selectedCarrierHtml}
             </div>
@@ -503,7 +505,7 @@ function viewVendor(event, id, type) {
                         <p class="grid grid-cols-3">
                             <span class="font-medium">Safety Rating:</span> 
                             <span class="col-span-2 ${ratingClass}">
-                                ${safetyRating || 'N/A'}
+                                ${safetyRating || 'N/A'} <a href="https://ai.fmcsa.dot.gov/sms/safer_xfr.aspx?DOT=${quote.company?.dot}&Form=SAFER">(See More Carrier Info)</a>
                             </span>
                         </p>
                         <p class="grid grid-cols-3">
