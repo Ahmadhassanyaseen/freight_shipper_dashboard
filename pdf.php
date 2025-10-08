@@ -145,10 +145,10 @@ function generateAgreementPdf($agreementData, $signature, $paymentData = null) {
     $html .= '</div>';
 
     // Pricing Summary
-    $baseRate = floatval($agreementData['platform_price']);
-    $addonsTotal = floatval($agreementData['addons_total']);
-    $totalPrice = floatval($agreementData['total_price']);
-    $fuelCost = floatval($agreementData['fuel']);
+    $baseRate = floatval(str_replace(",","",$agreementData['platform_price']));
+    $addonsTotal = floatval(str_replace(",","",$agreementData['addons_total']));
+    $totalPrice = floatval(str_replace(",","",$agreementData['total_price']));
+    $fuelCost = floatval(str_replace(",","",$agreementData['fuel']));
 
     $html .= '<div style="margin-bottom:10px;">';
     $html .= '<table cellspacing="0" cellpadding="8" border="0" style="width:100%;border:2px solid #dc3545;border-radius:5px;">';
