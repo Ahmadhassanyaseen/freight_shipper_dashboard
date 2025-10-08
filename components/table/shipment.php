@@ -294,7 +294,7 @@ function formatDetails(data) {
                     <p class="grid grid-cols-3"><span class="font-medium" >Phone:</span> <span class="col-span-2" id="vendor_phone_${details.vendor_quotes[0].id}">${details.vendor_phone}</span></p>
                     <p class="grid grid-cols-3"><span class="font-medium" >Rating:</span> <span class="col-span-2 capitalize" id="vendor_rating_${details.vendor_quotes[0].id}">${details.vendor_rating ? details.vendor_rating.replace('_', ' ') : ''}</span></p>
                     <p class="grid grid-cols-3"><span class="font-medium" >FMCSA:</span> <span class="col-span-2 text-blue-500 cursor-pointer" id="vendor_fmcsa_${details.vendor_quotes[0].id}">
-                        ${details.vendor_fmcsa && details.vendor_fmcsa !== 'http://' ? `<a href="${details.vendor_fmcsa}" target="_blank">${details.vendor_dot || ''}</a>` : (details.vendor_dot || '')}
+                        ${details.vendor_fmcsa && details.vendor_fmcsa !== 'http://' ? `<a href="${details.vendor_fmcsa}" target="_blank">${details.vendor_dot || ''}` : (details.vendor_dot || '')} (See More Carrier Info) </a>
                     </span></p>
                 </div>
                 `;
@@ -308,7 +308,7 @@ function formatDetails(data) {
                     <p class="grid grid-cols-3"><span class="font-medium" >Phone:</span> <span class="col-span-2" id="tp_phone_${details.tp_quotes[0].id}">${details.tp_quotes[0].contact.phone}</span></p>
                     <p class="grid grid-cols-3"><span class="font-medium" >Rating:</span> <span class="col-span-2 capitalize" id="tp_rating_${details.tp_quotes[0].id}">${details.tp_quotes[0].company.safetyRating}</span></p>
                     <p class="grid grid-cols-3"><span class="font-medium" >FMCSA:</span> <span class="col-span-2 text-blue-500 cursor-pointer" id="tp_fmcsa_${details.tp_quotes[0].id}">
-                        ${details.tp_quotes[0].company.dot && details.tp_quotes[0].company.dot !== 'http://' ? `<a href="${details.tp_quotes[0].company.dot}" target="_blank">${details.tp_quotes[0].company.dot || ''}</a>` : (details.tp_quotes[0].company.dot || '')}
+                        ${details.tp_quotes[0].company.dot && details.tp_quotes[0].company.dot !== 'http://' ? `<a href="https://ai.fmcsa.dot.gov/SMS/Carrier/${details.tp_quotes[0].company.dot}/CompleteProfile.aspx" target="_blank">${details.tp_quotes[0].company.dot || ''} (See More Carrier Info)</a>` : (details.tp_quotes[0].company.dot || '')}
                     </span></p>
                 </div>
                 `;
@@ -510,7 +510,7 @@ function viewVendor(event, id, type) {
                         </p>
                         <p class="grid grid-cols-3">
                             <span class="font-medium">Quote Amount:</span> 
-                            <span class="col-span-2">$${(quote.priceCents / 100).toFixed(2) || '0.00'}</span>
+                            <span class="col-span-2">$${(quote.priceCents).toFixed(2) || '0.00'}</span>
                         </p>
                     </div>
                 </div>
@@ -528,9 +528,9 @@ function viewVendor(event, id, type) {
                         <p class="grid grid-cols-3"><span class="font-medium">Name:</span> <span class="col-span-2">${quote.name || 'N/A'}</span></p>
                         <p class="grid grid-cols-3"><span class="font-medium">Email:</span> <span class="col-span-2">${quote.email || 'N/A'}</span></p>
                         <p class="grid grid-cols-3"><span class="font-medium">Phone:</span> <span class="col-span-2">${quote.phone || 'N/A'}</span></p>
-                        <p class="grid grid-cols-3"><span class="font-medium">Company:</span> <span class="col-span-2">${quote.company || 'N/A'}</span></p>
-                        <p class="grid grid-cols-3"><span class="font-medium">Quote Amount:</span> <span class="col-span-2">$${quote.amount || '0.00'}</span></p>
-                        <p class="grid grid-cols-3"><span class="font-medium">Status:</span> <span class="col-span-2 capitalize">${quote.status || 'Pending'}</span></p>
+                       
+                        <p class="grid grid-cols-3"><span class="font-medium">Quote Amount:</span> <span class="col-span-2">$${quote.price || '0.00'}</span></p>
+                        <p class="grid grid-cols-3"><span class="font-medium">Status:</span> <span class="capitalize">${quote.status || 'Pending'}</span> <a href="https://ai.fmcsa.dot.gov/sms/safer_xfr.aspx?DOT=${quote?.vendor_dot}&Form=SAFER">(See More Carrier Info)</a></p>
                     </div>
                 </div>
             `;

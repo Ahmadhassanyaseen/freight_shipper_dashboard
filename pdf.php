@@ -61,8 +61,8 @@ function generateAgreementPdf($agreementData, $signature, $paymentData = null) {
     $html .= '</div>';
 
     // Shipper Information Section
-    $html .= '<div style="margin-bottom:25px;">';
-    $html .= '<table cellspacing="0" cellpadding="8" border="0" style="width:100%;border:2px solid #2c5aa0;border-radius:5px;">';
+    $html .= '<div style="margin-bottom:-20px;">';
+    $html .= '<table cellspacing="0" cellpadding="6" border="0" style="width:100%;border:2px solid #2c5aa0;border-radius:5px;">';
     $html .= '<tr><td colspan="4" style="background-color:#2c5aa0;color:white;font-weight:bold;font-size:12px;text-align:center;">SHIPPER INFORMATION</td></tr>';
     
     $html .= '<tr style="background-color:#f8f9fa;">';
@@ -82,7 +82,7 @@ function generateAgreementPdf($agreementData, $signature, $paymentData = null) {
     $html .= '</div>';
 
     // Shipment Details Section
-    $html .= '<div style="margin-bottom:25px;">';
+    $html .= '<div style="margin-bottom:-10px;">';
     $html .= '<table cellspacing="0" cellpadding="8" border="0" style="width:100%;border:2px solid #28a745;border-radius:5px;">';
     $html .= '<tr><td colspan="4" style="background-color:#28a745;color:white;font-weight:bold;font-size:12px;text-align:center;">SHIPMENT DETAILS</td></tr>';
     
@@ -117,7 +117,7 @@ function generateAgreementPdf($agreementData, $signature, $paymentData = null) {
     $html .= '</div>';
 
     // Freight Specifications
-    $html .= '<div style="margin-bottom:25px;">';
+    $html .= '<div style="margin-bottom:10px;">';
     $html .= '<table cellspacing="0" cellpadding="8" border="0" style="width:100%;border:2px solid #ffc107;border-radius:5px;">';
     $html .= '<tr><td colspan="4" style="background-color:#ffc107;color:#212529;font-weight:bold;font-size:12px;text-align:center;">FREIGHT SPECIFICATIONS</td></tr>';
     
@@ -150,7 +150,7 @@ function generateAgreementPdf($agreementData, $signature, $paymentData = null) {
     $totalPrice = floatval($agreementData['total_price']);
     $fuelCost = floatval($agreementData['fuel']);
 
-    $html .= '<div style="margin-bottom:25px;">';
+    $html .= '<div style="margin-bottom:10px;">';
     $html .= '<table cellspacing="0" cellpadding="8" border="0" style="width:100%;border:2px solid #dc3545;border-radius:5px;">';
     $html .= '<tr><td colspan="2" style="background-color:#dc3545;color:white;font-weight:bold;font-size:12px;text-align:center;">PRICING SUMMARY</td></tr>';
     
@@ -184,7 +184,7 @@ function generateAgreementPdf($agreementData, $signature, $paymentData = null) {
     
     // Payment Information (if provided)
     if ($paymentData && isset($paymentData['card_number'])) {
-        $html .= '<div style="margin-bottom:25px;">';
+        $html .= '<div style="margin-bottom:10px;">';
         $html .= '<table cellspacing="0" cellpadding="8" border="0" style="width:100%;border:2px solid #6f42c1;border-radius:5px;">';
         $html .= '<tr><td colspan="2" style="background-color:#6f42c1;color:white;font-weight:bold;font-size:12px;text-align:center;">PAYMENT INFORMATION</td></tr>';
         

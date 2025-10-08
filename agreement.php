@@ -83,7 +83,7 @@ if (isset($_COOKIE['user'])) {
         <div class="border p-4 rounded-lg">
             <h2 class="text-lg font-semibold mb-3 border-b pb-2">Shipment Details</h2>
             <p><span class="font-medium">Freight Type:</span> <?= ucfirst(str_replace('_', ' ', $shipment['freight_type'])) ?></p>
-            <p><span class="font-medium">Description:</span> <?= htmlspecialchars($shipment['description']) ?></p>
+           
             <p><span class="font-medium">Vehicle Type:</span> <?= ucfirst($shipment['carrier_vehicle_type']) ?></p>
             <p><span class="font-medium">Status:</span> <?= $shipment['status'] ?></p>
         </div>
@@ -104,6 +104,16 @@ if (isset($_COOKIE['user'])) {
                 <p class="text-gray-600"><?= date('F j, Y', strtotime($shipment['dropoff_date'])) ?> at <?= date('g:i A', strtotime($shipment['dropoff_time'])) ?></p>
             </div>
         </div>
+    </div>
+    <div class="mb-8">
+        <h2 class="text-xl font-semibold mb-4">Delivery Details</h2>
+      
+            <div class="border p-4 rounded-lg">
+                <!-- <h3 class="font-medium text-lg mb-2">Description</h3> -->
+                <p class="text-gray-800"><?= htmlspecialchars($shipment['description']) ?></p>
+            </div>
+          
+        
     </div>
 
     <!-- Freight Details -->
