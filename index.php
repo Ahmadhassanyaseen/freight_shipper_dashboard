@@ -36,6 +36,9 @@
              
              $data['id'] = $userData['id'];
              $response = fetchAllShipperLeads($data);
+             if(!$response){
+              $response = [];
+             }
 
             
             $stats = [
