@@ -61,57 +61,57 @@ function generateAgreementPdf($agreementData, $signature, $paymentData = null) {
     $html .= '</div>';
 
     // Shipper Information Section
-    $html .= '<div style="margin-bottom:-20px;">';
+    $html .= '<div style="">';
     $html .= '<table cellspacing="0" cellpadding="6" border="0" style="width:100%;border:2px solid #2c5aa0;border-radius:5px;">';
-    $html .= '<tr><td colspan="4" style="background-color:#2c5aa0;color:white;font-weight:bold;font-size:12px;text-align:center;">SHIPPER INFORMATION</td></tr>';
+    $html .= '<tr><td colspan="4" style="background-color:#2c5aa0;color:white;font-weight:bold;font-size:11px;text-align:center;">SHIPPER INFORMATION</td></tr>';
     
     $html .= '<tr style="background-color:#f8f9fa;">';
-    $html .= '<td style="width:15%;font-weight:bold;color:#2c5aa0;">Name:</td>';
-    $html .= '<td style="width:35%;">' . htmlspecialchars($agreementData['shipper_name']) . '</td>';
-    $html .= '<td style="width:15%;font-weight:bold;color:#2c5aa0;">Phone:</td>';
-    $html .= '<td style="width:35%;">' . htmlspecialchars($agreementData['shipper_phone']) . '</td>';
+    $html .= '<td style="width:15%;font-weight:bold;color:#2c5aa0;font-size:11px;">Name:</td>';
+    $html .= '<td style="width:35%;font-size:11px;">' . htmlspecialchars($agreementData['shipper_name']) . '</td>';
+    $html .= '<td style="width:15%;font-weight:bold;color:#2c5aa0;font-size:11px;">Phone:</td>';
+    $html .= '<td style="width:35%;font-size:11px;">' . htmlspecialchars($agreementData['shipper_phone']) . '</td>';
     $html .= '</tr>';
     
     $html .= '<tr>';
-    $html .= '<td style="font-weight:bold;color:#2c5aa0;">Address:</td>';
-    $html .= '<td>' . htmlspecialchars($agreementData['shipper_address']) . '</td>';
-    $html .= '<td style="font-weight:bold;color:#2c5aa0;">Email:</td>';
-    $html .= '<td>' . htmlspecialchars($agreementData['shipper_email']) . '</td>';
+    $html .= '<td style="font-weight:bold;color:#2c5aa0;font-size:11px;">Address:</td>';
+    $html .= '<td style="font-size:11px;">' . htmlspecialchars($agreementData['shipper_address']) . '</td>';
+    $html .= '<td style="font-weight:bold;color:#2c5aa0;font-size:11px;">Email:</td>';
+    $html .= '<td style="font-size:11px;">' . htmlspecialchars($agreementData['shipper_email']) . '</td>';
     $html .= '</tr>';
     $html .= '</table>';
     $html .= '</div>';
 
     // Shipment Details Section
-    $html .= '<div style="margin-bottom:-10px;">';
+    $html .= '<div style="">';
     $html .= '<table cellspacing="0" cellpadding="8" border="0" style="width:100%;border:2px solid #28a745;border-radius:5px;">';
-    $html .= '<tr><td colspan="4" style="background-color:#28a745;color:white;font-weight:bold;font-size:12px;text-align:center;">SHIPMENT DETAILS</td></tr>';
+    $html .= '<tr><td colspan="4" style="background-color:#28a745;color:white;font-weight:bold;font-size:11px;text-align:center;">SHIPMENT DETAILS</td></tr>';
     
     $html .= '<tr style="background-color:#f8f9fa;">';
-    $html .= '<td style="width:20%;font-weight:bold;color:#28a745;">Pickup Location:</td>';
-    $html .= '<td style="width:30%;">' . htmlspecialchars($agreementData['pickup_address']) . '</td>';
-    $html .= '<td style="width:20%;font-weight:bold;color:#28a745;">Dropoff Location:</td>';
-    $html .= '<td style="width:30%;">' . htmlspecialchars($agreementData['dropoff_address']) . '</td>';
+    $html .= '<td style="width:20%;font-weight:bold;color:#28a745;font-size:11px;">Pickup Location:</td>';
+    $html .= '<td style="width:30%;font-size:11px;">' . htmlspecialchars($agreementData['pickup_address']) . '</td>';
+    $html .= '<td style="width:20%;font-weight:bold;color:#28a745;font-size:11px;">Dropoff Location:</td>';
+    $html .= '<td style="width:30%;font-size:11px;">' . htmlspecialchars($agreementData['dropoff_address']) . '</td>';
     $html .= '</tr>';
     
     $html .= '<tr>';
-    $html .= '<td style="font-weight:bold;color:#28a745;">Pickup Date/Time:</td>';
-    $html .= '<td>' . date('M j, Y g:i A', strtotime($agreementData['pickup_date'] . ' ' . $agreementData['pickup_time'])) . '</td>';
-    $html .= '<td style="font-weight:bold;color:#28a745;">Dropoff Date/Time:</td>';
-    $html .= '<td>' . date('M j, Y g:i A', strtotime($agreementData['dropoff_date'] . ' ' . $agreementData['dropoff_time'])) . '</td>';
+    $html .= '<td style="font-weight:bold;color:#28a745;font-size:11px;">Pickup Date/Time:</td>';
+    $html .= '<td style="font-size:11px;">' . date('M j, Y g:i A', strtotime($agreementData['pickup_date'] . ' ' . $agreementData['pickup_time'])) . '</td>';
+    $html .= '<td style="font-weight:bold;color:#28a745;font-size:11px;">Dropoff Date/Time:</td>';
+    $html .= '<td style="font-size:11px;">' . date('M j, Y g:i A', strtotime($agreementData['dropoff_date'] . ' ' . $agreementData['dropoff_time'])) . '</td>';
     $html .= '</tr>';
     
     $html .= '<tr style="background-color:#f8f9fa;">';
-    $html .= '<td style="font-weight:bold;color:#28a745;">Freight Type:</td>';
-    $html .= '<td>' . ucfirst(str_replace('_', ' ', htmlspecialchars($agreementData['freight_type']))) . '</td>';
-    $html .= '<td style="font-weight:bold;color:#28a745;">Vehicle Type:</td>';
-    $html .= '<td>' . ucfirst(str_replace('_', ' ', htmlspecialchars($agreementData['carrier_vehicle_type']))) . '</td>';
+    $html .= '<td style="font-weight:bold;color:#28a745;font-size:11px;">Freight Type:</td>';
+    $html .= '<td style="font-size:11px;">' . ucfirst(str_replace('_', ' ', htmlspecialchars($agreementData['freight_type']))) . '</td>';
+    $html .= '<td style="font-weight:bold;color:#28a745;font-size:11px;">Vehicle Type:</td>';
+    $html .= '<td style="font-size:11px;">' . ucfirst(str_replace('_', ' ', htmlspecialchars($agreementData['carrier_vehicle_type']))) . '</td>';
     $html .= '</tr>';
     
     $html .= '<tr>';
-    $html .= '<td style="font-weight:bold;color:#28a745;">Distance:</td>';
-    $html .= '<td>' . htmlspecialchars($agreementData['distance']) . '</td>';
-    $html .= '<td style="font-weight:bold;color:#28a745;">Duration:</td>';
-    $html .= '<td>' . htmlspecialchars($agreementData['duration']) . '</td>';
+    $html .= '<td style="font-weight:bold;color:#28a745;font-size:11px;">Distance:</td>';
+    $html .= '<td style="font-size:11px;">' . htmlspecialchars($agreementData['distance']) . '</td>';
+    $html .= '<td style="font-weight:bold;color:#28a745;font-size:11px;">Duration:</td>';
+    $html .= '<td style="font-size:11px;">' . htmlspecialchars($agreementData['duration']) . '</td>';
     $html .= '</tr>';
     $html .= '</table>';
     $html .= '</div>';
@@ -119,26 +119,34 @@ function generateAgreementPdf($agreementData, $signature, $paymentData = null) {
     // Freight Specifications
     $html .= '<div style="margin-bottom:10px;">';
     $html .= '<table cellspacing="0" cellpadding="8" border="0" style="width:100%;border:2px solid #ffc107;border-radius:5px;">';
-    $html .= '<tr><td colspan="4" style="background-color:#ffc107;color:#212529;font-weight:bold;font-size:12px;text-align:center;">FREIGHT SPECIFICATIONS</td></tr>';
+    $html .= '<tr><td colspan="4" style="background-color:#ffc107;color:#212529;font-weight:bold;font-size:11px;text-align:center;">FREIGHT SPECIFICATIONS</td></tr>';
     
     $html .= '<tr style="background-color:#fffbf0;">';
-    $html .= '<td style="width:25%;font-weight:bold;color:#856404;">Weight:</td>';
-    $html .= '<td style="width:25%;">' . htmlspecialchars($agreementData['freight_weight']) . ' lbs</td>';
-    $html .= '<td style="width:25%;font-weight:bold;color:#856404;">Dimensions:</td>';
-    $html .= '<td style="width:25%;">' . htmlspecialchars($agreementData['freight_length']) . 'L × ' . htmlspecialchars($agreementData['freight_width']) . 'W × ' . htmlspecialchars($agreementData['freight_height']) . 'H</td>';
+    $html .= '<td style="width:25%;font-weight:bold;color:#856404;font-size:11px;">Weight:</td>';
+    $html .= '<td style="width:25%;font-size:11px;">' . htmlspecialchars($agreementData['freight_weight']) . ' lbs</td>';
+    $html .= '<td style="width:25%;font-weight:bold;color:#856404;font-size:11px;">Dimensions:</td>';
+    $html .= '<td style="width:25%;font-size:11px;">' . htmlspecialchars($agreementData['freight_length']) . 'L × ' . htmlspecialchars($agreementData['freight_width']) . 'W × ' . htmlspecialchars($agreementData['freight_height']) . 'H</td>';
     $html .= '</tr>';
     
     $html .= '<tr>';
-    $html .= '<td style="font-weight:bold;color:#856404;">Pallet Count:</td>';
-    $html .= '<td>' . htmlspecialchars($agreementData['freight_pallet_count']) . '</td>';
-    $html .= '<td style="font-weight:bold;color:#856404;">Box Count:</td>';
-    $html .= '<td>' . htmlspecialchars($agreementData['freight_box_count']) . '</td>';
+    $html .= '<td style="font-weight:bold;color:#856404;font-size:11px;">Pallet Count:</td>';
+    $html .= '<td style="font-size:11px;">' . htmlspecialchars($agreementData['freight_pallet_count']) . '</td>';
+    $html .= '<td style="font-weight:bold;color:#856404;font-size:11px;">Box Count:</td>';
+    $html .= '<td style="font-size:11px;">' . htmlspecialchars($agreementData['freight_box_count']) . '</td>';
     $html .= '</tr>';
     
     if (!empty($agreementData['description'])) {
         $html .= '<tr style="background-color:#fffbf0;">';
-        $html .= '<td style="font-weight:bold;color:#856404;">Description:</td>';
-        $html .= '<td colspan="3">' . htmlspecialchars($agreementData['description']) . '</td>';
+        $html .= '<td style="font-weight:bold;color:#856404;font-size:11px;">Description:</td>';
+
+        // Limit description to 100 words maximum
+        $description = $agreementData['description'];
+        $words = explode(' ', $description);
+        if (count($words) > 40) {
+            $description = implode(' ', array_slice($words, 0, 40)) . '...';
+        }
+
+        $html .= '<td colspan="3" style="font-size:11px;">' . htmlspecialchars($description) . '</td>';
         $html .= '</tr>';
     }
     $html .= '</table>';
@@ -152,30 +160,30 @@ function generateAgreementPdf($agreementData, $signature, $paymentData = null) {
 
     $html .= '<div style="margin-bottom:10px;">';
     $html .= '<table cellspacing="0" cellpadding="8" border="0" style="width:100%;border:2px solid #dc3545;border-radius:5px;">';
-    $html .= '<tr><td colspan="2" style="background-color:#dc3545;color:white;font-weight:bold;font-size:12px;text-align:center;">PRICING SUMMARY</td></tr>';
+    $html .= '<tr><td colspan="2" style="background-color:#dc3545;color:white;font-weight:bold;font-size:11px;text-align:center;">PRICING SUMMARY</td></tr>';
     
     $html .= '<tr style="background-color:#fff5f5;">';
-    $html .= '<td style="width:70%;font-weight:bold;color:#721c24;">Base Transportation Rate</td>';
-    $html .= '<td style="width:30%;text-align:right;font-weight:bold;">$' . number_format($baseRate, 2) . '</td>';
+    $html .= '<td style="width:70%;font-weight:bold;color:#721c24;font-size:11px;">Base Transportation Rate</td>';
+    $html .= '<td style="width:30%;text-align:right;font-weight:bold;font-size:11px;">$' . number_format($baseRate, 2) . '</td>';
     $html .= '</tr>';
     
     if ($fuelCost > 0) {
         $html .= '<tr>';
-        $html .= '<td style="color:#721c24;">Fuel Surcharge</td>';
-        $html .= '<td style="text-align:right;">$' . number_format($fuelCost, 2) . '</td>';
+        $html .= '<td style="color:#721c24;font-size:11px;">Fuel Surcharge</td>';
+        $html .= '<td style="text-align:right;font-size:11px;">$' . number_format($fuelCost, 2) . '</td>';
         $html .= '</tr>';
     }
     
     if ($addonsTotal > 0) {
         $html .= '<tr style="background-color:#fff5f5;">';
-        $html .= '<td style="color:#721c24;">Additional Services</td>';
-        $html .= '<td style="text-align:right;">$' . number_format($addonsTotal, 2) . '</td>';
+        $html .= '<td style="color:#721c24;font-size:11px;">Additional Services</td>';
+        $html .= '<td style="text-align:right;font-size:11px;">$' . number_format($addonsTotal, 2) . '</td>';
         $html .= '</tr>';
     }
     
     $html .= '<tr style="border-top:2px solid #dc3545;">';
-    $html .= '<td style="font-weight:bold;color:#721c24;font-size:14px;">TOTAL AMOUNT</td>';
-    $html .= '<td style="text-align:right;font-weight:bold;font-size:14px;color:#dc3545;">$' . number_format($totalPrice, 2) . '</td>';
+    $html .= '<td style="font-weight:bold;color:#721c24;font-size:11px;">TOTAL AMOUNT</td>';
+    $html .= '<td style="text-align:right;font-weight:bold;font-size:11px;color:#dc3545;">$' . number_format($totalPrice, 2) . '</td>';
     $html .= '</tr>';
     $html .= '</table>';
     $html .= '</div>';
@@ -186,21 +194,21 @@ function generateAgreementPdf($agreementData, $signature, $paymentData = null) {
     if ($paymentData && isset($paymentData['card_number'])) {
         $html .= '<div style="margin-bottom:10px;">';
         $html .= '<table cellspacing="0" cellpadding="8" border="0" style="width:100%;border:2px solid #6f42c1;border-radius:5px;">';
-        $html .= '<tr><td colspan="2" style="background-color:#6f42c1;color:white;font-weight:bold;font-size:12px;text-align:center;">PAYMENT INFORMATION</td></tr>';
+        $html .= '<tr><td colspan="2" style="background-color:#6f42c1;color:white;font-weight:bold;font-size:11px;text-align:center;">PAYMENT INFORMATION</td></tr>';
         
         $html .= '<tr style="background-color:#f8f6ff;">';
-        $html .= '<td style="width:50%;font-weight:bold;color:#4c2a85;">Payment Method:</td>';
-        $html .= '<td style="width:50%;">Credit Card</td>';
+        $html .= '<td style="width:50%;font-weight:bold;color:#4c2a85;font-size:11px;">Payment Method:</td>';
+        $html .= '<td style="width:50%;font-size:11px;">Credit Card</td>';
         $html .= '</tr>';
         
         $html .= '<tr>';
-        $html .= '<td style="font-weight:bold;color:#4c2a85;">Card ID:</td>';
-        $html .= '<td>****-****-****-' . substr($paymentData['card_number'], -4) . '</td>';
+        $html .= '<td style="font-weight:bold;color:#4c2a85;font-size:11px;">Card ID:</td>';
+        $html .= '<td style="font-size:11px;">****-****-****-' . substr($paymentData['card_number'], -4) . '</td>';
         $html .= '</tr>';
         
         $html .= '<tr style="background-color:#f8f6ff;">';
-        $html .= '<td style="font-weight:bold;color:#4c2a85;">Transaction Amount:</td>';
-        $html .= '<td style="font-weight:bold;">$' . number_format(floatval($paymentData['amount']), 2) . '</td>';
+        $html .= '<td style="font-weight:bold;color:#4c2a85;font-size:11px;">Transaction Amount:</td>';
+        $html .= '<td style="font-weight:bold;font-size:11px;">$' . number_format(floatval($paymentData['amount']), 2) . '</td>';
         $html .= '</tr>';
         $html .= '</table>';
         $html .= '</div>';

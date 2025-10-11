@@ -24,7 +24,7 @@ if (isset($_COOKIE["user"])) {
 } else {
   $userData = [];
 }
-$data['email'] = $userData['email'];
+$data['id'] = $userData['id'];
 $response = fetchAllShipperLeadsConverted($data);
 
 foreach($response as $key => $value){

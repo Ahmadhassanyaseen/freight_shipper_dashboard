@@ -34,7 +34,7 @@
               }
               
              
-             $data['email'] = $userData['email'];
+             $data['id'] = $userData['id'];
              $response = fetchAllShipperLeads($data);
 
             
