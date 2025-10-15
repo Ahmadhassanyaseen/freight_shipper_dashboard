@@ -208,7 +208,7 @@ function generateAgreementPdf($agreementData, $signature, $paymentData = null) {
         
         $html .= '<tr style="background-color:#f8f6ff;">';
         $html .= '<td style="font-weight:bold;color:#4c2a85;font-size:11px;">Transaction Amount:</td>';
-        $html .= '<td style="font-weight:bold;font-size:11px;">$' . number_format(floatval($paymentData['amount']), 2) . '</td>';
+        $html .= '<td style="font-weight:bold;font-size:11px;">$' . number_format(floatval(str_replace(",", "", $paymentData['amount'])), 2) . '</td>';
         $html .= '</tr>';
         $html .= '</table>';
         $html .= '</div>';
