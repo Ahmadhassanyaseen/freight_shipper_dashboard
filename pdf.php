@@ -153,10 +153,10 @@ function generateAgreementPdf($agreementData, $signature, $paymentData = null) {
     $html .= '</div>';
 
     // Pricing Summary
-    $baseRate = floatval(str_replace(",","",$agreementData['platform_price']));
+    $totalPrice = floatval(str_replace(",","",$paymentData['amount']));
     $addonsTotal = floatval(str_replace(",","",$agreementData['addons_total']));
-    $totalPrice = floatval(str_replace(",","",$agreementData['total_price']));
-    $fuelCost = floatval(str_replace(",","",$agreementData['fuel']));
+    $baseRate = $totalPrice - $addonsTotal;
+    // $fuelCost = floatval(str_replace(",","",$agreementData['fuel']));
 
     $html .= '<div style="margin-bottom:10px;">';
     $html .= '<table cellspacing="0" cellpadding="8" border="0" style="width:100%;border:2px solid #dc3545;border-radius:5px;">';
@@ -167,12 +167,7 @@ function generateAgreementPdf($agreementData, $signature, $paymentData = null) {
     $html .= '<td style="width:30%;text-align:right;font-weight:bold;font-size:11px;">$' . number_format($baseRate, 2) . '</td>';
     $html .= '</tr>';
     
-    if ($fuelCost > 0) {
-        $html .= '<tr>';
-        $html .= '<td style="color:#721c24;font-size:11px;">Fuel Surcharge</td>';
-        $html .= '<td style="text-align:right;font-size:11px;">$' . number_format($fuelCost, 2) . '</td>';
-        $html .= '</tr>';
-    }
+    
     
     if ($addonsTotal > 0) {
         $html .= '<tr style="background-color:#fff5f5;">';

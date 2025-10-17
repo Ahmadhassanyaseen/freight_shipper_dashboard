@@ -53,7 +53,11 @@ if (isset($_COOKIE['user'])) {
 ?>
         
     <?php
+    $xenoQuote = [];
     // print_r($_POST);
+    $xenoQuote = json_decode($_POST['quote'] , true);
+    // print_r($xenoQuote);
+
     $shipment = fetchShipmentById(['id' => $_POST['id']]);
     // print_r($shipment);
     $addOns = explode(',', $shipment['addons']);
@@ -147,7 +151,7 @@ if (isset($_COOKIE['user'])) {
                 <tbody class="divide-y divide-gray-200">
                     <tr>
                         <td class="px-4 py-3">Base Rate</td>
-                        <td class="px-4 py-3 text-right">$<?php echo number_format(floatval(str_replace(',', '', $shipment['total_price'])) - floatval(str_replace(',', '', $shipment['addons_total'])), 2) ?></td>
+                        <td class="px-4 py-3 text-right">$<?php echo number_format(floatval(str_replace(',', '', $xenoQuote['price_with_profit'])) - floatval(str_replace(',', '', $shipment['addons_total'])), 2) ?></td>
                     </tr>
                     <?php if (!empty($shipment['addons_total'])): ?>
                     <tr>
@@ -157,7 +161,7 @@ if (isset($_COOKIE['user'])) {
                     <?php endif; ?>
                     <tr class="bg-gray-50 font-semibold">
                         <td class="px-4 py-3">Total Amount</td>
-                        <td class="px-4 py-3 text-right">$<?= number_format(floatval(str_replace(',', '', $shipment['total_price'])), 2) ?></td>
+                        <td class="px-4 py-3 text-right">$<?= number_format(floatval(str_replace(',', '', $xenoQuote['price_with_profit'])), 2) ?></td>
                     </tr>
                 </tbody>
             </table>
@@ -488,7 +492,7 @@ if (isset($_COOKIE['user'])) {
             agreement_id: '<?= $shipment['id'] ?>',
             shipper_name: shipperName,
             signature: signatureData,
-            amount: '<?= $shipment['total_price'] ?>',
+            amount: '<?= $xenoQuote['price_with_profit'] ?>',
             user_id: '<?= $userData['id'] ?>',
             shipmentData: <?php echo json_encode($shipment); ?>
         };
@@ -521,7 +525,7 @@ if (isset($_COOKIE['user'])) {
             agreement_id: '<?= $shipment['id'] ?>',
             shipper_name: shipperName,
             signature: signatureData,
-            amount: '<?= $shipment['total_price'] ?>',
+            amount: '<?= $xenoQuote['price_with_profit'] ?>',
             user_id: '<?= $userData['id'] ?>',
             shipmentData: <?php echo json_encode($shipment); ?>
         };

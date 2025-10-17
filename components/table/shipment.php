@@ -232,7 +232,7 @@ function formatDetails(data) {
     // Generate vendor quotes HTML
     // let quotesHtml = details.tp_quotes.length || details.vendor_quotes.length ? '' : '<p>No quotes available</p>';
     let quotesHtml = '';
-    console.log(details.vendor_quotes);
+    // console.log(details.vendor_quotes);
     const hasAcceptedQuote = details.vendor_quotes?.some(quote => quote.status === 'accepted');
     details.vendor_quotes?.forEach(quote => {
         quote.status = quote.status.toLowerCase();
@@ -244,7 +244,7 @@ function formatDetails(data) {
                 <p class="grid grid-cols-3 text-sm"><span class="font-medium">Name:</span> <span class="col-span-2">${quote.name || 'N/A'}</span></p>
                 <p class="grid grid-cols-3 text-sm"><span class="font-medium">Email:</span> <span class="col-span-2">${quote.email || 'N/A'}</span></p>
                 <p class="grid grid-cols-3 text-sm"><span class="font-medium">Phone:</span> <span class="col-span-2">${quote.phone || 'N/A'}</span></p>
-                <p class="grid grid-cols-3 text-sm"><span class="font-medium">Quoted Price:</span> <span class="col-span-2">$${quote.price || 'N/A'}</span></p>
+                <p class="grid grid-cols-3 text-sm"><span class="font-medium">Quoted Price:</span> <span class="col-span-2">$${quote.price_with_profit || 'N/A'}</span></p>
                 <p class="grid grid-cols-3 text-sm"><span class="font-medium">Status:</span> <span class="col-span-2">${quote.status || 'N/A'}</span></p>
                 ${showActions && !hasAcceptedQuote ? `
                 <p class="grid grid-cols-3 text-sm"><span class="font-medium">Action:</span><span class="col-span-2">
@@ -283,16 +283,17 @@ function formatDetails(data) {
     if(quotesHtml == '' && tpQuotesHtml == ''){
       finalQuotesHtml = '<p>No quotes available</p>';
     }
+    // console.log(details.vendor_quotes);
     
     let selectedCarrierHtml = '';
     if(details.vendor_quotes && details.vendor_quotes.length > 0){
       selectedCarrierHtml = `
                 <h4 class="font-semibold text-xl text-gray-700 dark:text-white mb-2 mt-8">Selected Carrier Information</h4>
                 <div class="selected-carrier-section space-y-2 text-md">
-                    <p class="grid grid-cols-3"><span class="font-medium" >Name:</span> <span class="col-span-2" id="vendor_name_${details.vendor_quotes[0].id}">${details.vendor_name}</span></p>
-                    <p class="grid grid-cols-3"><span class="font-medium" >Email:</span> <span class="col-span-2" id="vendor_email_${details.vendor_quotes[0].id}">${details.vendor_email}</span></p>
-                    <p class="grid grid-cols-3"><span class="font-medium" >Phone:</span> <span class="col-span-2" id="vendor_phone_${details.vendor_quotes[0].id}">${details.vendor_phone}</span></p>
-                    <p class="grid grid-cols-3"><span class="font-medium" >Rating:</span> <span class="col-span-2 capitalize" id="vendor_rating_${details.vendor_quotes[0].id}">${details.vendor_rating ? details.vendor_rating.replace('_', ' ') : ''}</span></p>
+                    <p class="grid grid-cols-3"><span class="font-medium" >Name:</span> <span class="col-span-2" id="vendor_name_${details.vendor_quotes[0].id}">${details.vendor_quotes[0].name}</span></p>
+                    <p class="grid grid-cols-3"><span class="font-medium" >Email:</span> <span class="col-span-2" id="vendor_email_${details.vendor_quotes[0].id}">${details.vendor_quotes[0].email}</span></p>
+                    <p class="grid grid-cols-3"><span class="font-medium" >Phone:</span> <span class="col-span-2" id="vendor_phone_${details.vendor_quotes[0].id}">${details.vendor_quotes[0].phone}</span></p>
+                    <p class="grid grid-cols-3"><span class="font-medium" >Rating:</span> <span class="col-span-2 capitalize" id="vendor_rating_${details.vendor_quotes[0].id}">${details.vendor_quotes[0].rating ? details.vendor_quotes[0].rating.replace('_', ' ') : 'Not Rated'}</span></p>
                     <p class="grid grid-cols-3"><span class="font-medium" >FMCSA:</span> <span class="col-span-2 text-blue-500 cursor-pointer" id="vendor_fmcsa_${details.vendor_quotes[0].id}">
                         ${details.vendor_fmcsa && details.vendor_fmcsa !== 'http://' ? `<a href="${details.vendor_fmcsa}" target="_blank">${details.vendor_dot || ''}` : (details.vendor_dot || '')} (See More Carrier Info) </a>
                     </span></p>
@@ -529,7 +530,7 @@ function viewVendor(event, id, type) {
                         <p class="grid grid-cols-3"><span class="font-medium">Email:</span> <span class="col-span-2">${quote.email || 'N/A'}</span></p>
                         <p class="grid grid-cols-3"><span class="font-medium">Phone:</span> <span class="col-span-2">${quote.phone || 'N/A'}</span></p>
                        
-                        <p class="grid grid-cols-3"><span class="font-medium">Quote Amount:</span> <span class="col-span-2">$${quote.price || '0.00'}</span></p>
+                        <p class="grid grid-cols-3"><span class="font-medium">Quote Amount:</span> <span class="col-span-2">$${quote.price_with_profit || '0.00'}</span></p>
                         <p class="grid grid-cols-3"><span class="font-medium">Status:</span> <span class="capitalize">${quote.status || 'Pending'}</span> <a href="https://ai.fmcsa.dot.gov/sms/safer_xfr.aspx?DOT=${quote?.vendor_dot}&Form=SAFER">(See More Carrier Info)</a></p>
                     </div>
                 </div>
