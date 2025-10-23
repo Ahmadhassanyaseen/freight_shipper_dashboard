@@ -122,7 +122,7 @@
             <td class="toggle-details truncate-x"><?= htmlspecialchars(date('m-d-Y', strtotime($shipment['pickup_date']))) ?></td>
             <td class="toggle-details">
                 <button class=" text-white py-1 px-2 rounded 
-                <?php if($shipment['status'] == 'Deleted' || $shipment['status'] == 'Dead') {echo 'bg-gray-500 cursor-not-allowed';} else {echo 'bgBlue cursor-pointer';} ?>
+                <?php if($shipment['status'] == 'Deleted' || $shipment['status'] == 'Dead' || $shipment['status'] == 'Converted') {echo 'bg-gray-500 cursor-not-allowed';} else {echo 'bgBlue cursor-pointer';} ?>
                 " onclick="editShipment('<?= htmlspecialchars($shipment['id']) ?>')" 
                 
                 <?php if($shipment['status'] == 'Deleted' || $shipment['status'] == 'Dead') {echo 'disabled';} ?>
@@ -130,7 +130,7 @@
                     <i class="fa fa-edit"></i>
                 </button>
                 <button class=" text-white py-1 px-2 rounded
-                <?php if($shipment['status'] == 'Deleted' || $shipment['status'] == 'Dead') {echo 'bg-gray-500 cursor-not-allowed';} else {echo 'bgRed cursor-pointer';} ?>
+                <?php if($shipment['status'] == 'Deleted' || $shipment['status'] == 'Dead' || $shipment['status'] == 'Converted') {echo 'bg-gray-500 cursor-not-allowed';} else {echo 'bgRed cursor-pointer';} ?>
                 " onclick="deleteShipment('<?= htmlspecialchars($shipment['id']) ?>')"
                 <?php if($shipment['status'] == 'Deleted' || $shipment['status'] == 'Dead') {echo 'disabled';} ?>
                 >
@@ -337,7 +337,7 @@ function formatDetails(data) {
                     <p class="grid grid-cols-2"><span class="font-medium">Addons:</span> <span>$${details.addons}</span></p>
                     <p class="grid grid-cols-2"><span class="font-medium">Tolls:</span> <span>$${details.tolls}</span></p>
                     <p class="grid grid-cols-2"><span class="font-medium">Deadhead:</span> <span>$${details.deadhead}</span></p>
-                    <p class="grid grid-cols-2"><span class="font-medium">Total Price:</span> <span>${details.amount}</span></p>
+                    <p class="grid grid-cols-2" style="color:green;"><span class="font-medium">Total Price:</span> <span>${details.amount}</span></p>
                     <p class="grid grid-cols-2"><span class="font-medium">Pickup:</span> <span>${details.pickup}</span></p>
                     <p class="grid grid-cols-2"><span class="font-medium">Destination:</span> <span>${details.dropoff}</span></p>
                 </div>
