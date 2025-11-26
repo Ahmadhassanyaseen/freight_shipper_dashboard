@@ -1,12 +1,28 @@
 
 <?php include 'config/config.php'; ?>
 <?php include 'components/layout/header.php'; ?>
+<link rel="stylesheet" href="assets/css/rate_breakdown_modal.css">
     <?php include 'components/layout/sidebar.php'; ?>
 
     
      
       <div class="flex flex-col flex-1 w-full">
        <?php include 'components/layout/topbar.php'; ?>
+        <style>
+            .tab-button {
+                transition: all 0.3s ease;
+            }
+            .tab-button:hover {
+                border-color: #93c5fd;
+            }
+            .tab-content {
+                animation: fadeIn 0.3s ease-in;
+            }
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        </style>
         <main class="h-full overflow-y-auto pb-10">
           <div class="container px-6 pb-10 mx-auto grid">
             <h2
@@ -15,8 +31,26 @@
                Add Load
             </h2>
            
+            <!-- Tab Navigation -->
+            <div class="mb-6">
+                <div class="border-b border-gray-200 dark:border-gray-700">
+                    <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+                        <button type="button" onclick="switchTab('domestic')" id="domestic-tab" class="tab-button active border-b-2 border-blue-500 py-4 px-1 text-center text-sm font-medium text-blue-600 dark:text-blue-400">
+                            <i class="fas fa-truck mr-2"></i>Domestic
+                        </button>
+                        <button type="button" onclick="switchTab('overseas')" id="overseas-tab" class="tab-button border-b-2 border-transparent py-4 px-1 text-center text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300">
+                            <i class="fas fa-ship mr-2"></i>Overseas
+                        </button>
+                    </nav>
+                </div>
+            </div>
             
             <form id="loadForm" class="space-y-6">
+            <!-- Hidden field to track shipment type -->
+            <input type="hidden" id="shipment_type" name="shipment_type" value="domestic">
+            
+        <!-- DOMESTIC TAB CONTENT -->
+        <div id="domestic-content" class="tab-content">
         <!-- Freight Information Section -->
         <div class="bg-white p-6 rounded-lg shadow-md dark:bg-gray-800">
             <h3 class="text-lg font-medium text-gray-700 mb-4 dark:text-white">Freight Information</h3>
@@ -527,9 +561,260 @@
             <div class="flex justify-end mt-6">
                 <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded cursor-pointer">Submit Load</button>
             </div>
+        </div>
+        <!-- END DOMESTIC TAB CONTENT -->
+        
+        <!-- OVERSEAS TAB CONTENT -->
+        <div id="overseas-content" class="tab-content" style="display: none;">
+            <!-- Container Specifications Section -->
+            <div class="bg-white p-6 rounded-lg shadow-md dark:bg-gray-800">
+                <h3 class="text-lg font-medium text-gray-700 mb-4 dark:text-white">Ocean Container Specifications</h3>
+                
+                <div class="mb-4">
+                    <label for="container_type" class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">Container Type *</label>
+                    <select id="container_type" name="container_type" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm dark:border-gray-600 dark:text-white" onchange="updateContainerSpecs()">
+                        <option value="">Select Container Type</option>
+                        <option value="20_dry">20' Dry Container</option>
+                        <option value="40_dry">40' Dry Container</option>
+                        <option value="40_high_cube">40' High Cube Container</option>
+                    </select>
+                </div>
+
+                <!-- Container Specifications Display -->
+                <div id="container-specs" class="mb-4 p-4 bg-white dark:bg-gray-700 rounded-lg" style="display: none;">
+                    <h4 class="font-medium text-gray-700 dark:text-white mb-3">Container Details</h4>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                        <div>
+                            <span class="text-gray-600 dark:text-gray-400">Exterior Length:</span>
+                            <p class="font-semibold text-gray-600 dark:text-white" id="spec-ext-length">-</p>
+                        </div>
+                        <div>
+                            <span class="text-gray-600 dark:text-gray-400">Exterior Width:</span>
+                            <p class="font-semibold text-gray-600 dark:text-white" id="spec-ext-width">-</p>
+                        </div>
+                        <div>
+                            <span class="text-gray-600 dark:text-gray-400">Exterior Height:</span>
+                            <p class="font-semibold text-gray-600 dark:text-white" id="spec-ext-height">-</p>
+                        </div>
+                        <div>
+                            <span class="text-gray-600 dark:text-gray-400">Max Payload:</span>
+                            <p class="font-semibold text-gray-600 dark:text-white" id="spec-payload">-</p>
+                        </div>
+                        <div>
+                            <span class="text-gray-600 dark:text-gray-400">Internal Length:</span>
+                            <p class="font-semibold text-gray-600 dark:text-white" id="spec-int-length">-</p>
+                        </div>
+                        <div>
+                            <span class="text-gray-600 dark:text-gray-400">Internal Width:</span>
+                            <p class="font-semibold text-gray-600 dark:text-white" id="spec-int-width">-</p>
+                        </div>
+                        <div>
+                            <span class="text-gray-600 dark:text-gray-400">Internal Height:</span>
+                            <p class="font-semibold text-gray-600 dark:text-white" id="spec-int-height">-</p>
+                        </div>
+                        <div>
+                            <span class="text-gray-600 dark:text-gray-400">Cubic Capacity:</span>
+                            <p class="font-semibold text-gray-600 dark:text-white" id="spec-capacity">-</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label for="overseas_pickup_port" class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">Origin Port *</label>
+                        <input type="text" id="overseas_pickup_port" name="overseas_pickup_port" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm dark:border-gray-600 dark:text-white" placeholder="e.g., Shanghai, China">
+                    </div>
+                    <div>
+                        <label for="overseas_destination_port" class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">Destination Port *</label>
+                        <input type="text" id="overseas_destination_port" name="overseas_destination_port" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm dark:border-gray-600 dark:text-white" placeholder="e.g., Los Angeles, USA">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label for="overseas_pickup_date" class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">Estimated Pickup Date *</label>
+                        <input type="date" id="overseas_pickup_date" name="overseas_pickup_date" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm dark:border-gray-600 dark:text-white" min="<?php echo date('Y-m-d'); ?>">
+                    </div>
+                    <div>
+                        <label for="overseas_delivery_date" class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">Estimated Delivery Date *</label>
+                        <input type="date" id="overseas_delivery_date" name="overseas_delivery_date" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm dark:border-gray-600 dark:text-white" min="<?php echo date('Y-m-d'); ?>">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label for="commodity_type" class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">Type of Commodity *</label>
+                        <select id="commodity_type" name="commodity_type" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm dark:border-gray-600 dark:text-white">
+                            <option value="">Select Commodity Type</option>
+                            <option value="household_goods">Household Goods (International Move with or without Cars)</option>
+                            <option value="commercial">Commercial Items</option>
+                            <option value="cars_only">Cars Only</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="cargo_weight" class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">Estimated Weight (lbs) *</label>
+                        <input type="number" id="cargo_weight" name="cargo_weight" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm dark:border-gray-600 dark:text-white" min="1">
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2 dark:text-white">Is the Cargo Hazardous Material? *</label>
+                    <div class="flex gap-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="is_hazardous" value="yes" class="form-radio text-blue-600">
+                            <span class="ml-2 dark:text-white">Yes</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="is_hazardous" value="no" class="form-radio text-blue-600" checked>
+                            <span class="ml-2 dark:text-white">No</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label for="cargo_description" class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">Cargo Description *</label>
+                    <textarea id="cargo_description" name="cargo_description" rows="3" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm dark:border-gray-600 dark:text-white" placeholder="Please provide a full description of the nature of your cargo"></textarea>
+                </div>
+            </div>
+
+            <!-- Additional Services for Overseas -->
+            <div class="bg-white p-6 rounded-lg shadow-md mt-6 dark:bg-gray-800">
+                <h3 class="text-lg font-medium text-gray-700 mb-4 dark:text-white">Additional Services</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div class="border rounded-lg p-4 dark:border-gray-600">
+                        <label class="flex items-center cursor-pointer">
+                            <input type="checkbox" name="overseas_customs" value="yes" class="h-4 w-4 text-blue-600 rounded">
+                            <span class="ml-2 font-medium text-gray-700 dark:text-white">Customs Clearance Required</span>
+                        </label>
+                    </div>
+                    <div class="border rounded-lg p-4 dark:border-gray-600">
+                        <label class="flex items-center cursor-pointer">
+                            <input type="checkbox" name="overseas_insurance" value="yes" class="h-4 w-4 text-blue-600 rounded">
+                            <span class="ml-2 font-medium text-gray-700 dark:text-white">Insurance Required</span>
+                        </label>
+                    </div>
+                    <div class="border rounded-lg p-4 dark:border-gray-600">
+                        <label class="flex items-center cursor-pointer">
+                            <input type="checkbox" name="overseas_delivery" value="yes" class="h-4 w-4 text-blue-600 rounded">
+                            <span class="ml-2 font-medium text-gray-700 dark:text-white">Door-to-Door Delivery</span>
+                        </label>
+                    </div>
+                    <div class="border rounded-lg p-4 dark:border-gray-600">
+                        <label class="flex items-center cursor-pointer">
+                            <input type="checkbox" name="overseas_broker" value="yes" class="h-4 w-4 text-blue-600 rounded">
+                            <span class="ml-2 font-medium text-gray-700 dark:text-white">Customs Broker Needed</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label for="insurance_value" class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">Declared Value of Cargo (US $)</label>
+                    <input type="number" id="insurance_value" name="insurance_value" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm dark:border-gray-600 dark:text-white" placeholder="Enter amount (no commas)">
+                </div>
+            </div>
+
+            <!-- Shipper Information for Overseas -->
+            <div class="bg-white p-6 rounded-lg shadow-md mt-6 dark:bg-gray-800">
+                <h3 class="text-lg font-medium text-gray-700 mb-4 dark:text-white">Shipper Information</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label for="overseas_shipper_email" class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">Email *</label>
+                        <div class="relative">
+                            <input type="text" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm cursor-not-allowed dark:border-gray-600 dark:text-white" disabled autocomplete="off" placeholder="Email" value="<?php 
+                            if(isset($_COOKIE['user'])){
+                                echo json_decode($_COOKIE['user'])->email;
+                            }
+                            ?>">
+                            <input type="hidden" name="overseas_shipper_email" value="<?php 
+                            if(isset($_COOKIE['user'])){
+                                echo json_decode($_COOKIE['user'])->email;
+                            }
+                            ?>">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="overseas_shipper_phone" class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">Phone *</label>
+                        <input type="text" id="overseas_shipper_phone" name="overseas_shipper_phone" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm dark:border-gray-600 dark:text-white" autocomplete="off" placeholder="Phone">
+                    </div>
+                    <div>
+                        <label for="overseas_shipper_first_name" class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">First Name *</label>
+                        <input type="text" id="overseas_shipper_first_name" name="overseas_shipper_first_name" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm dark:border-gray-600 dark:text-white" autocomplete="off" placeholder="First Name">
+                    </div>
+                    <div>
+                        <label for="overseas_shipper_last_name" class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">Last Name *</label>
+                        <input type="text" id="overseas_shipper_last_name" name="overseas_shipper_last_name" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm dark:border-gray-600 dark:text-white" autocomplete="off" placeholder="Last Name">
+                    </div>
+                    <div class="col-span-2">
+                        <label for="overseas_shipper_address" class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">Organization</label>
+                        <input type="text" id="overseas_organization" name="overseas_organization" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm dark:border-gray-600 dark:text-white" autocomplete="off" placeholder="Organization Name (if applicable)">
+                    </div>
+                    <div class="col-span-2">
+                        <label for="overseas_zip_code" class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">Zip Code *</label>
+                        <input type="text" id="overseas_zip_code" name="overseas_zip_code" class="px-2 py-3 border border-gray-400 block w-full rounded-md focus:ring-blue-500 sm:text-sm dark:border-gray-600 dark:text-white" autocomplete="off" placeholder="Zip Code">
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-end mt-6">
+                <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded cursor-pointer">Submit Load</button>
+            </div>
+        </div>
+        <!-- END OVERSEAS TAB CONTENT -->
             
         </form>
             
+        <!-- Rate Breakdown Modal -->
+        <div id="rateBreakdownModal" class="rate-modal-overlay">
+            <div class="rate-modal-container">
+                <div class="rate-modal-header">
+                    RATING DETAILS
+                </div>
+                <div class="rate-modal-body">
+                    <div class="rate-route-info">
+                        Ocean Container Rates from <strong id="modal-origin">-</strong> To <strong id="modal-destination">-</strong>
+                    </div>
+                    <div class="rate-weight-info">
+                        Total Volume Weight <span id="modal-weight">-</span> lb or <span id="modal-weight-kg">-</span> kgs.
+                    </div>
+                    
+                    <table class="rate-breakdown-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 35%;">DESCRIPTION</th>
+                                <th style="width: 20%;">VALUE</th>
+                                <th style="width: 15%;">RATE</th>
+                                <th style="width: 10%;">QTY.</th>
+                                <th style="width: 20%;">AMOUNT</th>
+                            </tr>
+                        </thead>
+                        <tbody id="modal-breakdown-body">
+                            <!-- Breakdown items will be inserted here -->
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="4" style="text-align: left;">Total</td>
+                                <td id="modal-total">US $0.00</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                    <div class="rate-modal-footer">
+                        <strong>No deposit required - All bookings must be made in written form.</strong><br>
+                        (A Confirmation of Rates and Availability will be sent to you via e-mail within 72 hours)<br><br>
+                        All charges are confirmed in by means of a Booking Confirmation and are based on your shipment dates and the origin and destination address you provide to us.
+                    </div>
+                </div>
+                <div class="rate-modal-actions">
+                    <button type="button" class="rate-modal-btn rate-modal-btn-confirm" onclick="confirmAndSubmit()">
+                        <i class="fas fa-check-circle"></i> Confirm & Submit
+                    </button>
+                    <button type="button" class="rate-modal-btn rate-modal-btn-cancel" onclick="closeRateModal()">
+                        <i class="fas fa-times-circle"></i> Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
             
             
 
@@ -538,6 +823,7 @@
         </main>
       </div>
     </div>
+    <script src="js/rate_calculator.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA-XmAtSvNj2CjcYT7VRfnIk58aGsdeh7k&libraries=places&callback=Function.prototype"></script>
 
     <script>
@@ -590,11 +876,28 @@
     //    });
     // });
 
+    // Store form data globally for submission after rate confirmation
+    let pendingFormData = null;
+
     $(document).ready(function() {
     $('#loadForm').submit(function(e) {
         e.preventDefault();
         var formData = new FormData(this);
+        const shipmentType = document.getElementById('shipment_type').value;
         
+        // If overseas shipment, show rate breakdown first
+        if (shipmentType === 'overseas') {
+            // Validate required overseas fields
+            if (!validateOverseasForm()) {
+                return false;
+            }
+            
+            // Calculate and show rate breakdown
+            showRateBreakdown(formData);
+            return false;
+        }
+        
+        // For domestic shipments, proceed with normal submission
         Swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
@@ -647,6 +950,146 @@
     });
 });
 
+    // Validate overseas form fields
+    function validateOverseasForm() {
+        const requiredFields = [
+            { id: 'container_type', name: 'Container Type' },
+            { id: 'overseas_pickup_port', name: 'Origin Port' },
+            { id: 'overseas_destination_port', name: 'Destination Port' },
+            { id: 'overseas_pickup_date', name: 'Pickup Date' },
+            { id: 'overseas_delivery_date', name: 'Delivery Date' },
+            { id: 'commodity_type', name: 'Commodity Type' },
+            { id: 'cargo_weight', name: 'Cargo Weight' },
+            { id: 'cargo_description', name: 'Cargo Description' },
+            { id: 'overseas_shipper_phone', name: 'Phone' },
+            { id: 'overseas_shipper_first_name', name: 'First Name' },
+            { id: 'overseas_shipper_last_name', name: 'Last Name' },
+            { id: 'overseas_zip_code', name: 'Zip Code' }
+        ];
+
+        for (const field of requiredFields) {
+            const element = document.getElementById(field.id);
+            if (!element || !element.value || element.value.trim() === '') {
+                Swal.fire({
+                    title: 'Missing Information',
+                    text: `Please fill in the ${field.name} field.`,
+                    icon: 'warning',
+                    confirmButtonText: 'OK'
+                });
+                element?.focus();
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // Show rate breakdown modal
+    function showRateBreakdown(formData) {
+        // Convert FormData to object
+        const formObject = {};
+        for (const [key, value] of formData.entries()) {
+            formObject[key] = value;
+        }
+
+        // Store for later submission
+        pendingFormData = formData;
+
+        // Calculate rates
+        const rateData = window.OceanFreightCalculator.calculateFreight(formObject);
+
+        // Populate modal
+        document.getElementById('modal-origin').textContent = rateData.origin || '-';
+        document.getElementById('modal-destination').textContent = rateData.destination || '-';
+        document.getElementById('modal-weight').textContent = rateData.weight.toLocaleString();
+        document.getElementById('modal-weight-kg').textContent = rateData.weightKg;
+
+        // Build breakdown table
+        const tbody = document.getElementById('modal-breakdown-body');
+        tbody.innerHTML = '';
+
+        rateData.breakdown.forEach(item => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td style="white-space: pre-line;">${item.description}</td>
+                <td>${item.value}</td>
+                <td>${item.rate ? (typeof item.rate === 'number' ? '$' + item.rate.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) : item.rate) : ''}</td>
+                <td>${item.qty}</td>
+                <td>$${item.amount.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
+            `;
+            tbody.appendChild(row);
+        });
+
+        // Set total
+        document.getElementById('modal-total').textContent = 
+            'US $' + rateData.total.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+
+        // Add total to form data
+        formData.append('calculated_total', rateData.total);
+        formData.append('rate_breakdown', JSON.stringify(rateData.breakdown));
+
+        // Show modal
+        document.getElementById('rateBreakdownModal').classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    // Close rate modal
+    function closeRateModal() {
+        document.getElementById('rateBreakdownModal').classList.remove('active');
+        document.body.style.overflow = 'auto';
+        pendingFormData = null;
+    }
+
+    // Confirm and submit to backend
+    function confirmAndSubmit() {
+        if (!pendingFormData) {
+            closeRateModal();
+            return;
+        }
+
+        // Close modal
+        closeRateModal();
+
+        // Show loading
+        Swal.fire({
+            title: 'Processing...',
+            text: 'Please wait while we save your shipment.',
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+
+        // Submit to backend
+        $.ajax({
+            url: './helper/load/add.php',
+            type: 'POST',
+            data: pendingFormData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                pendingFormData = null;
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Overseas shipment added successfully!',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    $('#loadForm')[0].reset();
+                    window.location.href = './index.php';
+                });
+            },
+            error: function(xhr, status, error) {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Failed to add shipment. Please try again.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            }
+        });
+    }
+
+
         $(document).ready(function() {
             $('input[type="checkbox"]').on('change', function() {
                 console.log('Checkbox changed');
@@ -656,7 +1099,134 @@
                 });
                 $('#addons_total').text(total.toFixed(2));
                 $('.addons_total_value').val(total.toFixed(2));
-            }) 
+            });
+        });
+
+        // Tab switching function
+        function switchTab(tabName) {
+            // Update hidden field
+            document.getElementById('shipment_type').value = tabName;
+            
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.style.display = 'none';
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active', 'border-blue-500', 'text-blue-600', 'dark:text-blue-400');
+                button.classList.add('border-transparent', 'text-gray-500', 'dark:text-gray-400');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName + '-content').style.display = 'block';
+            
+            // Add active class to selected tab
+            const activeTab = document.getElementById(tabName + '-tab');
+            activeTab.classList.add('active', 'border-blue-500', 'text-blue-600', 'dark:text-blue-400');
+            activeTab.classList.remove('border-transparent', 'text-gray-500', 'dark:text-gray-400');
+            
+            // Handle required attributes based on active tab
+            if (tabName === 'domestic') {
+                // Enable domestic required fields
+                enableRequiredFields('domestic-content');
+                // Disable overseas required fields
+                disableRequiredFields('overseas-content');
+            } else if (tabName === 'overseas') {
+                // Enable overseas required fields
+                enableRequiredFields('overseas-content');
+                // Disable domestic required fields
+                disableRequiredFields('domestic-content');
+            }
+        }
+
+        // Enable required attributes for fields in a container
+        function enableRequiredFields(containerId) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            
+            // Find all inputs, selects, and textareas that should be required
+            const fields = container.querySelectorAll('input[data-required="true"], select[data-required="true"], textarea[data-required="true"]');
+            fields.forEach(field => {
+                field.setAttribute('required', 'required');
+            });
+        }
+
+        // Disable required attributes for fields in a container
+        function disableRequiredFields(containerId) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            
+            // Find all required fields and mark them for later
+            const fields = container.querySelectorAll('input[required], select[required], textarea[required]');
+            fields.forEach(field => {
+                field.setAttribute('data-required', 'true');
+                field.removeAttribute('required');
+            });
+        }
+
+        // Initialize on page load - disable overseas fields by default
+        document.addEventListener('DOMContentLoaded', function() {
+            disableRequiredFields('overseas-content');
+        });
+
+        // Container specifications data
+        const containerSpecs = {
+            '20_dry': {
+                extLength: "19' 10\"",
+                extWidth: "8'",
+                extHeight: "8' 6\"",
+                intLength: "19' 4\"",
+                intWidth: "7' 8\"",
+                intHeight: "7' 9\"",
+                payload: "38,000 lbs",
+                capacity: "32.9 CBM (1,161 CF)"
+            },
+            '40_dry': {
+                extLength: "40'",
+                extWidth: "8'",
+                extHeight: "8' 6\"",
+                intLength: "39' 5\"",
+                intWidth: "7' 8\"",
+                intHeight: "7' 9\"",
+                payload: "43,000 lbs",
+                capacity: "67 CBM (2,366 CF)"
+            },
+            '40_high_cube': {
+                extLength: "40'",
+                extWidth: "8'",
+                extHeight: "9' 6\"",
+                intLength: "39' 6\"",
+                intWidth: "7' 8\"",
+                intHeight: "8' 9\"",
+                payload: "43,000 lbs",
+                capacity: "75.6 CBM (2,671 CF)"
+            }
+        };
+
+        // Update container specifications display
+        function updateContainerSpecs() {
+            const containerType = document.getElementById('container_type').value;
+            const specsDiv = document.getElementById('container-specs');
+            
+            if (containerType && containerSpecs[containerType]) {
+                const specs = containerSpecs[containerType];
+                
+                document.getElementById('spec-ext-length').textContent = specs.extLength;
+                document.getElementById('spec-ext-width').textContent = specs.extWidth;
+                document.getElementById('spec-ext-height').textContent = specs.extHeight;
+                document.getElementById('spec-int-length').textContent = specs.intLength;
+                document.getElementById('spec-int-width').textContent = specs.intWidth;
+                document.getElementById('spec-int-height').textContent = specs.intHeight;
+                document.getElementById('spec-payload').textContent = specs.payload;
+                document.getElementById('spec-capacity').textContent = specs.capacity;
+                
+                specsDiv.style.display = 'block';
+            } else {
+                specsDiv.style.display = 'none';
+            }
+        }
+ 
         //  function initGooglePlacesAutocomplete() {
         //             // Check if Google Maps API is loaded
         //             if (typeof google === 'undefined' || !google.maps || !google.maps.places) {
@@ -734,6 +1304,30 @@
     return formattedAddress;
 }
 
+// Format address for ports (City, Country format)
+function formatPortAddress(place) {
+    let city = place.name || '';
+    let country = '';
+
+    // Find country from address components
+    for (const component of place.address_components) {
+        const types = component.types;
+        if (types.includes('country')) {
+            country = component.long_name; // Use full country name for ports
+        }
+        // If the place is a locality, use it as city
+        if (types.includes('locality')) {
+            city = component.long_name;
+        }
+    }
+
+    // Build the formatted port address (City, Country)
+    let formattedAddress = city;
+    if (country) formattedAddress += `, ${country}`;
+
+    return formattedAddress;
+}
+
 function initGooglePlacesAutocomplete() {
     // Check if Google Maps API is loaded
     if (typeof google === 'undefined' || !google.maps || !google.maps.places) {
@@ -743,7 +1337,7 @@ function initGooglePlacesAutocomplete() {
     }
 
     try {
-        // Initialize autocomplete for pickup address
+        // Initialize autocomplete for pickup address (Domestic)
         const pickupInput = document.getElementById('pickup_address');
         if (pickupInput) {
             const pickupAutocomplete = new google.maps.places.Autocomplete(pickupInput, {
@@ -764,7 +1358,7 @@ function initGooglePlacesAutocomplete() {
             });
         }
 
-        // Initialize autocomplete for drop-off address
+        // Initialize autocomplete for drop-off address (Domestic)
         const dropoffInput = document.getElementById('drop_address');
         if (dropoffInput) {
             const dropoffAutocomplete = new google.maps.places.Autocomplete(dropoffInput, {
@@ -781,6 +1375,44 @@ function initGooglePlacesAutocomplete() {
                 }
                 // Format the address
                 dropoffInput.value = formatAddress(place);
+            });
+        }
+
+        // Initialize autocomplete for origin port (Overseas)
+        const originPortInput = document.getElementById('overseas_pickup_port');
+        if (originPortInput) {
+            const originPortAutocomplete = new google.maps.places.Autocomplete(originPortInput, {
+                types: ['(cities)'],
+                fields: ['name', 'address_components', 'formatted_address']
+            });
+
+            originPortAutocomplete.addListener('place_changed', function() {
+                const place = originPortAutocomplete.getPlace();
+                if (!place.geometry) {
+                    console.log("No details available for input");
+                    return;
+                }
+                // Format the address for port (City, Country)
+                originPortInput.value = formatPortAddress(place);
+            });
+        }
+
+        // Initialize autocomplete for destination port (Overseas)
+        const destinationPortInput = document.getElementById('overseas_destination_port');
+        if (destinationPortInput) {
+            const destinationPortAutocomplete = new google.maps.places.Autocomplete(destinationPortInput, {
+                types: ['(cities)'],
+                fields: ['name', 'address_components', 'formatted_address']
+            });
+
+            destinationPortAutocomplete.addListener('place_changed', function() {
+                const place = destinationPortAutocomplete.getPlace();
+                if (!place.geometry) {
+                    console.log("No details available for input");
+                    return;
+                }
+                // Format the address for port (City, Country)
+                destinationPortInput.value = formatPortAddress(place);
             });
         }
     } catch (error) {
@@ -811,7 +1443,6 @@ function initGooglePlacesAutocomplete() {
 
                         // Call the function to load Google Maps API
                         loadGoogleMapsAPI();  
-        })
     </script>
   </body>
 </html>
