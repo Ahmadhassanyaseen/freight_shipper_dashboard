@@ -1,4 +1,12 @@
-<?php include 'config/config.php'; ?>
+<?php include 'config/config.php'; 
+
+$redirect = false;
+
+if(isset($_GET['redirect']) && $_GET['redirect']){
+    $redirect = true;
+}
+
+?>
   
 
 
@@ -750,7 +758,14 @@
                     }).then(() => {
                         // Reset form and close popup on success
                         resetPaymentForm();
+                        <?php
+                        if($redirect){
+                            echo "location.href = 'agreement.php?redirect=true';";
+                        }
+                        
+                        ?>
                         location.reload(); // Refresh to show updated card list
+
                     });
                     
                     // Re-enable submit button

@@ -1,8 +1,57 @@
   
 
   <?php include 'config/config.php';
+
+// Save POST payload to backup/agreement.json
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $backupPath = __DIR__ . DIRECTORY_SEPARATOR . 'backup' . DIRECTORY_SEPARATOR . 'agreement.json';
+    $backupDir  = dirname($backupPath);
+
+    // Ensure the backup directory exists
+    if (!is_dir($backupDir)) {
+        @mkdir($backupDir, 0775, true);
+    }
+
+    // Prepare data to save (you can remove metadata if not needed)
+    $entry = $_POST;
+    $entry['_saved_at'] = date('c');
+    $entry['_ip'] = $_SERVER['REMOTE_ADDR'] ?? null;
+
+    // Load existing JSON as an array (fallback to empty array on error)
+    $existing = [];
+    if (is_file($backupPath)) {
+        $raw = file_get_contents($backupPath);
+        if ($raw !== false && strlen(trim($raw)) > 0) {
+            $decoded = json_decode($raw, true);
+            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                $existing = $decoded;
+            }
+        }
+    }
+
+    // Append the new entry
+    $existing[] = $entry;
+
+    // Write back atomically with a lock
+    $json = json_encode($existing, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+    if ($json !== false) {
+        $ok = @file_put_contents($backupPath, $json . PHP_EOL, LOCK_EX);
+        if ($ok === false) {
+            error_log("Failed to write to $backupPath");
+        }
+    } else {
+        error_log('Failed to encode POST data to JSON: ' . json_last_error_msg());
+    }
+}
+
+
+if(isset($_GET['redirect']) && $_GET['redirect']){
+    $_POST = json_decode(file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'backup' . DIRECTORY_SEPARATOR . 'agreement.json'), true);
+    print_r($_POST);
+}
+
 //   print_r($_POST);
-  ?>
+?>
  
  <?php include 'components/layout/header.php'; ?>
  <!-- Add these in the head section if not already present -->
@@ -757,7 +806,7 @@ if (isset($_COOKIE['user'])) {
                             }
                         } else {
                             echo '<div class="text-center py-4 text-gray-500">No saved cards found. Please add a new card.
-                            <a href="https://stretchxlfreight.com/dashboard/payments.php" class="text-primary-color hover:text-primary-color-dark font-medium">Add a new payment method</a></div>';
+                            <a href="https://stretchxlfreight.com/dashboard/payments.php?redirect=agreement" class="text-primary-color hover:text-primary-color-dark font-medium">Add a new payment method</a></div>';
                         }
                         ?>
                         <!-- Add more saved cards as needed -->
