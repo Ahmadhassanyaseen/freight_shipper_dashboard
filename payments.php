@@ -7,11 +7,7 @@ if(isset($_GET['redirect']) && $_GET['redirect']){
 }
 
 
-if($redirect){
-    echo 0;
-}else{
-    echo 1;
-}
+
 ?>
   
 

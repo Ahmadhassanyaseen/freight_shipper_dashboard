@@ -1,18 +1,1 @@
-[
-    {
-        "id": "ae9383c0-59d0-19ad-e466-69414069d341",
-        "quote_id": "50c19abc-e480-c2a3-ef76-6941439d8746",
-        "quote": "{\"id\":\"50c19abc-e480-c2a3-ef76-6941439d8746\",\"name\":\"Ahmad Hassan\",\"price\":\"600\",\"price_with_profit\":\"672\",\"status\":\"pending\",\"email\":\"madarauchihaoffocial@gmail.com\",\"phone\":\"3154540483\",\"date_entered\":\"12/16/2025 11:33\",\"date_modified\":\"12/16/2025 11:33\",\"vendor_id\":\"3010cac7-2139-3a23-1d47-685d4eeaa24c\",\"vendor_dot\":\"3570012\"}",
-        "type": "xl",
-        "_saved_at": "2025-12-16T13:00:05+01:00",
-        "_ip": "::1"
-    },
-    {
-        "id": "ae9383c0-59d0-19ad-e466-69414069d341",
-        "quote_id": "50c19abc-e480-c2a3-ef76-6941439d8746",
-        "quote": "{\"id\":\"50c19abc-e480-c2a3-ef76-6941439d8746\",\"name\":\"Ahmad Hassan\",\"price\":\"600\",\"price_with_profit\":\"672\",\"status\":\"pending\",\"email\":\"madarauchihaoffocial@gmail.com\",\"phone\":\"3154540483\",\"date_entered\":\"12/16/2025 11:33\",\"date_modified\":\"12/16/2025 11:33\",\"vendor_id\":\"3010cac7-2139-3a23-1d47-685d4eeaa24c\",\"vendor_dot\":\"3570012\"}",
-        "type": "xl",
-        "_saved_at": "2025-12-16T13:03:56+01:00",
-        "_ip": "::1"
-    }
-]
+[]

@@ -45,9 +45,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 
-if(isset($_GET['redirect']) && $_GET['redirect']){
-    $_POST = json_decode(file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'backup' . DIRECTORY_SEPARATOR . 'agreement.json'), true);
-    print_r($_POST);
+if (isset($_GET['redirect']) && $_GET['redirect']) {
+    $backupPath = __DIR__ . DIRECTORY_SEPARATOR . 'backup' . DIRECTORY_SEPARATOR . 'agreement.json';
+    $olgAgreement = json_decode(@file_get_contents($backupPath), true);
+    if (is_array($olgAgreement) && !empty($olgAgreement)) {
+        $_POST = $olgAgreement[0];
+        @file_put_contents($backupPath, "[]\n", LOCK_EX); // reset to empty array
+        // Alternatively: @unlink($backupPath); // delete file entirely
+    }
 }
 
 //   print_r($_POST);
