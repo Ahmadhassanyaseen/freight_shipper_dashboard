@@ -6,6 +6,12 @@ if(isset($_GET['redirect']) && $_GET['redirect']){
     $redirect = true;
 }
 
+
+if($redirect){
+    echo 0;
+}else{
+    echo 1;
+}
 ?>
   
 
@@ -760,12 +766,15 @@ if(isset($_GET['redirect']) && $_GET['redirect']){
                         resetPaymentForm();
                         <?php
                         if($redirect){
+                            echo "console.log('redirecting');";
                             echo "location.href = 'agreement.php?redirect=true';";
+                        }else{
+                            echo "console.log('not redirecting');";
+                            echo "location.reload();";
                         }
                         
                         ?>
-                        location.reload(); // Refresh to show updated card list
-
+                       
                     });
                     
                     // Re-enable submit button
