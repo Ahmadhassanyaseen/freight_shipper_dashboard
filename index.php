@@ -11,6 +11,25 @@
  
   <?php include 'components/layout/header.php'; ?>
     <?php include 'components/layout/sidebar.php'; ?>
+
+
+     <?php
+              if (isset($_COOKIE["user"])) {
+                  $userData = json_decode($_COOKIE["user"], true);
+              } else {
+                  $userData = [];
+              }
+              
+             
+             $data['id'] = $userData['id'];
+             $response = fetchAllShipperLeads($data);
+             if(!$response){
+              $response = [];
+             }
+
+
+?>
+
      
       <div class="flex flex-col flex-1 w-full">
        <?php include 'components/layout/topbar.php'; ?>
@@ -26,21 +45,8 @@
             <!-- Cards -->
             <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
               <!-- Card -->
-              <?php
-              if (isset($_COOKIE["user"])) {
-                  $userData = json_decode($_COOKIE["user"], true);
-              } else {
-                  $userData = [];
-              }
-              
              
-             $data['id'] = $userData['id'];
-             $response = fetchAllShipperLeads($data);
-             if(!$response){
-              $response = [];
-             }
-
-            
+  <?php          
             $stats = [
               [
                   'title' => 'Total Shipments',
@@ -108,6 +114,19 @@ foreach($response as $key => $value){
   if($hide_dead && in_array(strtolower($value['status_c']), ['cancelled', 'dead', 'deleted'])) {
     continue;
   }
+
+
+   $quoteAccepted = false;
+              $quotePrice = '0';
+              foreach ($value['vendor_quotes'] as $quote) {
+                $quote['status'] = strtolower($quote['status']);
+                if($quote['status'] == 'accepted'){
+                  $quoteAccepted = true;
+                  $quotePrice = $quote['price_with_profit'];
+                }
+              }
+
+
   $shipments[] = [
     'id' => $value['id'],
     'name' => $value['name'],
@@ -117,7 +136,8 @@ foreach($response as $key => $value){
     'pickup' => $value['pickup_address_c'],
     'pickup_date' => $value['pickup_date_c'],
     'dropoff' => $value['dropoff_address_c'],
-    'amount' => '$' . $value['total_price_c'] ?? '0.00',
+    // 'amount' => '$' . $value['total_price_c'] ?? '0.00',
+    'amount' =>  $quoteAccepted ? '$' . $quotePrice : '$' . $value['total_price_c'] ?? '$0.00',
     'status' => $value['status_c'] ?? 'Pending',
     'weight' => $value['freight_weight_c'].'lbs',
     'created_at' => $value['date_entered'],
