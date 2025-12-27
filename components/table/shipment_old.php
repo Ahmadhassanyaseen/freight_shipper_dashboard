@@ -1,378 +1,359 @@
-<!-- New Table with DataTables -->
-
-<div class="w-full overflow-hidden rounded-lg shadow-xs">
-    <div class="w-full overflow-x-auto">
-        <table id="shipmentsTable" class="w-full display">
-            <thead>
-                <tr>
-                    <th>Customer</th>
-                    <th>Tracking #</th>
-                    <th>Pickup</th>
-                    <th>Dropoff</th>
-                    <th>Type</th>
-                    <th>Quantity</th>
-                    <th>Weight</th>
-                    <th>Amount</th>
-                    <th>Status</th>
-                    <th>Vendor Status</th>
-                    <th>Date</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php if (empty($shipments)) { ?>
-                <tr>
-                    <td colspan="10" class="text-center py-4">No shipments found</td>
-                </tr>
-                <?php } else { ?>
-                <?php foreach ($shipments as $shipment): ?>
-                <tr data-details='<?= htmlspecialchars(json_encode($shipment), ENT_QUOTES, 'UTF-8') ?>' class="cursor-pointer hover:bg-gray-50">
-                    <td class="flex items-center">
-                        <svg class="toggle-details mr-2" width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-                        </svg>
-                        <?= htmlspecialchars($shipment['name']) ?>
-                    </td>
-                    <td>#<?= htmlspecialchars($shipment['tracking_number']) ?></td>
-                    <td><?= htmlspecialchars($shipment['pickup']) ?></td>
-                    <td><?= htmlspecialchars($shipment['dropoff']) ?></td>
-                    <td><?= htmlspecialchars($shipment['type']) ?></td>
-                    <td><?= htmlspecialchars($shipment['quantity']) ?></td>
-                    <td><?= htmlspecialchars($shipment['weight']) ?></td>
-                    <td><?= htmlspecialchars($shipment['amount']) ?></td>
-                    <td>
-                        <?php
-                        $statusClasses = [
-                            'Quoted' => 'text-blue-700 bg-blue-100',
-                            'Converted' => 'text-green-700 bg-green-100',
-                            'Pending' => 'text-orange-700 bg-orange-100',
-                            'Dead' => 'text-red-700 bg-red-100'
-                        ];
-                        $statusClass = $statusClasses[$shipment['status']] ?? 'bg-gray-100 text-gray-800';
-                        ?>
-                        <span class="px-2 py-1 text-xs font-semibold leading-tight rounded-full <?= $statusClass ?>">
-                            <?= htmlspecialchars($shipment['status']) ?>
-                        </span>
-                    </td>
-                    <td>
-                        <?php
-                        $statusClasses = [
-                            '1' => 'text-green-700 bg-green-100',
-                            '0' => 'text-orange-700 bg-orange-100',
-                            '-1' => 'text-red-700 bg-red-100'
-                        ];
-                        $statusClass = $statusClasses[$shipment['vendor_status']] ?? 'bg-gray-100 text-gray-800';
-                        ?>
-                        <span class="px-2 py-1 text-xs font-semibold leading-tight rounded-full <?= $statusClass ?>">
-                            <?= htmlspecialchars($shipment['vendor_status'] == '1' ? 'Accepted' : ($shipment['vendor_status'] == '0' ? 'Pending' : 'Rejected')) ?>
-                        </span>
-                    </td>
-                    <td><?= date('M d, Y', strtotime($shipment['created_at'])) ?></td>
-                </tr>
-                <tr class="details-row hidden">
-                    <td colspan="11" class="px-6 py-4 bg-gray-50 border-b">
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                            <div class="bg-white p-4 rounded-lg shadow">
-                                <h4 class="font-semibold text-xl text-gray-700 mb-2">Shipment Information</h4>
-                                <div class="space-y-2 text-sm">
-                                    <div class="mapouter">
-                                            <?php
-
-                                            $first_city = $shipment['pickup'];
-                                            $second_city = $shipment['dropoff'];
-                                            // echo $first_city;
-                                            // Split the string by comma and space
-                                            $words = explode(', ', $first_city);
-                                            $words2 = explode(', ', $second_city);
-
-                                            // Extract the first word
-                                            $first_word = $words[0] . ',' . $words[1] . ',' . $words[2];
-                                            $second_word = $words2[0] . ',' . $words2[1] . ',' . $words2[2];
-                                            $distanceVal = explode(' ', $shipment['distance']);
-
-                                            $zoomLevel = 10;
-                                            if (intval($distanceVal[0]) < 500) {
-                                                $zoomLevel = 5;
-                                            } elseif (intval($distanceVal[0]) < 1000) {
-                                                $zoomLevel = 4;
-                                            } elseif (intval($distanceVal[0]) < 1500) {
-                                                $zoomLevel = 3;
-                                            }
-
-                                            // echo $first_word;
-
-                                            ?>
-
-
-                                        <div class="gmap_canvas"><iframe width="100%" height="340" id="gmap_canvas" src="<?php echo 'https://maps.google.com/maps?q=' . $first_word . 'to=' . $second_word . '&t=&z=' . $zoomLevel . '&ie=UTF8&iwloc=&output=embed'; ?>" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a href="https://www.analarmclock.com/"></a><br><a href="https://www.onclock.net/"></a><br>
-                                            <style>
-                                                .mapouter {
-                                                    position: relative;
-                                                    text-align: right;
-                                                    height: 90%;
-                                                    width: 100%;
-                                                    border-radius: 10px;
-                                                    max-height: 400px;
-                                                }
-                                            </style>
-
-                                            <style>
-                                                .gmap_canvas {
-                                                    overflow: hidden;
-                                                    background: none !important;
-                                                    height: 100%;
-                                                    width: 100%;
-                                                    border-radius: 10px;
-                                                }
-                                            </style>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="bg-white p-4 rounded-lg shadow">
-                                <h4 class="font-semibold text-2xl text-gray-700 mb-2">Shipment Information</h4>
-                                <div class="space-y-2 text-lg">
-                                    <p class="grid grid-cols-2"><span class="font-medium">Distance:</span> <span><?= htmlspecialchars($shipment['distance'] ?? '0') ?> miles</span></p>
-                                    <p class="grid grid-cols-2"><span class="font-medium">Mileage:</span> <span> $<?= htmlspecialchars($shipment['mileage'] ?? '0.00') ?></span></p>
-                                    <p class="grid grid-cols-2"><span class="font-medium">Fuel:</span> <span> $<?= htmlspecialchars($shipment['fuel'] ?? '0.00') ?></span></p>
-                                    <p class="grid grid-cols-2"><span class="font-medium">Addons:</span> <span> $<?= htmlspecialchars($shipment['addons'] ?? '0.00') ?></span></p>
-                                    <p class="grid grid-cols-2"><span class="font-medium">Tolls:</span> <span> $<?= htmlspecialchars($shipment['tolls'] ?? '0.00') ?></span></p>
-                                    <p class="grid grid-cols-2"><span class="font-medium">Deadhead:</span> <span> $<?= htmlspecialchars($shipment['deadhead'] ?? '0.00') ?></span></p>
-                                    <p class="grid grid-cols-2"><span class="font-medium">Total Price:</span> <span> <?= htmlspecialchars($shipment['amount'] ?? '0.00')?></span></p>
-                                   
-                                </div>
-                                <h4 class="font-semibold text-2xl text-gray-700 mb-2 mt-8">Selected Carrier Information</h4>
-                                <div class="space-y-2 text-lg">
-                                    <p class="grid grid-cols-3"><span class="font-medium">Name:</span> <span class="col-span-2"><?= htmlspecialchars($shipment['vendor_name'] ?? 'N/A') ?></span></p>
-                                    <p class="grid grid-cols-3"><span class="font-medium">Email:</span> <span class="col-span-2"><?= htmlspecialchars($shipment['vendor_email'] ?? 'N/A') ?></span></p>
-                                    <p class="grid grid-cols-3"><span class="font-medium">Phone:</span> <span class="col-span-2"><?= htmlspecialchars($shipment['vendor_phone'] ?? 'N/A') ?></span></p>
-                                    <p class="grid grid-cols-3"><span class="font-medium">Rating:</span> <span class="col-span-2 capitalize"><?= htmlspecialchars(($shipment['vendor_rating'] ? str_replace('_', ' ', $shipment['vendor_rating']) : 'N/A')) ?></span></p>
-                                    <p class="grid grid-cols-3"><span class="font-medium">FMCSA:</span> <span class="col-span-2 text-blue-500 cursor-pointer">
-                                       
-                                        <?php
-                                        if($shipment['vendor_fmcsa'] != 'N/A'){
-                                            echo '<a href="'.htmlspecialchars($shipment['vendor_fmcsa']).'">'.htmlspecialchars($shipment['vendor_dot']).'</a>';
-                                        }else{
-                                            echo 'N/A';
-                                        }
-                                        ?>
-                                    </span>
-                                    </p>
-                                      
-                                   
-                                </div>
-                            </div>
-                            <div class="bg-white p-4 rounded-lg shadow">
-                                
-                                <h4 class="font-semibold text-xl text-gray-700 mb-2">Vendor Quotes</h4>
-                                <div class="space-y-2 text-sm">
-                                    <?php
-                                    // Check if any quote is accepted
-                                    $hasAcceptedQuote = false;
-                                    foreach($shipment['vendor_quotes'] as $quote) {
-                                        if (isset($quote['status']) && $quote['status'] === 'accepted') {
-                                            $hasAcceptedQuote = true;
-                                            break;
-                                        }
-                                    }
-                                    
-                                    foreach($shipment['vendor_quotes'] as $quote){
-                                    ?>
-                                    <div class="space-y-2 text-sm shadow border border-gray-200 p-2 rounded-lg <?= $quote['status'] == 'accepted' ? 'bg-green-100' : ($quote['status'] == 'rejected' ? 'bg-red-100' : '') ?>">
-                                    <p class="grid grid-cols-3 text-sm"><span class="font-medium">Name:</span> <span class="col-span-2"><?= htmlspecialchars($quote['name'] ?? 'N/A') ?></span></p>
-                                    <p class="grid grid-cols-3 text-sm"><span class="font-medium">Email:</span> <span class="col-span-2"><?= htmlspecialchars($quote['email'] ?? 'N/A') ?></span></p>
-                                    <p class="grid grid-cols-3 text-sm"><span class="font-medium">Phone:</span> <span class="col-span-2"><?= htmlspecialchars($quote['phone'] ?? 'N/A') ?></span></p>
-                                    <p class="grid grid-cols-3 text-sm"><span class="font-medium">Quoted Price: </span><span class="col-span-2">$<?= htmlspecialchars($quote['price'] ?? 'N/A') ?></span></p>
-                                    <p class="grid grid-cols-3 text-sm"><span class="font-medium">Status:</span><span class="col-span-2"><?= htmlspecialchars($quote['status'] ?? 'N/A') ?></span></p>
-                                    <?php if (!$hasAcceptedQuote): ?>
-                                    <p class="grid grid-cols-3 text-sm"><span class="font-medium">Action:</span><span class="col-span-2">
-                                        <button onclick="acceptQuote('<?= $quote['id'] ?>')" class="bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-check"></i></button>
-                                        <button onclick="rejectQuote('<?= $quote['id'] ?>')" class="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-times"></i></button>
-                                    </span></p>
-                                    <?php endif; ?>
-                                    </div>
-                        
-                                 
-                                   <?php
-                                   }
-                                   ?>
-                                   
-                                </div>
-                            </div>
-                            
-                        </div>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-                <?php } ?>
-            </tbody>
-        </table>
-    </div>
-</div>
-
-<!-- Add these lines before the closing </body> tag in your layout file -->
-<!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css"> -->
-<!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css"> -->
-
-
-<!-- <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script> -->
-
-
-<!-- Your existing HTML table remains unchanged -->
-<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
-<!-- <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script> -->
-<!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css"> -->
-
-<script>
-$(document).ready(function() {
-    $('#shipmentsTable').DataTable({
-        // Disable sorting for the details rows
-        rowCallback: function(row, data, index) {
-            // Check if the row is a details row (has class 'details-row')
-            if ($(row).hasClass('details-row')) {
-                // Optionally hide the row from sorting logic
-                $(row).addClass('no-sort');
-            }
-        },
-        // Define columns and their sorting behavior
-        columns: [
-            { data: 'name', orderable: true }, // Customer
-            { data: 'tracking_number', orderable: true }, // Tracking #
-            { data: 'pickup', orderable: true }, // Pickup
-            { data: 'dropoff', orderable: true }, // Dropoff
-            { data: 'type', orderable: true }, // Type
-            { data: 'quantity', orderable: true }, // Quantity
-            { data: 'weight', orderable: true }, // Weight
-            { data: 'amount', orderable: true }, // Amount
-            { data: 'status', orderable: true }, // Status
-            { data: 'vendor_status', orderable: true }, // Vendor Status
-            { data: 'created_at', orderable: true } // Date
-        ],
-        // Optional: Define initial sorting (e.g., by Date column, descending)
-        order: [[10, 'desc']],
-        // Optional: Ensure details rows are not included in sorting
-        drawCallback: function(settings) {
-            // Re-attach click handlers for toggling details if needed
-            $('.toggle-details').on('click', function() {
-                var tr = $(this).closest('tr');
-                var row = tr.next('.details-row');
-                row.toggleClass('hidden');
-                $(this).find('svg').toggleClass('rotate-90');
-            });
-        }
-    });
-});
-</script>
 
 <style>
-/* Ensure details rows are hidden by default */
-.details-row {
-    display: none;
-}
-/* Optional: Style for no-sort rows */
-.no-sort {
-    display: none !important; /* Hide from DataTables processing */
-}
+    .mapouter {
+        position: relative;
+        text-align: right;
+        height: 90%;
+        width: 100%;
+        border-radius: 10px;
+        max-height: 400px;
+    }
+    .gmap_canvas {
+        overflow: hidden;
+        background: none !important;
+        height: 100%;
+        width: 100%;
+        border-radius: 10px;
+    }
+    .toggle-details {
+        cursor: pointer;
+        transition: transform 0.2s;
+    }
+    .toggle-details.rotate-45 {
+        transform: rotate(45deg);
+    }
+    table.dataTable thead>tr>th.sorting:before,table.dataTable thead>tr>th.sorting:after{
+        display: none;
+    }
+    .xeno-table tbody tr:nth-child(odd) {
+        background-color:#f27474;
+        color: #fff;
+    }
+    #shipmentsTable_wrapper{
+        overflow: auto;
+    }
 </style>
+
+<div class="flex items-center gap-2 justify-end mb-4 cursor-pointer">
+    <input type="checkbox" name="hide_dead" id="hide_dead" onclick="hideDead()" <?php 
+    if(isset($_GET['hide_dead']) && $_GET['hide_dead'] == 'true') {
+    echo 'checked';
+  } ?>>
+    <label for="hide_dead" class="text-gray-700 dark:text-white">Hide Dead</label>
+</div>
+<table id="shipmentsTable" class="w-full display dataTable no-footer bg-white text-gray-700 dark:bg-gray-800 dark:text-white xeno-table">
+    <thead class="text-white">
+        <tr>
+            <th class="bg-blue-500 rounded-tl-xl "></th> 
+            <th class="bg-blue-500">Created</th>
+            <th class="bg-blue-500">Customer</th>
+            <th class="bg-blue-500 truncate">Tracking #</th>
+            <th class="bg-blue-500">Pickup</th>
+            <th class="bg-blue-500">Dropoff</th>
+            <th class="bg-blue-500 truncate-x">Type</th>
+            <th class="bg-blue-500">Quantity</th>
+            <th class="bg-blue-500">Weight</th>
+            <th class="bg-blue-500">Amount</th>
+            <th class="bg-blue-500">Status</th>
+            <th class="bg-blue-500 truncate-x">Vendor Status</th>
+            <th class="bg-blue-500 truncate-x">Pickup Date</th>
+            <th class="bg-blue-500 rounded-tr-xl">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+        <?php
+        if(isset($shipments) && is_array($shipments)){
+        
+        foreach ($shipments as $shipment): ?>
+        <tr data-details='<?php echo htmlspecialchars(json_encode($shipment), ENT_QUOTES, 'UTF-8'); ?>' class="cursor-pointer hover:bg-gray-50 dark:bg-gray-700 bg-white">
+            <td class="flex items-center toggle-details ">
+                <svg class=" mr-2" width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4  Maui 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                </svg>
+            </td>
+            <td class="toggle-details truncate"><?= htmlspecialchars(date('m-d-Y', strtotime($shipment['created_at']))) ?></td>
+            <td class="toggle-details truncate"><?= htmlspecialchars(htmlspecialchars_decode($shipment['name'])) ?></td>
+            <td class="toggle-details"><?= htmlspecialchars($shipment['tracking_number']) ?></td>
+            <td class="toggle-details truncate"><?= htmlspecialchars($shipment['pickup']) ?></td>
+            <td class="toggle-details truncate"><?= htmlspecialchars($shipment['dropoff']) ?></td>
+            <td class="toggle-details truncate-x"><?= htmlspecialchars($shipment['type']) ?></td>
+            <td class="toggle-details"><?= htmlspecialchars($shipment['quantity']) ?></td>
+            <td class="toggle-details"><?= htmlspecialchars($shipment['weight']) ?></td>
+            <td class="toggle-details"><?= htmlspecialchars($shipment['amount']) ?></td>
+            
+            <td class="toggle-details">
+                <span class="px-2 py-1 text-xs font-semibold leading-tight rounded-full <?php
+                if($shipment['status'] == 'Quoted'){
+                    echo 'bg-blue-100 text-blue-800';
+                }else if($shipment['status'] == 'Converted'){
+                    echo 'bg-green-100 text-green-800';
+                }else if($shipment['status'] == 'Pending'){
+                    echo 'bg-orange-100 text-orange-800';
+                }else if($shipment['status'] == 'Dead' || $shipment['status'] == 'Deleted'){
+                    echo 'bg-red-100 text-red-800';
+                }else if($shipment['status'] == 'Assigned'){
+                    echo 'bg-gray-100 text-gray-800';
+                }
+                ?>"><?= htmlspecialchars($shipment['status']) ?><span class="ml-1 font-semibold leading-tight"><?php 
+               if(isset($shipment['vendor_quotes']) && isset($shipment['tp_quotes'])) {
+                   echo count($shipment['vendor_quotes']) + count($shipment['tp_quotes']);
+               }else if(isset($shipment['vendor_quotes'])) {
+                   echo count($shipment['vendor_quotes']);
+               ;
+               } ?></span></span></td>
+            <td class="toggle-details">
+                <span class="px-2 py-1 text-xs font-semibold leading-tight rounded-full <?php
+                if($shipment['vendor_status'] == '1'){
+                    echo 'bg-green-100 text-green-800';
+                }else if($shipment['vendor_status'] == '0'){
+                    echo 'bg-orange-100 text-orange-800';
+                }else if($shipment['vendor_status'] == '-1'){
+                    echo 'bg-red-100 text-red-800';
+                }
+                ?>"><?php
+                if($shipment['vendor_status'] == '1'){
+                    echo 'Accepted';
+                }else if($shipment['vendor_status'] == '0'){
+                    echo 'Pending';
+                }else if($shipment['vendor_status'] == '-1'){
+                    echo 'Rejected';
+                }  ?></span></td>
+            <td class="toggle-details truncate-x"><?= htmlspecialchars(date('m-d-Y', strtotime($shipment['pickup_date']))) ?></td>
+            <td class="toggle-details">
+                <button class=" text-white py-1 px-2 rounded 
+                <?php if($shipment['status'] == 'Deleted' || $shipment['status'] == 'Dead' || $shipment['status'] == 'Converted') {echo 'bg-gray-500 cursor-not-allowed';} else {echo 'bgBlue cursor-pointer';} ?>
+                " onclick="editShipment('<?= htmlspecialchars($shipment['id']) ?>')" 
+                
+                <?php if($shipment['status'] == 'Deleted' || $shipment['status'] == 'Dead') {echo 'disabled';} ?>
+                >
+                    <i class="fa fa-edit"></i>
+                </button>
+                <button class=" text-white py-1 px-2 rounded
+                <?php if($shipment['status'] == 'Deleted' || $shipment['status'] == 'Dead' || $shipment['status'] == 'Converted') {echo 'bg-gray-500 cursor-not-allowed';} else {echo 'bgRed cursor-pointer';} ?>
+                " onclick="deleteShipment('<?= htmlspecialchars($shipment['id']) ?>')"
+                <?php if($shipment['status'] == 'Deleted' || $shipment['status'] == 'Dead') {echo 'disabled';} ?>
+                >
+                    <i class="fa fa-trash"></i>
+                </button>
+            </td>
+        </tr>
+        <?php endforeach; 
+        }?>
+    </tbody>
+</table>
+
+
 <script>
-// $(document).ready(function() {
-//     $('#shipmentsTable').DataTable({
-//         dom: 'Bfrtip',
-//         buttons: [
-//             'copy', 'csv', 'excel', 'pdf', 'print'
-//         ],
-//         responsive: true,
-//         pageLength: 25,
-//         order: [[9, 'desc']], // Sort by date column by default
-//         columnDefs: [
-//             { orderable: true, targets: '_all' },
-//             { className: 'dt-center', targets: [4,5,6,7,8] }
-//         ],
-//         language: {
-//             search: "_INPUT_",
-//             searchPlaceholder: "Search shipments...",
-//             paginate: {
-//                 next: '>',
-//                 previous: '<'
-//             }
-//         }
-//     });
-// });
-// $(document).ready(function() {
-//     // Toggle details row
-//     $(document).on('click', 'tr[data-details]', function() {
-//         const $detailsRow = $(this).next('tr.details-row');
-//         const $icon = $(this).find('.toggle-details');
-        
-//         $detailsRow.slideToggle(200);
-//         $icon.toggleClass('transform rotate-90');
-        
-//         // Close other open details rows
-//         $('tr.details-row').not($detailsRow).slideUp(200);
-//         $('.toggle-details').not($icon).removeClass('transform rotate-90');
-//     });
 
-//     // Initialize DataTable
-//     const table = $('#shipmentsTable').DataTable({
-//         dom: "<p-4'<'mb-4't>p>",
-//         responsive: true,
-//         pageLength: 10,
-//         lengthMenu: [5, 10, 25, 50, 100],
-//         order: [[10, 'desc']],
-//         columnDefs: [
-//             { 
-//                 orderable: true, 
-//                 targets: '_all' 
-//             },
-//             { 
-//                 className: 'text-center', 
-//                 targets: [4,5,6,7,8] 
-//             }
-//         ],
-//         language: {
-//             search: "",
-//             lengthMenu: "Show _MENU_ entries",
-//             info: "Showing _START_ to _END_ of _TOTAL_ entries",
-//             infoEmpty: "No entries to show",
-//             infoFiltered: "",
-//             paginate: {
-//                 first: '<i class="fas fa-angle-double-left"></i>',
-//                 last: '<i class="fas fa-angle-double-right"></i>',
-//                 next: '<i class="fas fa-chevron-right"></i>',
-//                 previous: '<i class="fas fa-chevron-left"></i>'
-//             }
-//         },
-//         drawCallback: function() {
-//             // Close all details rows when table is redrawn (sorting, pagination, etc.)
-//             $('tr.details-row').hide();
-//             $('.toggle-details').removeClass('transform rotate-90');
-//         }
-//     });
+$(document).ready(function() {
+    const table = $('#shipmentsTable').DataTable({
+        searching: false,
+        lengthChange: false,
+        columns: [
+            {
+                data: null,
+                orderable: false,
+                searchable: false,
+                render: function(data, type, row) {
+                    return `
+                        <svg class="toggle-details mr-2" width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                        </svg>`;
+                }
+            },
+            { data: 'created_at' },
+            { data: 'name' },
+            { data: 'tracking_number' },
+            { data: 'pickup' },
+            { data: 'dropoff' },
+            { data: 'type' },
+            { data: 'quantity' },
+            { data: 'weight' },
+            { data: 'amount' },
+            { data: 'status' },
+            { data: 'vendor_status' },
+            { data: 'pickup_date' },
+            { data: 'action' }
+        ],
+        order: [[3, 'desc']], // Sort by Date column
+        createdRow: function(row, data, dataIndex) {
+            // Store the data-details JSON for the row
+            const details = $(row).data('details');
+            $(row).data('details-json', details);
+        }
 
-//     // Prevent row click when clicking on sortable headers
-//     $('th').on('click', function(e) {
-//         e.stopPropagation();
-//     });
-// });
+    });
 
-// Add some custom styles for the details row
-// const style = document.createElement('style');
-// style.textContent = `
-//     .details-row {
-//         transition: all 0.3s ease;
-//     }
-//     .toggle-details {
-//         transition: transform 0.2s ease;
-//     }
-//     .rotate-90 {
-//         transform: rotate(90deg);
-//     }
-// `;
-// document.head.appendChild(style);
+    // Toggle click handler for details
+    $('#shipmentsTable tbody').on('click', 'td.toggle-details', function() {
+        const tr = $(this).closest('tr');
+        const row = table.row(tr);
 
-function acceptQuote(id){
+        if (row.child.isShown()) {
+            row.child.hide();
+            // $(this).removeClass('rotate-45');
+        } else {
+            const details = tr.data('details-json');
+            row.child(formatDetails(details)).show();
+            // $(this).addClass('rotate-45');
+        }
+    });
+
+    // Automatically open the first row's details by default
+    setTimeout(function() {
+        const firstRow = $('#shipmentsTable tbody tr:first');
+        if (firstRow.length > 0) {
+            const firstToggleCell = firstRow.find('td.toggle-details');
+            if (firstToggleCell.length > 0) {
+                const row = table.row(firstRow);
+                const details = firstRow.data('details-json');
+                if (details) {
+                    row.child(formatDetails(details)).show();
+                }
+            }
+        }
+    }, 100);
+});
+
+// Function to format the details row content
+function formatDetails(data) {
+    const details = typeof data === 'string' ? JSON.parse(data) : data;
+    // Store the details in a global variable for later use
+    window.currentShipmentDetails = details;
+    
+    // Generate map URL
+    const pickup = details.pickup.split(', ').slice(0, 3).join(',');
+    const dropoff = details.dropoff.split(', ').slice(0, 3).join(',');
+    const distance = parseFloat(details.distance);
+    const zoomLevel = distance < 500 ? 5 : distance < 1000 ? 4 : distance < 1500 ? 3 : 2;
+    const mapUrl = `https://maps.google.com/maps?q=${pickup}to=${dropoff}&t=&z=${zoomLevel}&ie=UTF8&iwloc=&output=embed`;
+
+    // Generate vendor quotes HTML
+    // let quotesHtml = details.tp_quotes.length || details.vendor_quotes.length ? '' : '<p>No quotes available</p>';
+    let quotesHtml = '';
+    // console.log(details.vendor_quotes);
+    const hasAcceptedQuote = details.vendor_quotes?.some(quote => quote.status === 'accepted');
+    details.vendor_quotes?.forEach(quote => {
+        quote.status = quote.status.toLowerCase();
+        const statusClass = quote.status === 'accepted' ? 'bg-green-100 text-gray-700' : quote.status === 'rejected' ? 'bg-red-100 text-gray-700' : '';
+        const showActions = quote.status == 'rejected' || quote.status == 'accepted' || details.status == 'Converted' || details.status == 'Dead' || details.status == 'Deleted' || details.status == 'ACCEPTED' ? false : true;
+        quotesHtml += `
+            <div class="quote-card space-y-2 text-sm shadow border border-gray-200 p-2 rounded-lg ${statusClass}">
+                <p class="grid grid-cols-3 text-sm"><span class="font-medium">Source:</span> <span class="col-span-2">XL</span></p>
+                <p class="grid grid-cols-3 text-sm"><span class="font-medium">Name:</span> <span class="col-span-2">${quote.name || 'N/A'}</span></p>
+                <p class="grid grid-cols-3 text-sm"><span class="font-medium">Email:</span> <span class="col-span-2">${quote.email || 'N/A'}</span></p>
+                <p class="grid grid-cols-3 text-sm"><span class="font-medium">Phone:</span> <span class="col-span-2">${quote.phone || 'N/A'}</span></p>
+                <p class="grid grid-cols-3 text-sm"><span class="font-medium">Quoted Price:</span> <span class="col-span-2">$${quote.price_with_profit || 'N/A'}</span></p>
+                <p class="grid grid-cols-3 text-sm"><span class="font-medium">Status:</span> <span class="col-span-2">${quote.status || 'N/A'}</span></p>
+                ${showActions && !hasAcceptedQuote ? `
+                <p class="grid grid-cols-3 text-sm"><span class="font-medium">Action:</span><span class="col-span-2">
+                    <button onclick="acceptQuote('${details.id}', '${quote.id}' , '${encodeURIComponent(JSON.stringify(quote))}' , 'xl')" class="bgBlue text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-check"></i></button>
+                    <button onclick="rejectQuote('${quote.vendor_id}','${quote.id}' , '${details.id}')" class="bgRed text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-times"></i></button>
+                     <button onclick="viewVendor(event, '${quote.id}', 'xl')" class="bgGreen text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-eye"></i></button>
+                </span></p>` : ''}
+            </div>`;
+    });
+    // let tpQuotesHtml = details.tp_quotes.length || details.vendor_quotes.length > 0 ? '' : '<p>No TruckersPath quotes available</p>';
+    let tpQuotesHtml = '';
+    const hasAcceptedQuoteTP = details.tp_quotes?.some(quote => quote.status === 'accepted');
+    details.tp_quotes?.forEach(quote => {
+        quote.status = quote.status.toLowerCase();
+        const statusClass = quote.status === 'accepted' ? 'bg-green-100 text-gray-700' : quote.status === 'rejected' ? 'bg-red-100 text-gray-700' : '';
+        const showActions = quote.status == 'rejected' || quote.status == 'accepted' || details.status == 'Converted' || details.status == 'Dead' || details.status == 'Deleted' || details.status == 'ACCEPTED' ? false : true;
+        tpQuotesHtml += `
+            <div class="quote-card space-y-2 text-sm shadow border border-gray-200 p-2 rounded-lg ${statusClass}">
+                <p class="grid grid-cols-3 text-sm"><span class="font-medium">Name:</span> <span class="col-span-2">${quote.contact.name || 'N/A'}</span></p>
+                 <p class="grid grid-cols-3 text-sm"><span class="font-medium">Source:</span> <span class="col-span-2">TP</span></p>
+                <p class="grid grid-cols-3 text-sm"><span class="font-medium">Email:</span> <span class="col-span-2">${quote.contact.email || 'N/A'}</span></p>
+                <p class="grid grid-cols-3 text-sm"><span class="font-medium">Phone:</span> <span class="col-span-2">${quote.contact.phone || 'N/A'}</span></p>
+                <p class="grid grid-cols-3 text-sm"><span class="font-medium">Quoted Price:</span> <span class="col-span-2">$${quote.priceCents || 'N/A'}</span></p>
+                <p class="grid grid-cols-3 text-sm"><span class="font-medium">Status:</span> <span class="col-span-2">${quote.status || 'N/A'}</span></p>
+                ${showActions && !hasAcceptedQuoteTP ? `
+                <p class="grid grid-cols-3 text-sm"><span class="font-medium">Action:</span><span class="col-span-2">
+                    <button onclick="acceptQuote('${details.id}', '${quote.id}' , '${encodeURIComponent(JSON.stringify(quote))}' , 'tp')" class="bgBlue text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-check"></i></button>
+                    <button onclick="rejectQuote('${quote.vendor_id}','${quote.id}' , '${details.id}')" class="bgRed text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-times"></i></button>
+                    <button onclick="viewVendor(event, '${quote.id}', 'tp')" class="bgGreen text-white py-1 px-2 rounded cursor-pointer"><i class="fa fa-eye"></i></button>
+                </span></p>` : ''}
+            </div>`;
+    });
+
+    // let finalQuotesHtml = quotesHtml + tpQuotesHtml;
+    finalQuotesHtml = quotesHtml + tpQuotesHtml;
+    if(quotesHtml == '' && tpQuotesHtml == ''){
+      finalQuotesHtml = '<p>No quotes available</p>';
+    }
+    // console.log(details.vendor_quotes);
+    
+    let selectedCarrierHtml = '';
+    if(details.vendor_quotes && details.vendor_quotes.length > 0){
+      selectedCarrierHtml = `
+                <h4 class="font-semibold text-xl text-gray-700 dark:text-white mb-2 mt-8">Selected Carrier Information</h4>
+                <div class="selected-carrier-section space-y-2 text-md">
+                    <p class="grid grid-cols-3"><span class="font-medium" >Name:</span> <span class="col-span-2" id="vendor_name_${details.vendor_quotes[0].id}">${details.vendor_quotes[0].name}</span></p>
+                    <p class="grid grid-cols-3"><span class="font-medium" >Email:</span> <span class="col-span-2" id="vendor_email_${details.vendor_quotes[0].id}">${details.vendor_quotes[0].email}</span></p>
+                    <p class="grid grid-cols-3"><span class="font-medium" >Phone:</span> <span class="col-span-2" id="vendor_phone_${details.vendor_quotes[0].id}">${details.vendor_quotes[0].phone}</span></p>
+                    <p class="grid grid-cols-3"><span class="font-medium" >Rating:</span> <span class="col-span-2 capitalize" id="vendor_rating_${details.vendor_quotes[0].id}">${details.vendor_quotes[0].rating ? details.vendor_quotes[0].rating.replace('_', ' ') : 'Not Rated'}</span></p>
+                    <p class="grid grid-cols-3"><span class="font-medium" >FMCSA:</span> <span class="col-span-2 text-blue-500 cursor-pointer" id="vendor_fmcsa_${details.vendor_quotes[0].id}">
+                        ${details.vendor_fmcsa && details.vendor_fmcsa !== 'http://' ? `<a href="${details.vendor_fmcsa}" target="_blank">${details.vendor_dot || ''}` : (details.vendor_dot || '')} (See More Carrier Info) </a>
+                    </span></p>
+                </div>
+                `;
+    }
+    if(details.tp_quotes && details.tp_quotes.length > 0){
+      selectedCarrierHtml = `
+                <h4 class="font-semibold text-xl text-gray-700 dark:text-white mb-2 mt-8">Selected Carrier Information</h4>
+                <div class="selected-carrier-section space-y-2 text-md">
+                    <p class="grid grid-cols-3"><span class="font-medium" >Name:</span> <span class="col-span-2" id="tp_name_${details.tp_quotes[0].id}">${details.tp_quotes[0].contact.name}</span></p>
+                    <p class="grid grid-cols-3"><span class="font-medium" >Email:</span> <span class="col-span-2" id="tp_email_${details.tp_quotes[0].id}">${details.tp_quotes[0].contact.email}</span></p>
+                    <p class="grid grid-cols-3"><span class="font-medium" >Phone:</span> <span class="col-span-2" id="tp_phone_${details.tp_quotes[0].id}">${details.tp_quotes[0].contact.phone}</span></p>
+                    <p class="grid grid-cols-3"><span class="font-medium" >Rating:</span> <span class="col-span-2 capitalize" id="tp_rating_${details.tp_quotes[0].id}">${details.tp_quotes[0].company.safetyRating}</span></p>
+                    <p class="grid grid-cols-3"><span class="font-medium" >FMCSA:</span> <span class="col-span-2 text-blue-500 cursor-pointer" id="tp_fmcsa_${details.tp_quotes[0].id}">
+                        ${details.tp_quotes[0].company.dot && details.tp_quotes[0].company.dot !== 'http://' ? `<a href="https://ai.fmcsa.dot.gov/SMS/Carrier/${details.tp_quotes[0].company.dot}/CompleteProfile.aspx" target="_blank">${details.tp_quotes[0].company.dot || ''} (See More Carrier Info)</a>` : (details.tp_quotes[0].company.dot || '')}
+                    </span></p>
+                </div>
+                `;
+    }
+    
+
+    return `
+        <div class="flex gap-4">
+            <div class="bg-white text-gray-700 p-4 rounded-lg shadow dark:bg-gray-700 dark:text-white w-full">
+                <h4 class="font-semibold text-xl text-gray-700 dark:text-white mb-2">Route Information</h4>
+                <div class="space-y-2 text-sm">
+                    <div class="mapouter">
+                        <div class="gmap_canvas">
+                            <iframe width="100%" height="340" src="${mapUrl}" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white text-gray-700 p-4 rounded-lg shadow dark:bg-gray-700 dark:text-white w-full">
+                <h4 class="font-semibold text-xl text-gray-700 dark:text-white mb-2">Shipment Information</h4>
+                <div class="space-y-2 text-md">
+                    <p class="grid grid-cols-2"><span class="font-medium">Distance:</span> <span>${details.distance} miles</span></p>
+                    <p class="grid grid-cols-2"><span class="font-medium">Mileage:</span> <span>$${details.mileage}</span></p>
+                    <p class="grid grid-cols-2"><span class="font-medium">Fuel:</span> <span>$${details.fuel}</span></p>
+                    <p class="grid grid-cols-2"><span class="font-medium">Addons:</span> <span>$${details.addons}</span></p>
+                    <p class="grid grid-cols-2"><span class="font-medium">Tolls:</span> <span>$${details.tolls}</span></p>
+                    <p class="grid grid-cols-2"><span class="font-medium">Deadhead:</span> <span>$${details.deadhead}</span></p>
+                    <p class="grid grid-cols-2" style="color:green;"><span class="font-medium">Total Price:</span> <span>${details.amount}</span></p>
+                    <p class="grid grid-cols-2"><span class="font-medium">Pickup:</span> <span>${details.pickup}</span></p>
+                    <p class="grid grid-cols-2"><span class="font-medium">Destination:</span> <span>${details.dropoff}</span></p>
+                </div>
+                ${selectedCarrierHtml}
+            </div>
+            <div class="bg-white text-gray-700 p-4 rounded-lg shadow dark:bg-gray-700 dark:text-white w-full">
+                <h4 class="font-semibold text-xl text-gray-700 dark:text-white mb-2">Carrier Quotes</h4>
+                <div class="space-y-2 text-sm">${finalQuotesHtml}</div>
+            </div>
+           
+        </div>
+    `;
+}
+
+// Placeholder for accept/reject quote functions (define these based on your backend)
+function acceptQuote(id, quoteId , quote , type){
     Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -383,27 +364,46 @@ function acceptQuote(id){
         confirmButtonText: 'Yes, accept it!'
     }).then((result) => {
         if (result.isConfirmed) {
-            $.ajax({
-                url: './helper/updateQuote.php',
-                type: 'POST',
-                data: {id: id, status: 'accepted'},
-                success: function(response) {
-                    Swal.fire(
-                        'Accepted!',
-                        'Your quote h   as been accepted.',
-                        'success'
-                    );
-                    setTimeout(() => {
-                        location.reload();
-                    }, 1000);
-                }
-            });
+            console.log('Accepting quote...');
+            // window.location.href = 'agreement.php?id=' + id + '&quote_id=' + quoteId + '&quote=' + quote;
+            // Redirect to agreement.php with parameters
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = 'agreement.php';
+            
+            const idInput = document.createElement('input');
+            idInput.type = 'hidden';
+            idInput.name = 'id';
+            idInput.value = id;
+            
+            const quoteIdInput = document.createElement('input');
+            quoteIdInput.type = 'hidden';
+            quoteIdInput.name = 'quote_id';
+            quoteIdInput.value = quoteId;
+            
+            const quoteInput = document.createElement('input');
+            quoteInput.type = 'hidden';
+            quoteInput.name = 'quote';
+            quoteInput.value = decodeURIComponent(quote);
+            
+            const typeInput = document.createElement('input');
+            typeInput.type = 'hidden';
+            typeInput.name = 'type';
+            typeInput.value = type;
+            
+            form.appendChild(idInput);
+            form.appendChild(quoteIdInput);
+            form.appendChild(quoteInput);
+            form.appendChild(typeInput);
+            
+            document.body.appendChild(form);
+            form.submit();
         }
     });
     
 
 }
-function rejectQuote(id){
+function rejectQuote(id, quoteId , freight_id){
     Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -417,7 +417,7 @@ function rejectQuote(id){
             $.ajax({
                 url: './helper/updateQuote.php',
                 type: 'POST',
-                data: {id: id, status: 'rejected'},
+                data: {id: quoteId, status: 'rejected', vendor_id: id, freight_id: freight_id},
                 success: function(response) {
                     Swal.fire(
                         'Rejected!',
@@ -433,4 +433,174 @@ function rejectQuote(id){
     });
 
 }
+function deleteShipment(id){
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: './helper/load/delete.php',
+                type: 'POST',
+                data: {id: id},
+                success: function(response) {
+                    console.log(response);
+                    Swal.fire(
+                        'Deleted!',
+                        'Your shipment has been deleted.',
+                        'success'
+                    );
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1000);
+                }
+            });
+        }
+    });
+
+}
+
+function editShipment(id){
+    window.location.href = './editLoad.php?id=' + id;
+}
+
+function viewVendor(event, id, type) {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    console.log('View vendor clicked:', { id, type });
+    
+    // Get the details from the global variable set in formatDetails
+    const details = window.currentShipmentDetails || {};
+    console.log('Current shipment details:', details);
+    
+    // Ensure we have the necessary arrays
+    if (!details.tp_quotes) details.tp_quotes = [];
+    if (!details.vendor_quotes) details.vendor_quotes = [];
+    
+    let quote, carrierInfo = '';
+    
+    // Find the quote based on type
+    if (type === 'tp') {
+        quote = details.tp_quotes.find(q => q.id == id || q.id === String(id));
+        console.log('TP Quote found:', quote);
+        
+        if (quote) {
+            const safetyRating = quote.company?.safetyRating || '';
+            const ratingClass = safetyRating.toLowerCase() === 'satisfactory' ? 'text-green-500' : 'text-red-500';
+            
+            carrierInfo = `
+                <div class="selected-carrier-section">
+                   
+                    <div class="space-y-2 text-md bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
+                        <p class="grid grid-cols-3"><span class="font-medium">Name:</span> <span class="col-span-2">${quote.contact?.name || 'N/A'}</span></p>
+                        <p class="grid grid-cols-3"><span class="font-medium">Email:</span> <span class="col-span-2">${quote.contact?.email || 'N/A'}</span></p>
+                        <p class="grid grid-cols-3"><span class="font-medium">Phone:</span> <span class="col-span-2">${quote.contact?.phone || 'N/A'}</span></p>
+                        <p class="grid grid-cols-3"><span class="font-medium">Company:</span> <span class="col-span-2">${quote.company?.name || 'N/A'}</span></p>
+                        <p class="grid grid-cols-3"><span class="font-medium">DOT:</span> <span class="col-span-2">${quote.company?.dot || 'N/A'}</span></p>
+                        <p class="grid grid-cols-3">
+                            <span class="font-medium">Safety Rating:</span> 
+                            <span class="col-span-2 ${ratingClass}">
+                                ${safetyRating || 'N/A'} <a href="https://ai.fmcsa.dot.gov/sms/safer_xfr.aspx?DOT=${quote.company?.dot}&Form=SAFER">(See More Carrier Info)</a>
+                            </span>
+                        </p>
+                        <p class="grid grid-cols-3">
+                            <span class="font-medium">Quote Amount:</span> 
+                            <span class="col-span-2">$${(quote.priceCents).toFixed(2) || '0.00'}</span>
+                        </p>
+                    </div>
+                </div>
+            `;
+        }
+    } else if (type === 'xl') {
+        quote = details.vendor_quotes.find(q => q.id == id || q.id === String(id));
+        console.log('XL Quote found:', quote);
+        
+        if (quote) {
+            carrierInfo = `
+                <div class="selected-carrier-section">
+                    
+                    <div class="space-y-2 text-md bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
+                        <p class="grid grid-cols-3"><span class="font-medium">Name:</span> <span class="col-span-2">${quote.name || 'N/A'}</span></p>
+                        <p class="grid grid-cols-3"><span class="font-medium">Email:</span> <span class="col-span-2">${quote.email || 'N/A'}</span></p>
+                        <p class="grid grid-cols-3"><span class="font-medium">Phone:</span> <span class="col-span-2">${quote.phone || 'N/A'}</span></p>
+                       
+                        <p class="grid grid-cols-3"><span class="font-medium">Quote Amount:</span> <span class="col-span-2">$${quote.price_with_profit || '0.00'}</span></p>
+                        <p class="grid grid-cols-3"><span class="font-medium">Status:</span> <span class="capitalize">${quote.status || 'Pending'}</span> <a href="https://ai.fmcsa.dot.gov/sms/safer_xfr.aspx?DOT=${quote?.vendor_dot}&Form=SAFER">(See More Carrier Info)</a></p>
+                    </div>
+                </div>
+            `;
+        }
+    }
+    
+    if (carrierInfo) {
+        // Find the parent container that holds the carrier information
+        const parentContainer = event.target.closest('.flex.gap-4');
+        if (parentContainer) {
+            // The carrier info section is inside the second child of the flex container
+            const rightColumn = parentContainer.children[1];
+            if (rightColumn) {
+                // Find the selected-carrier-section within the right column
+                const existingCarrierSection = rightColumn.querySelector('.selected-carrier-section');
+                
+                // Create a new carrier section
+                const newCarrierSection = document.createElement('div');
+                newCarrierSection.className = 'selected-carrier-section';
+                newCarrierSection.innerHTML = carrierInfo;
+                
+                // Replace the existing carrier section or append if it doesn't exist
+                if (existingCarrierSection) {
+                    existingCarrierSection.replaceWith(newCarrierSection);
+                } else {
+                    // Insert after the shipment information
+                    const shipmentInfo = rightColumn.querySelector('h4:first-of-type').parentNode;
+                    rightColumn.insertBefore(newCarrierSection, shipmentInfo.nextSibling);
+                }
+                
+                // Scroll to the carrier info section
+                // setTimeout(() => {
+                //     newCarrierSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                // }, 100);
+                
+                // Highlight the selected quote
+                const quoteCards = document.querySelectorAll('.quote-card');
+                quoteCards.forEach(card => {
+                    card.classList.remove('ring-2', 'ring-blue-500');
+                });
+                
+                const quoteCard = event.target.closest('.quote-card');
+                if (quoteCard) {
+                    quoteCard.classList.add('ring-2', 'ring-blue-500');
+                }
+            } else {
+                console.error('Right column not found in the parent container');
+            }
+        } else {
+            console.error('Parent container not found');
+        }
+    } else {
+        console.error('Could not update carrier info:', {
+            selectedCarrierSection: !!selectedCarrierSection,
+            carrierInfo: !!carrierInfo,
+            quoteFound: !!quote,
+            type,
+            id
+        });
+    }
+}
+
+function hideDead() {
+    console.log('Hide dead clicked');
+    const hideDead = document.getElementById('hide_dead');
+    window.location.href = './index.php?hide_dead=' + hideDead.checked;
+}
+
+
+
 </script>
+

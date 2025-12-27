@@ -33,6 +33,9 @@
         overflow: auto;
     }
 </style>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
 
 <div class="flex items-center gap-2 justify-end mb-4 cursor-pointer">
     <input type="checkbox" name="hide_dead" id="hide_dead" onclick="hideDead()" <?php 
@@ -147,58 +150,63 @@
 <script>
 
 $(document).ready(function() {
-    const table = $('#shipmentsTable').DataTable({
-        searching: false,
-        lengthChange: false,
-        columns: [
-            {
-                data: null,
-                orderable: false,
-                searchable: false,
-                render: function(data, type, row) {
-                    return `
-                        <svg class="toggle-details mr-2" width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
-                        </svg>`;
+        const table = $('#shipmentsTable').DataTable({
+            searching: false,
+            lengthChange: false,
+            columns: [
+                {
+                    data: null,
+                    orderable: false,
+                    searchable: false,
+                    render: function(data, type, row) {
+                        return `
+                            <svg class="toggle-details mr-2" width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                            </svg>`;
+                    }
+                },
+                { data: 'created_at' },
+                { data: 'name' },
+                { data: 'tracking_number' },
+                { data: 'pickup' },
+                { data: 'dropoff' },
+                { data: 'type' },
+                { data: 'quantity' },
+                { data: 'weight' },
+                { data: 'amount' },
+                { data: 'status' },
+                { data: 'vendor_status' },
+                { data: 'pickup_date' },
+                { data: 'action' }
+            ],
+            order: [[3, 'desc']], // Sort by Date column
+            createdRow: function(row, data, dataIndex) {
+                // Store the data-details JSON for the row
+                const details = $(row).data('details');
+                $(row).data('details-json', details);
+            }
+
+        });
+
+        // Toggle click handler for details
+        $('#shipmentsTable tbody').on('click', 'td.toggle-details', function() {
+            const tr = $(this).closest('tr');
+            const row = table.row(tr);
+
+            if (row.child.isShown()) {
+                row.child.hide();
+                // $(this).removeClass('rotate-45');
+            } else {
+                const details = tr.data('details-json');
+                row.child(formatDetails(details)).show();
+                // $(this).addClass('rotate-45');
+                
+                // Render map
+                if (details.pickup && details.dropoff) {
+                    renderRadarMap(details.id, details.pickup, details.dropoff);
                 }
-            },
-            { data: 'created_at' },
-            { data: 'name' },
-            { data: 'tracking_number' },
-            { data: 'pickup' },
-            { data: 'dropoff' },
-            { data: 'type' },
-            { data: 'quantity' },
-            { data: 'weight' },
-            { data: 'amount' },
-            { data: 'status' },
-            { data: 'vendor_status' },
-            { data: 'pickup_date' },
-            { data: 'action' }
-        ],
-        order: [[3, 'desc']], // Sort by Date column
-        createdRow: function(row, data, dataIndex) {
-            // Store the data-details JSON for the row
-            const details = $(row).data('details');
-            $(row).data('details-json', details);
-        }
-
-    });
-
-    // Toggle click handler for details
-    $('#shipmentsTable tbody').on('click', 'td.toggle-details', function() {
-        const tr = $(this).closest('tr');
-        const row = table.row(tr);
-
-        if (row.child.isShown()) {
-            row.child.hide();
-            // $(this).removeClass('rotate-45');
-        } else {
-            const details = tr.data('details-json');
-            row.child(formatDetails(details)).show();
-            // $(this).addClass('rotate-45');
-        }
-    });
+            }
+        });
 
     // Automatically open the first row's details by default
     setTimeout(function() {
@@ -210,11 +218,118 @@ $(document).ready(function() {
                 const details = firstRow.data('details-json');
                 if (details) {
                     row.child(formatDetails(details)).show();
+                    // Initialize map for the first row
+                    if (details.pickup && details.dropoff) {
+                         setTimeout(() => {
+                            renderRadarMap(details.id, details.pickup, details.dropoff);
+                         }, 100);
+                    }
                 }
             }
         }
     }, 100);
 });
+
+
+const RADAR_API_KEY = "prj_live_pk_54b2a02354afc907c3550d5b7e709b61937d9d88";
+const mapInstances = {};
+
+async function geocodeAddress(address) {
+    const url = `https://api.radar.io/v1/geocode/forward?query=${encodeURIComponent(address)}`;
+    try {
+        const res = await fetch(url, {
+            headers: { "Authorization": RADAR_API_KEY }
+        });
+        if (!res.ok) throw new Error('Geocoding failed');
+        const data = await res.json();
+        if (data.addresses && data.addresses.length > 0) {
+            return data.addresses[0];
+        }
+        return null;
+    } catch (e) {
+        console.error("Geocoding error", e);
+        return null;
+    }
+}
+
+async function renderRadarMap(id, pickup, dropoff) {
+    const mapId = `map-${id}`;
+    const mapElement = document.getElementById(mapId);
+    
+    if (!mapElement) return;
+
+    // Ensure the container has height
+    mapElement.style.height = '340px';
+    mapElement.style.width = '100%';
+
+    // Cleanup existing map instance if any
+    if (mapInstances[id]) {
+        mapInstances[id].remove();
+        delete mapInstances[id];
+    }
+
+    // Initialize map
+    const map = L.map(mapId).setView([39.5, -98.35], 4);
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 18,
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
+    }).addTo(map);
+    
+    mapInstances[id] = map;
+
+    // Force map to update its size after a short delay to handle potential visibility transitions
+    setTimeout(() => {
+        map.invalidateSize();
+    }, 100);
+
+    try {
+        // Geocode both addresses
+        const [originLoc, destLoc] = await Promise.all([
+            geocodeAddress(pickup),
+            geocodeAddress(dropoff)
+        ]);
+
+        if (!originLoc || !destLoc) {
+            console.error("Could not geocode one or both addresses");
+            return;
+        }
+
+        const originCoords = `${originLoc.latitude},${originLoc.longitude}`;
+        const destCoords = `${destLoc.latitude},${destLoc.longitude}`;
+
+        // Fetch directions
+        const directionsUrl = `https://api.radar.io/v1/route/directions?locations=${originCoords}|${destCoords}&mode=car&geometry=linestring`;
+        
+        const res = await fetch(directionsUrl, {
+            headers: { "Authorization": RADAR_API_KEY }
+        });
+
+        if (!res.ok) {
+            console.error("Radar Directions error", await res.text());
+            return;
+        }
+
+        const data = await res.json();
+        if (!data.routes || !data.routes.length) {
+            console.warn("No route found");
+            return;
+        }
+
+        const route = data.routes[0];
+        // route.geometry.coordinates is [lng, lat], Leaflet needs [lat, lng]
+        const coords = route.geometry.coordinates.map(c => [c[1], c[0]]);
+
+        const line = L.polyline(coords, { color: "blue", weight: 4 }).addTo(map);
+        map.fitBounds(line.getBounds(), { padding: [50, 50] });
+
+        // Add markers
+        L.marker([originLoc.latitude, originLoc.longitude]).addTo(map).bindPopup("Pickup: " + pickup);
+        L.marker([destLoc.latitude, destLoc.longitude]).addTo(map).bindPopup("Dropoff: " + dropoff);
+
+    } catch (err) {
+        console.error("Error rendering Radar map:", err);
+    }
+}
 
 // Function to format the details row content
 function formatDetails(data) {
@@ -222,12 +337,9 @@ function formatDetails(data) {
     // Store the details in a global variable for later use
     window.currentShipmentDetails = details;
     
-    // Generate map URL
-    const pickup = details.pickup.split(', ').slice(0, 3).join(',');
-    const dropoff = details.dropoff.split(', ').slice(0, 3).join(',');
-    const distance = parseFloat(details.distance);
-    const zoomLevel = distance < 500 ? 5 : distance < 1000 ? 4 : distance < 1500 ? 3 : 2;
-    const mapUrl = `https://maps.google.com/maps?q=${pickup}to=${dropoff}&t=&z=${zoomLevel}&ie=UTF8&iwloc=&output=embed`;
+    // Generate map container
+    const mapId = `map-${details.id}`;
+    // We'll initialize the map after the HTML is inserted
 
     // Generate vendor quotes HTML
     // let quotesHtml = details.tp_quotes.length || details.vendor_quotes.length ? '' : '<p>No quotes available</p>';
@@ -323,7 +435,7 @@ function formatDetails(data) {
                 <div class="space-y-2 text-sm">
                     <div class="mapouter">
                         <div class="gmap_canvas">
-                            <iframe width="100%" height="340" src="${mapUrl}" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+                            <div id="${mapId}" style="height: 100%; width: 100%;"></div>
                         </div>
                     </div>
                 </div>
