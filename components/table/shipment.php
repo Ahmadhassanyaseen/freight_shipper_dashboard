@@ -567,9 +567,9 @@ function deleteShipment(id){
                         'Your shipment has been deleted.',
                         'success'
                     );
-                    setTimeout(() => {
+                    // setTimeout(() => {
                         location.reload();
-                    }, 1000);
+                    // }, 1000);
                 }
             });
         }
